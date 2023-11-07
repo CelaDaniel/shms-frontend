@@ -7,10 +7,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import {HomeComponent} from "./home/home.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
