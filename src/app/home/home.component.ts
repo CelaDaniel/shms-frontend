@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import { AuthService } from '../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,16 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit{
-  constructor() {
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+){}
 
-  ngOnInit() {
-    console.log('home')
-  }
+ngOnInit(): void {
+    this.authService.isAuthenticated().subscribe(authenticated => {
+        if(!authenticated){
+            this.router.navigate(['/login']);
+        }
+    })
+}
 }
