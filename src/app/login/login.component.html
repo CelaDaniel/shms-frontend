@@ -1,26 +1,42 @@
-<div>
-    <div class="alert" *ngIf="authError"><strong>Failed to sign in</strong> Please check your credentials and try again</div>
-    <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input 
-                type="email" 
-                name="email" 
-                id="email"
-                placeholder="test@email.com"
-                formControlName="email" 
-            />
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-                type="password" 
-                name="password" 
-                id="password"
-                placeholder="Password"
-                formControlName="password" 
-            />
-        </div>
-        <button type="submit">Sign in</button>
-    </form>
+<div class="login-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+                <mat-form-field class="full-width">
+                    <input
+                        matInput
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="Email"
+                        formControlName="email"
+                    />
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input
+                        matInput
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Password"
+                        formControlName="password"
+                    />
+                </mat-form-field>
+                <div class="button-container">
+                    <a mat-button color="primary" routerLink="/forgot-password">Forgot Password?</a>
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="loginForm.invalid"
+                    >
+                        Login
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
 </div>

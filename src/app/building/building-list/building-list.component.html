@@ -1,0 +1,61 @@
+<div class="mat-elevation-z1">
+    <table mat-table [dataSource]="buildings" class="mat-elevation-z8">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let building">{{ building.id }}</td>
+        </ng-container>
+
+        <!-- Number Column -->
+        <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef>Number</th>
+            <td mat-cell *matCellDef="let building">{{ building.number }}</td>
+        </ng-container>
+
+        <!-- Color Column -->
+        <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef>Color</th>
+            <td mat-cell *matCellDef="let building">{{ building.color }}</td>
+        </ng-container>
+
+        <!-- Floor Column -->
+        <ng-container matColumnDef="floorNo">
+            <th mat-header-cell *matHeaderCellDef>Floors No</th>
+            <td mat-cell *matCellDef="let building">{{ building.nrFloors }}</td>
+        </ng-container>
+
+        <!-- Parking Floor Column -->
+        <ng-container matColumnDef="parkingFlorNo">
+            <th mat-header-cell *matHeaderCellDef>Parking Floors no</th>
+            <td mat-cell *matCellDef="let building">
+                {{ building.nrParkingFloors }}
+            </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let building">
+                <button
+                    mat-icon-button
+                    [routerLink]="['/buildings', building.id, 'view']"
+                >
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    [routerLink]="['/buildings', building.id, 'edit']"
+                >
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteBuilding(building)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <!-- Define the columns -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+</div>

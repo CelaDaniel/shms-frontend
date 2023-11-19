@@ -5,15 +5,14 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss']
 })
 
-export class LoginComponent implements OnInit {
-    loginForm = this.fb.group({
+export class ForgotPasswordComponent implements OnInit {
+    forgotPasswordForm = this.fb.group({
         email: ['', [Validators.required]],
-        password: ['', [Validators.required]]
     });
 
     constructor(
@@ -24,20 +23,15 @@ export class LoginComponent implements OnInit {
     ){}
 
     ngOnInit(): void {
-        this.authService.isAuthenticated().subscribe(authenticated => {
-            if(authenticated){
-                this.router.navigate(['']);
-            }
-        })
+        
     }
 
-    login(): void {
-        this.authService.login({
-            email: this.loginForm.get('email')!.value!,
-            password: this.loginForm.get('password')!.value!
+    submit(): void {
+        this.authService.forgotPassword({
+            email: this.forgotPasswordForm.get('email')!.value!
         }).subscribe({
-            next: () => {
-                this.router.navigate(['']);
+            next: (res) => {
+                this.showSnackBar(`${res.message}`);
             },
             error: (e) => {
                 this.showSnackBar(`Login failed. ${e.error?.message}`);
@@ -47,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     private showSnackBar(message: string): void {
         this.snackBar.open(message, 'Close', {
-          duration: 3000, // Duration in milliseconds
+          duration: 5000, // Duration in milliseconds
           horizontalPosition: 'center',
           verticalPosition: 'top',
         });

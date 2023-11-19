@@ -1,0 +1,22 @@
+<div *ngIf="building">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>Building Details</h2>
+    <dl>
+        <dt>ID: {{ building.id }}</dt>
+
+        <dt>Number: {{ building.number }}</dt>
+
+        <dt>Color: {{ building.color }}</dt>
+
+        <dt>Created At: {{ building.createdAt }}</dt>
+
+        <dt>Updated At: {{ building.updatedAt }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!building">
+    <p>Loading...</p>
+</div>

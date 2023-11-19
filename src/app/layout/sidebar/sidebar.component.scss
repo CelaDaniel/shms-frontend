@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    width: 240px;
+    background-color: #673ab7;
+    color: #fff;
+}
+
+.logo-container {
+    padding: 10px;
+    text-align: center;
+}
+
+mat-list {
+    margin-top: 50px;
+
+    button {
+        color: #fff;
+        width: 100%;
+
+        &:hover {
+            background-color: #8866c3;
+        }
+    }
+}
+
+mat-list-item {
+    cursor: pointer !important;
+    padding: 10px;
+
+    &:hover {
+        background-color: #8866c3;
+    }
+}
