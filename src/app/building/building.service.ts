@@ -29,9 +29,9 @@ export class BuildingService {
         );
     }
 
-    update(building: IBuilding): Observable<BuildingResponseType> {
+    update(id: number, building: IBuilding): Observable<BuildingResponseType> {
         return this.http.put<IResponse<IBuilding>>(
-            `${this.resourceUrl}/${building.id}`,
+            `${this.resourceUrl}/${id}`,
             building,
             { observe: 'response' }
         );

@@ -4,67 +4,51 @@
             mat-raised-button
             color="primary"
             class="newbtn"
-            [routerLink]="['/buildings/new']"
+            [routerLink]="['/floors/new']"
         >
             <mat-icon>add</mat-icon>
             New
         </button>
-        <table mat-table [dataSource]="buildings" class="mat-elevation-z8">
+        <table mat-table [dataSource]="floors" class="mat-elevation-z8">
             <!-- ID Column -->
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let building">{{ building.id }}</td>
+                <td mat-cell *matCellDef="let floor">{{ floor.id }}</td>
             </ng-container>
 
             <!-- Number Column -->
             <ng-container matColumnDef="number">
                 <th mat-header-cell *matHeaderCellDef>Number</th>
-                <td mat-cell *matCellDef="let building">
-                    {{ building.number }}
+                <td mat-cell *matCellDef="let floor">
+                    {{ floor.number }}
                 </td>
             </ng-container>
 
-            <!-- Color Column -->
-            <ng-container matColumnDef="color">
-                <th mat-header-cell *matHeaderCellDef>Color</th>
-                <td mat-cell *matCellDef="let building">
-                    {{ building.color }}
-                </td>
-            </ng-container>
-
-            <!-- Floor Column -->
-            <ng-container matColumnDef="floorNo">
-                <th mat-header-cell *matHeaderCellDef>Floors No</th>
-                <td mat-cell *matCellDef="let building">
-                    {{ building.nrFloors }}
-                </td>
-            </ng-container>
-
-            <!-- Parking Floor Column -->
-            <ng-container matColumnDef="parkingFlorNo">
-                <th mat-header-cell *matHeaderCellDef>Parking Floors no</th>
-                <td mat-cell *matCellDef="let building">
-                    {{ building.nrParkingFloors }}
+            <!-- Apartment Column -->
+            <ng-container matColumnDef="apartmentNo">
+                <th mat-header-cell *matHeaderCellDef>Apartments No</th>
+                <td mat-cell *matCellDef="let floor">
+                    {{ floor.nrApartments }}
                 </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let building">
+                <td mat-cell *matCellDef="let floor">
                     <button
                         mat-icon-button
-                        [routerLink]="['/buildings', building.id, 'view']"
+                        [routerLink]="['/floors', floor.id, 'view']"
                     >
                         <mat-icon>visibility</mat-icon>
                     </button>
                     <button
                         mat-icon-button
-                        [routerLink]="['/buildings', building.id, 'edit']"
+                        [routerLink]="['/floors', floor.id, 'edit']"
                     >
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="deleteBuilding(building)">
+                    <button mat-icon-button (click)="deleteFloor(floor)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>

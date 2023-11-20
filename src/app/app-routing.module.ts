@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { errorRoutes } from './layout/error/error.route';
 
 const routes: Routes = [
@@ -17,6 +16,13 @@ const routes: Routes = [
             ),
     },
     {
+        path: 'reset-password',
+        loadChildren: () =>
+            import('./reset-password/reset-password.module').then(
+                (m) => m.ResetPasswordModule
+            ),
+    },
+    {
         path: 'home',
         loadChildren: () =>
             import('./home/home.module').then((m) => m.HomeModule),
@@ -25,6 +31,11 @@ const routes: Routes = [
         path: 'buildings',
         loadChildren: () =>
             import('./building/building.module').then((m) => m.BuildingModule),
+    },
+    {
+        path: 'floors',
+        loadChildren: () =>
+            import('./floor/floor.module').then((m) => m.FloorModule),
     },
     {
         path: '',

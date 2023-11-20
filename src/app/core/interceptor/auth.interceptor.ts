@@ -26,6 +26,6 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     private isLoginRequest(req: HttpRequest<any>): boolean {
-        return req.url.includes('/auth/login');
+        return req.url.includes('/auth');
     }
 }

@@ -6,10 +6,9 @@ import {
 } from '../building.service';
 import { IBuilding } from '../building.model';
 import { IData } from 'src/app/core/response/response.model';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-    selector: 'app-list',
+    selector: 'app-building-list',
     templateUrl: './building-list.component.html',
     styleUrls: ['./building-list.component.scss'],
 })

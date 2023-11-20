@@ -14,7 +14,143 @@
         <dt>Created At: {{ building.createdAt }}</dt>
 
         <dt>Updated At: {{ building.updatedAt }}</dt>
+
+        <dt>Elevators No: {{ building.elevators?.length }}</dt>
     </dl>
+    <br />
+    <div class="mat-elevation-z1">
+        <div class="tables-container">
+            <div class="table-container">
+                <h2>Floors</h2>
+                <table
+                    mat-table
+                    [dataSource]="building.floors!"
+                    class="mat-elevation-z8"
+                >
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let floor">
+                            {{ floor.id }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Number Column -->
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef>Number</th>
+                        <td mat-cell *matCellDef="let floor">
+                            {{ floor.number }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Apartments No Column -->
+                    <ng-container matColumnDef="nrApartments">
+                        <th mat-header-cell *matHeaderCellDef>Apartments No</th>
+                        <td mat-cell *matCellDef="let floor">
+                            {{ floor.nrApartments }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let floor">
+                            <button
+                                mat-icon-button
+                                [routerLink]="['/floors', floor.id, 'view']"
+                            >
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                [routerLink]="['/floors', floor.id, 'edit']"
+                            >
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <!-- Define the columns -->
+                    <tr mat-header-row *matHeaderRowDef="floorsColumns"></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: floorsColumns"
+                    ></tr>
+                </table>
+            </div>
+            <div class="table-container">
+                <h2>Parking Floors</h2>
+                <table
+                    mat-table
+                    [dataSource]="building.parkingFloors!"
+                    class="mat-elevation-z8"
+                >
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let floor">
+                            {{ floor.id }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Number Column -->
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef>Number</th>
+                        <td mat-cell *matCellDef="let floor">
+                            {{ floor.number }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Apartments No Column -->
+                    <ng-container matColumnDef="nrParkingSpots">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Parking Spots No
+                        </th>
+                        <td mat-cell *matCellDef="let floor">
+                            {{ floor.nrParkingSpots }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let floor">
+                            <button
+                                mat-icon-button
+                                [routerLink]="[
+                                    '/parking-floors',
+                                    floor.id,
+                                    'view'
+                                ]"
+                            >
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                [routerLink]="[
+                                    '/parking-floors',
+                                    floor.id,
+                                    'edit'
+                                ]"
+                            >
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <!-- Define the columns -->
+                    <tr
+                        mat-header-row
+                        *matHeaderRowDef="parkingFloorsColumns"
+                    ></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: parkingFloorsColumns"
+                    ></tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div *ngIf="!building">

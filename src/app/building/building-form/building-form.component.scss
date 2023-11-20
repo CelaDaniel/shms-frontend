@@ -1,0 +1,27 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .full-width {
+            width: 48%;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    mat-card {
+        max-width: 600px;
+        width: 100%;
+    }
+}

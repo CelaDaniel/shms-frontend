@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment.dev';
 import { Login } from 'src/app/login/login.model';
 import { ForgotPassword } from 'src/app/forgot-password/forgot-password.model';
 import { Router } from '@angular/router';
+import { ResetPassword } from 'src/app/reset-password/reset-password.model';
 
 @Injectable({
     providedIn: 'root',
@@ -39,6 +40,14 @@ export class AuthService {
 
     forgotPassword(body: ForgotPassword): Observable<any> {
         return this.http.post(`${this.resourceUrl}/forget-password`, body);
+    }
+
+    resetPassword(body: ResetPassword, token: string): Observable<any> {
+        return this.http.post(`${this.resourceUrl}/reset-password`, body, {
+            headers: {
+                Authorization: token,
+            },
+        });
     }
 
     logout(): void {

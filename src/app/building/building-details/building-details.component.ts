@@ -10,6 +10,14 @@ import { IBuilding } from '../building.model';
 })
 export class BuildingDetailsComponent implements OnInit {
     building: IBuilding | null = null;
+    floorsColumns: string[] = ['id', 'number', 'nrApartments', 'actions'];
+    parkingFloorsColumns: string[] = [
+        'id',
+        'number',
+        'nrParkingSpots',
+        'actions',
+    ];
+
     constructor(
         protected buildingService: BuildingService,
         protected route: ActivatedRoute

@@ -1,0 +1,88 @@
+<div *ngIf="floor">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>Floor Details</h2>
+    <dl>
+        <dt>ID: {{ floor.id }}</dt>
+
+        <dt>Number: {{ floor.number }}</dt>
+
+        <dt>Description: {{ floor.description }}</dt>
+
+        <dt>Created At: {{ floor.createdAt }}</dt>
+
+        <dt>Updated At: {{ floor.updatedAt }}</dt>
+    </dl>
+    <br />
+    <div class="mat-elevation-z1">
+        <div class="tables-container">
+            <div class="table-container">
+                <h2>Apartments</h2>
+                <table
+                    mat-table
+                    [dataSource]="floor.apartments!"
+                    class="mat-elevation-z8"
+                >
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            {{ apartment.id }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Number Column -->
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef>Number</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            {{ apartment.number }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            <button
+                                mat-icon-button
+                                [routerLink]="[
+                                    '/apartments',
+                                    apartment.id,
+                                    'view'
+                                ]"
+                            >
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button
+                                mat-icon-button
+                                [routerLink]="[
+                                    '/apartments',
+                                    apartment.id,
+                                    'edit'
+                                ]"
+                            >
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <!-- Define the columns -->
+                    <tr
+                        mat-header-row
+                        *matHeaderRowDef="apartmentsColumns"
+                    ></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: apartmentsColumns"
+                    ></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!floor">
+    <p>Loading...</p>
+</div>

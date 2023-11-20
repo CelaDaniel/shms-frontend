@@ -1,0 +1,148 @@
+<div class="form-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Building
+                <span *ngIf="isEditMode">{{ buildingId }}</span></mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <form
+                role="form"
+                [formGroup]="buildingForm"
+                (ngSubmit)="onSubmit()"
+            >
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Number</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="number"
+                            id="number"
+                            formControlName="number"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="description"
+                            id="description"
+                            formControlName="description"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Latitude</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="latitude"
+                            id="latitude"
+                            formControlName="latitude"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Longitude</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="longitude"
+                            id="longitude"
+                            formControlName="longitude"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Color</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="color"
+                            id="color"
+                            placeholder="Color"
+                            formControlName="color"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="!isEditMode" class="full-width">
+                        <mat-label>Elevators No.</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="nrElevators"
+                            id="nrElevators"
+                            formControlName="nrElevators"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group" *ngIf="!isEditMode">
+                    <mat-form-field class="full-width">
+                        <mat-label>Floors No.</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="nrFloors"
+                            id="nrFloors"
+                            formControlName="nrFloors"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Apartments per floor</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="nrApartmentsPerFloor"
+                            id="nrApartmentsPerFloor"
+                            formControlName="nrApartmentsPerFloor"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group" *ngIf="!isEditMode">
+                    <mat-form-field class="full-width">
+                        <mat-label>Parking Floors No.</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="nrParkingFloors"
+                            id="nrParkingFloors"
+                            formControlName="nrParkingFloors"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>ParkingSpots per parking floor</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="nrParkingSpotsPerParkingFloor"
+                            id="nrParkingSpotsPerParkingFloor"
+                            formControlName="nrParkingSpotsPerParkingFloor"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="button-container">
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="buildingForm.invalid"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
