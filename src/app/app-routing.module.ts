@@ -23,6 +23,13 @@ const routes: Routes = [
             ),
     },
     {
+        path: 'activate-user',
+        loadChildren: () =>
+            import('./activate-user/activate-user.module').then(
+                (m) => m.ActivateUserModule
+            ),
+    },
+    {
         path: 'home',
         loadChildren: () =>
             import('./home/home.module').then((m) => m.HomeModule),
@@ -36,6 +43,18 @@ const routes: Routes = [
         path: 'floors',
         loadChildren: () =>
             import('./floor/floor.module').then((m) => m.FloorModule),
+    },
+    {
+        path: 'apartments',
+        loadChildren: () =>
+            import('./apartment/apartment.module').then(
+                (m) => m.ApartmentModule
+            ),
+    },
+    {
+        path: 'users',
+        loadChildren: () =>
+            import('./user/user.module').then((m) => m.UserModule),
     },
     {
         path: '',

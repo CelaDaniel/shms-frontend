@@ -5,16 +5,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-reset-password',
-    templateUrl: './reset-password.component.html',
-    styleUrls: ['./reset-password.component.scss'],
+    selector: 'app-activate-user',
+    templateUrl: './activate-user.component.html',
+    styleUrls: ['./activate-user.component.scss'],
 })
-export class ResetPasswordComponent implements OnInit {
+export class ActivateUserComponent implements OnInit {
     token = '';
     hide = true;
     hideConfirm = true;
 
-    resetPasswordForm = this.fb.group({
+    activateUserForm = this.fb.group({
         password: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required]],
     });
@@ -34,15 +34,15 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     submit(): void {
-        const password = this.resetPasswordForm.get('password')!.value!;
+        const password = this.activateUserForm.get('password')!.value!;
         const confirmPassword =
-            this.resetPasswordForm.get('confirmPassword')!.value!;
+            this.activateUserForm.get('confirmPassword')!.value!;
 
         if (password === confirmPassword) {
             this.authService
-                .resetPassword(
+                .activate(
                     {
-                        newPassword: password,
+                        password: password,
                     },
                     this.token
                 )

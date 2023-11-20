@@ -1,0 +1,100 @@
+<div class="mat-elevation-z1">
+    <div class="table-container">
+        <button
+            mat-raised-button
+            color="primary"
+            class="newbtn"
+            [routerLink]="['/apartments/new']"
+        >
+            <mat-icon>add</mat-icon>
+            New
+        </button>
+        <table mat-table [dataSource]="apartments" class="mat-elevation-z8">
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let apartment">{{ apartment.id }}</td>
+            </ng-container>
+
+            <!-- Number Column -->
+            <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef>Number</th>
+                <td mat-cell *matCellDef="let apartment">
+                    {{ apartment.number }}
+                </td>
+            </ng-container>
+
+            <!-- Type Column -->
+            <ng-container matColumnDef="apartmentType">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let apartment">
+                    {{ apartment.apartmentType }}
+                </td>
+            </ng-container>
+
+            <!-- Area Column -->
+            <ng-container matColumnDef="area">
+                <th mat-header-cell *matHeaderCellDef>Area</th>
+                <td mat-cell *matCellDef="let apartment">
+                    {{ apartment.area }} m2
+                </td>
+            </ng-container>
+
+            <!-- Balconies No Column -->
+            <ng-container matColumnDef="balconiesNo">
+                <th mat-header-cell *matHeaderCellDef>Balconies No</th>
+                <td mat-cell *matCellDef="let apartment">
+                    {{ apartment.balconyNr }}
+                </td>
+            </ng-container>
+
+            <!-- Toilets No Column -->
+            <ng-container matColumnDef="toiletsNo">
+                <th mat-header-cell *matHeaderCellDef>Toilets No</th>
+                <td mat-cell *matCellDef="let apartment">
+                    {{ apartment.toiletsNr }}
+                </td>
+            </ng-container>
+
+            <!-- Number Column -->
+            <ng-container matColumnDef="kitchen">
+                <th mat-header-cell *matHeaderCellDef>Kitchen</th>
+                <td mat-cell *matCellDef="let apartment">
+                    <mat-icon *ngIf="apartment.hasKitchen">check_box</mat-icon>
+                    <mat-icon *ngIf="!apartment.hasKitchen"
+                        >disabled_by_default</mat-icon
+                    >
+                </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let apartment">
+                    <button
+                        mat-icon-button
+                        [routerLink]="['/apartments', apartment.id, 'view']"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        [routerLink]="['/apartments', apartment.id, 'edit']"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        (click)="deleteApartment(apartment)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- Define the columns -->
+            <tr mat-header-row *matHeaderRowDef="apartmentsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: apartmentsColumns"></tr>
+        </table>
+    </div>
+</div>

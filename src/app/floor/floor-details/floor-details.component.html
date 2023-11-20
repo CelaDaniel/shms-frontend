@@ -41,6 +41,51 @@
                         </td>
                     </ng-container>
 
+                    <!-- Type Column -->
+                    <ng-container matColumnDef="apartmentType">
+                        <th mat-header-cell *matHeaderCellDef>Type</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            {{ apartment.apartmentType }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Area Column -->
+                    <ng-container matColumnDef="area">
+                        <th mat-header-cell *matHeaderCellDef>Area</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            {{ apartment.area }} m2
+                        </td>
+                    </ng-container>
+
+                    <!-- Balconies No Column -->
+                    <ng-container matColumnDef="balconiesNo">
+                        <th mat-header-cell *matHeaderCellDef>Balconies No</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            {{ apartment.balconyNr }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Toilets No Column -->
+                    <ng-container matColumnDef="toiletsNo">
+                        <th mat-header-cell *matHeaderCellDef>Toilets No</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            {{ apartment.toiletsNr }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Number Column -->
+                    <ng-container matColumnDef="kitchen">
+                        <th mat-header-cell *matHeaderCellDef>Kitchen</th>
+                        <td mat-cell *matCellDef="let apartment">
+                            <mat-icon *ngIf="apartment.hasKitchen"
+                                >check_box</mat-icon
+                            >
+                            <mat-icon *ngIf="!apartment.hasKitchen"
+                                >disabled_by_default</mat-icon
+                            >
+                        </td>
+                    </ng-container>
+
                     <!-- Actions Column -->
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Actions</th>

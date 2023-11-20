@@ -1,0 +1,32 @@
+<div *ngIf="user">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>User Details</h2>
+    <dl>
+        <dt>ID: {{ user.id }}</dt>
+
+        <dt>First Name: {{ user.firstName }}</dt>
+
+        <dt>Last Name: {{ user.lastName }}</dt>
+
+        <dt>Email: {{ user.email }}</dt>
+
+        <dt>Description: {{ user.description }}</dt>
+
+        <dt>Created At: {{ user.createdAt }}</dt>
+
+        <dt>Updated At: {{ user.updatedAt }}</dt>
+        <dt>
+            Roles:
+            <mat-chip *ngFor="let role of user.roles">
+                {{ role }}
+            </mat-chip>
+        </dt>
+    </dl>
+</div>
+
+<div *ngIf="!user">
+    <p>Loading...</p>
+</div>

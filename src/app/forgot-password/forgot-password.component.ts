@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ForgotPasswordComponent implements OnInit {
     forgotPasswordForm = this.fb.group({
-        email: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
     });
 
     constructor(

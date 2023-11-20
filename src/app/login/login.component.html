@@ -18,15 +18,29 @@
                 <mat-form-field class="full-width">
                     <input
                         matInput
-                        type="password"
+                        [type]="hide ? 'password' : 'text'"
                         name="password"
                         id="password"
                         placeholder="Password"
                         formControlName="password"
                     />
+                    <button
+                        mat-icon-button
+                        matSuffix
+                        (click)="hide = !hide"
+                        [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide"
+                        type="button"
+                    >
+                        <mat-icon>{{
+                            hide ? "visibility_off" : "visibility"
+                        }}</mat-icon>
+                    </button>
                 </mat-form-field>
                 <div class="button-container">
-                    <a mat-button color="primary" routerLink="/forgot-password">Forgot Password?</a>
+                    <a mat-button color="primary" routerLink="/forgot-password"
+                        >Forgot Password?</a
+                    >
                     <button
                         mat-raised-button
                         type="submit"

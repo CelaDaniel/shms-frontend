@@ -10,7 +10,16 @@ import { IFloor } from '../floor.model';
 })
 export class FloorDetailsComponent implements OnInit {
     floor: IFloor | null = null;
-    apartmentsColumns: string[] = ['id', 'number', 'actions'];
+    apartmentsColumns: string[] = [
+        'id',
+        'number',
+        'apartmentType',
+        'area',
+        'balconiesNo',
+        'toiletsNo',
+        'kitchen',
+        'actions',
+    ];
 
     constructor(
         protected floorService: FloorService,

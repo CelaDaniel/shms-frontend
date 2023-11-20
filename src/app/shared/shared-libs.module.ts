@@ -10,6 +10,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
     exports: [
@@ -25,6 +28,9 @@ import { MatTableModule } from '@angular/material/table';
         MatSidenavModule,
         MatIconModule,
         MatTableModule,
+        MatSelectModule,
+        MatChipsModule,
+        MatCheckboxModule,
     ],
 })
 export class SharedLibsModule {}

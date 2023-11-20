@@ -1,13 +1,13 @@
 <div class="login-container">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Reset password</mat-card-title>
+            <mat-card-title>Set password</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <form
                 role="form"
                 (ngSubmit)="submit()"
-                [formGroup]="resetPasswordForm"
+                [formGroup]="activateUserForm"
             >
                 <mat-form-field class="full-width">
                     <input
@@ -57,7 +57,7 @@
                     mat-raised-button
                     type="submit"
                     color="primary"
-                    [disabled]="resetPasswordForm.invalid"
+                    [disabled]="activateUserForm.invalid"
                 >
                     Submit
                 </button>

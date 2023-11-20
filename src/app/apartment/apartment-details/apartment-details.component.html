@@ -1,0 +1,40 @@
+<div *ngIf="apartment">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>Apartment Details</h2>
+    <dl>
+        <dt>ID: {{ apartment.id }}</dt>
+
+        <dt>Number: {{ apartment.number }}</dt>
+
+        <dt>Description: {{ apartment.description }}</dt>
+
+        <dt>Apartment Type: {{ apartment.apartmentType }}</dt>
+
+        <dt>Area: {{ apartment.area }} m2</dt>
+
+        <dt>Capacity: {{ apartment.capacity }}</dt>
+
+        <dt>Balconies: {{ apartment.balconyNr }}</dt>
+
+        <dt>Toiles: {{ apartment.toiletsNr }}</dt>
+
+        <dt>
+            Kitchen:
+            <mat-icon *ngIf="apartment.hasKitchen">check_box</mat-icon>
+            <mat-icon *ngIf="!apartment.hasKitchen"
+                >disabled_by_default</mat-icon
+            >
+        </dt>
+
+        <dt>Created At: {{ apartment.createdAt }}</dt>
+
+        <dt>Updated At: {{ apartment.updatedAt }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!apartment">
+    <p>Loading...</p>
+</div>

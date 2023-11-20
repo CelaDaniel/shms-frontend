@@ -1,0 +1,138 @@
+<div class="form-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Apartment
+                <span *ngIf="isEditMode">{{
+                    apartmentId
+                }}</span></mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <form
+                role="form"
+                [formGroup]="apartmentForm"
+                (ngSubmit)="onSubmit()"
+            >
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Number</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="number"
+                            id="number"
+                            formControlName="number"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="description"
+                            id="description"
+                            formControlName="description"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Area</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="area"
+                            id="area"
+                            formControlName="area"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Type</mat-label>
+                        <mat-select
+                            formControlName="apartmentType"
+                            name="apartmentType"
+                            id="apartmentType"
+                        >
+                            <mat-option>None</mat-option>
+
+                            <mat-option
+                                *ngFor="let type of apartmentTypes"
+                                [value]="type"
+                                >{{ type }}</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Balconies</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="balconyNr"
+                            id="balconyNr"
+                            formControlName="balconyNr"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Windows</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="windowNr"
+                            id="windowNr"
+                            formControlName="windowNr"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Toilets</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="toiletsNr"
+                            id="toiletsNr"
+                            formControlName="toiletsNr"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Capacity</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="capacity"
+                            id="capacity"
+                            formControlName="capacity"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-checkbox formControlName="hasKitchen"
+                        >Has Kitchen</mat-checkbox
+                    >
+                </div>
+
+                <div class="button-container">
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="apartmentForm.invalid"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -7,6 +7,7 @@ import { Login } from 'src/app/login/login.model';
 import { ForgotPassword } from 'src/app/forgot-password/forgot-password.model';
 import { Router } from '@angular/router';
 import { ResetPassword } from 'src/app/reset-password/reset-password.model';
+import { ActivateUser } from 'src/app/activate-user/actrivate-user.model';
 
 @Injectable({
     providedIn: 'root',
@@ -44,6 +45,14 @@ export class AuthService {
 
     resetPassword(body: ResetPassword, token: string): Observable<any> {
         return this.http.post(`${this.resourceUrl}/reset-password`, body, {
+            headers: {
+                Authorization: token,
+            },
+        });
+    }
+
+    activate(body: ActivateUser, token: string): Observable<any> {
+        return this.http.post(`${this.resourceUrl}/activate`, body, {
             headers: {
                 Authorization: token,
             },
