@@ -15,8 +15,6 @@ export interface IApartment extends IBaseModel {
     floor?: IFloor;
     floorId?: number;
     activeContracts?: any[];
-    expiredContracts?: any[];
-    futureContracts?: any[];
 }
 export class Apartment implements IApartment {
     constructor(

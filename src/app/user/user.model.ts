@@ -1,11 +1,12 @@
 import { UserStatus } from '../enums/user-status.model';
 import { IBaseModel } from '../core/base.model';
+import { UserRoles } from '../enums/roles.model';
 
 export interface IUser extends IBaseModel {
     firstName?: string;
     lastName?: string;
     email?: string;
-    roles?: string[];
+    roles?: UserRoles[];
     userStatus?: UserStatus;
 }
 
@@ -19,6 +20,6 @@ export class User implements IUser {
         public lastName?: string,
         public description?: string | null,
         public email?: string,
-        public roles?: string[]
+        public roles?: UserRoles[]
     ) {}
 }

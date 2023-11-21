@@ -1,5 +1,6 @@
 import { IBaseModel } from '../core/base.model';
 import { IFloor } from '../floor/floor.model';
+import { IParkingFloor } from '../parking-floor/parking-floor.model';
 
 export interface IBuilding extends IBaseModel {
     latitude?: number | null;
@@ -12,7 +13,7 @@ export interface IBuilding extends IBaseModel {
     nrParkingSpotsPerParkingFloor?: number;
     floors?: IFloor[];
     elevators?: any[];
-    parkingFloors?: any[];
+    parkingFloors?: IParkingFloor[];
 }
 export class Building implements IBuilding {
     constructor(
