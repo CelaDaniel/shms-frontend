@@ -53,6 +53,14 @@
                 </td>
             </ng-container>
 
+            <!-- Elevator Column -->
+            <ng-container matColumnDef="elevatorNo">
+                <th mat-header-cell *matHeaderCellDef>Elevator no</th>
+                <td mat-cell *matCellDef="let building">
+                    {{ building.nrElevators }}
+                </td>
+            </ng-container>
+
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Actions</th>

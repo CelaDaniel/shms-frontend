@@ -1,0 +1,80 @@
+<div class="mat-elevation-z1">
+    <div class="table-container">
+        <button
+            mat-raised-button
+            color="primary"
+            class="newbtn"
+            [routerLink]="['/elevators/new']"
+        >
+            <mat-icon>add</mat-icon>
+            New
+        </button>
+        <table
+            *ngIf="elevators.length > 0"
+            mat-table
+            [dataSource]="elevators"
+            class="mat-elevation-z8"
+        >
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let elevator">{{ elevator.id }}</td>
+            </ng-container>
+
+            <!-- Number Column -->
+            <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef>Number</th>
+                <td mat-cell *matCellDef="let elevator">
+                    {{ elevator.number }}
+                </td>
+            </ng-container>
+
+            <!-- Capacity Column -->
+            <ng-container matColumnDef="capacity">
+                <th mat-header-cell *matHeaderCellDef>Capacity</th>
+                <td mat-cell *matCellDef="let elevator">
+                    {{ elevator.capacity }}
+                </td>
+            </ng-container>
+
+            <!-- Max Weight Column -->
+            <ng-container matColumnDef="maxWeight">
+                <th mat-header-cell *matHeaderCellDef>Max Weight</th>
+                <td mat-cell *matCellDef="let elevator">
+                    {{ elevator.maxWeight }}
+                </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let elevator">
+                    <button
+                        mat-icon-button
+                        [routerLink]="['/elevators', elevator.id, 'view']"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        [routerLink]="['/elevators', elevator.id, 'edit']"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteElevator(elevator)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- Define the columns -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
+    <div *ngIf="elevators.length === 0" class="mat-elevation-z8">
+        <mat-card>
+            <mat-card-header> No data available</mat-card-header>
+        </mat-card>
+    </div>
+</div>

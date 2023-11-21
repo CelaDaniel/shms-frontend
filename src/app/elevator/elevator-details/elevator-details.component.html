@@ -1,0 +1,26 @@
+<div *ngIf="elevator">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>Elevator Details</h2>
+    <dl>
+        <dt>ID: {{ elevator.id }}</dt>
+
+        <dt>Number: {{ elevator.number }}</dt>
+
+        <dt>Description: {{ elevator.description }}</dt>
+
+        <dt>Capacity: {{ elevator.capacity }}</dt>
+
+        <dt>Max Weight: {{ elevator.maxWeight }}</dt>
+
+        <dt>Created At: {{ elevator.createdAt }}</dt>
+
+        <dt>Updated At: {{ elevator.updatedAt }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!elevator">
+    <p>Loading...</p>
+</div>

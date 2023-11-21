@@ -3,20 +3,89 @@
         <mat-icon>arrow_back</mat-icon>
         Back
     </button>
-    <h2>Building Details</h2>
-    <dl>
-        <dt>ID: {{ building.id }}</dt>
+    <div class="details-container">
+        <div class="details">
+            <h2>Building Details</h2>
+            <dl>
+                <dt>ID: {{ building.id }}</dt>
 
-        <dt>Number: {{ building.number }}</dt>
+                <dt>Number: {{ building.number }}</dt>
 
-        <dt>Color: {{ building.color }}</dt>
+                <dt>Color: {{ building.color }}</dt>
 
-        <dt>Created At: {{ building.createdAt }}</dt>
+                <dt>Created At: {{ building.createdAt }}</dt>
 
-        <dt>Updated At: {{ building.updatedAt }}</dt>
+                <dt>Updated At: {{ building.updatedAt }}</dt>
+            </dl>
+        </div>
+        <div class="table-container">
+            <h2>Elevators</h2>
+            <table
+                mat-table
+                [dataSource]="building.elevators!"
+                class="mat-elevation-z8"
+            >
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let elevator">
+                        {{ elevator.id }}
+                    </td>
+                </ng-container>
 
-        <dt>Elevators No: {{ building.elevators?.length }}</dt>
-    </dl>
+                <!-- Number Column -->
+                <ng-container matColumnDef="number">
+                    <th mat-header-cell *matHeaderCellDef>Number</th>
+                    <td mat-cell *matCellDef="let elevator">
+                        {{ elevator.number }}
+                    </td>
+                </ng-container>
+
+                <!-- Capacity Column -->
+                <ng-container matColumnDef="capacity">
+                    <th mat-header-cell *matHeaderCellDef>Capacity</th>
+                    <td mat-cell *matCellDef="let elevator">
+                        {{ elevator.capacity }}
+                    </td>
+                </ng-container>
+
+                <!-- Max Weight Column -->
+                <ng-container matColumnDef="maxWeight">
+                    <th mat-header-cell *matHeaderCellDef>Max Weight</th>
+                    <td mat-cell *matCellDef="let elevator">
+                        {{ elevator.maxWeight }}
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let floor">
+                        <button
+                            mat-icon-button
+                            [routerLink]="['/parking-floors', floor.id, 'view']"
+                        >
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <button
+                            mat-icon-button
+                            [routerLink]="['/parking-floors', floor.id, 'edit']"
+                        >
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Define the columns -->
+                <tr mat-header-row *matHeaderRowDef="elevatorsColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: elevatorsColumns"
+                ></tr>
+            </table>
+        </div>
+    </div>
+
     <br />
     <div class="mat-elevation-z1">
         <div class="tables-container">

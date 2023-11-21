@@ -66,6 +66,11 @@ const routes: Routes = [
             ),
     },
     {
+        path: 'elevators',
+        loadChildren: () =>
+            import('./elevator/elevator.module').then((m) => m.ElevatorModule),
+    },
+    {
         path: 'users',
         loadChildren: () =>
             import('./user/user.module').then((m) => m.UserModule),

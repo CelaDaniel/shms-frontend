@@ -20,6 +20,7 @@ export class BuildingListComponent implements OnInit {
         'color',
         'floorNo',
         'parkingFlorNo',
+        'elevatorNo',
         'actions',
     ];
 

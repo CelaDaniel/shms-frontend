@@ -18,6 +18,14 @@ export class BuildingDetailsComponent implements OnInit {
         'actions',
     ];
 
+    elevatorsColumns: string[] = [
+        'id',
+        'number',
+        'capacity',
+        'maxWeight',
+        'actions',
+    ];
+
     constructor(
         protected buildingService: BuildingService,
         protected route: ActivatedRoute
