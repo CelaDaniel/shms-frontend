@@ -60,9 +60,23 @@ export class AuthService {
     }
 
     logout(): void {
-        //TODO logout
-        localStorage.removeItem('token');
-        this.isAuthenticatedSubject.next(false);
-        this.router.navigate(['/login']);
+        const token = localStorage.getItem('token') ?? '';
+        this.http
+            .post(
+                `${this.resourceUrl}/logout`,
+                {},
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                }
+            )
+            .subscribe((res: any) => {
+                if (res.code === 200) {
+                    localStorage.removeItem('token');
+                    this.isAuthenticatedSubject.next(false);
+                    this.router.navigate(['/login']);
+                }
+            });
     }
 }
