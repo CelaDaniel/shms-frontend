@@ -1,0 +1,33 @@
+<div *ngIf="student">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+
+    <h2>Student Details</h2>
+    <dl>
+        <dt>ID: {{ student.id }}</dt>
+
+        <dt>Number: {{ student.number }}</dt>
+
+        <dt>Firstname: {{ student.firstName }}</dt>
+
+        <dt>Firstname: {{ student.firstName }}</dt>
+
+        <dt>Lastname: {{ student.lastName }}</dt>
+
+        <dt>Email: {{ student.email }}</dt>
+
+        <dt>Gender: {{ student.gender }}</dt>
+
+        <dt>Birthdate: {{ student.birthDate | formatDate }}</dt>
+
+        <dt>Created At: {{ student.createdAt }}</dt>
+
+        <dt>Updated At: {{ student.updatedAt }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!student">
+    <p>Loading...</p>
+</div>

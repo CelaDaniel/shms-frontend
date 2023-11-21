@@ -1,0 +1,127 @@
+<div class="form-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Student
+                <span *ngIf="isEditMode">{{ studentId }}</span></mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <form role="form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Number</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="number"
+                            id="number"
+                            formControlName="number"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="description"
+                            id="description"
+                            formControlName="description"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Firstname</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="firstName"
+                            id="firstName"
+                            formControlName="firstName"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Lastname</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="lastName"
+                            id="lastName"
+                            formControlName="lastName"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input
+                            matInput
+                            type="email"
+                            name="email"
+                            id="email"
+                            formControlName="email"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Phone number</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="phoneNumber"
+                            id="phoneNumber"
+                            formControlName="phoneNumber"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Gender</mat-label>
+                        <mat-select
+                            formControlName="gender"
+                            name="gender"
+                            id="gender"
+                        >
+                            <mat-option
+                                *ngFor="let gender of genders"
+                                [value]="gender"
+                                >{{ gender }}</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Birthdate</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker"
+                            formControlName="birthDate"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="button-container">
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="studentForm.invalid"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -14,8 +14,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
+    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
     exports: [
         FormsModule,
         CommonModule,
@@ -33,6 +36,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatChipsModule,
         MatCheckboxModule,
         MatTooltipModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
 })
 export class SharedLibsModule {}

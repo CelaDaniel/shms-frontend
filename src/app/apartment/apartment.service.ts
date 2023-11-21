@@ -67,13 +67,4 @@ export class ApartmentService {
             { observe: 'response' }
         );
     }
-
-    getDeleted(): Observable<ApartmentArrayResponseType> {
-        return this.http.get<IArrayResponse<IApartment>>(
-            `${this.resourceUrl}/deleted`,
-            {
-                observe: 'response',
-            }
-        );
-    }
 }

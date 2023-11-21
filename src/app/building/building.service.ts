@@ -58,13 +58,4 @@ export class BuildingService {
             { observe: 'response' }
         );
     }
-
-    getDeleted(): Observable<BuildingArrayResponseType> {
-        return this.http.get<IArrayResponse<IBuilding>>(
-            `${this.resourceUrl}/deleted`,
-            {
-                observe: 'response',
-            }
-        );
-    }
 }

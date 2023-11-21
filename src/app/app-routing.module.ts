@@ -71,6 +71,11 @@ const routes: Routes = [
             import('./elevator/elevator.module').then((m) => m.ElevatorModule),
     },
     {
+        path: 'students',
+        loadChildren: () =>
+            import('./student/student.module').then((m) => m.StudentModule),
+    },
+    {
         path: 'users',
         loadChildren: () =>
             import('./user/user.module').then((m) => m.UserModule),
