@@ -69,15 +69,6 @@ export class UserService {
         );
     }
 
-    getDeleted(): Observable<UserArrayResponseType> {
-        return this.http.get<IArrayResponse<IUser>>(
-            `${this.resourceUrl}/deleted`,
-            {
-                observe: 'response',
-            }
-        );
-    }
-
     getLoggedInUser(): Observable<UserResponseType> {
         return this.http.get<IResponse<IUser>>(`${this.resourceUrl}/logged`, {
             observe: 'response',

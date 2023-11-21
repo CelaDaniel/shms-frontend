@@ -63,13 +63,4 @@ export class ParkingSpotService {
             { observe: 'response' }
         );
     }
-
-    getDeleted(): Observable<ParkingSpotArrayResponseType> {
-        return this.http.get<IArrayResponse<IParkingSpot>>(
-            `${this.resourceUrl}/deleted`,
-            {
-                observe: 'response',
-            }
-        );
-    }
 }

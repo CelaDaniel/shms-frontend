@@ -18,7 +18,7 @@ export class UserFormComponent implements OnInit {
         lastName: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         description: [''],
-        roles: [['']],
+        roles: [[UserRoles.USER]],
     });
     isEditMode = false;
     userId?: number;

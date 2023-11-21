@@ -67,13 +67,4 @@ export class ParkingFloorService {
             { observe: 'response' }
         );
     }
-
-    getDeleted(): Observable<ParkingFloorArrayResponseType> {
-        return this.http.get<IArrayResponse<IParkingFloor>>(
-            `${this.resourceUrl}/deleted`,
-            {
-                observe: 'response',
-            }
-        );
-    }
 }

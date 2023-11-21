@@ -16,7 +16,7 @@ export class ParkingSpotFormComponent implements OnInit {
     parkingSpotForm = this.fb.group({
         number: ['', [Validators.required]],
         description: [''],
-        buildingId: [0],
+        parkingFloorId: [0],
     });
     isEditMode = false;
     parkingSpotId?: number;
@@ -46,7 +46,7 @@ export class ParkingSpotFormComponent implements OnInit {
 
                 this.parkingSpotForm.patchValue({
                     ...data,
-                    buildingId: data.building?.id,
+                    parkingFloorId: data.parkingFloor?.id,
                 });
             },
             error: (res: any) => {

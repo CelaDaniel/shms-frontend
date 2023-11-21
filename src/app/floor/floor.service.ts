@@ -55,13 +55,4 @@ export class FloorService {
             { observe: 'response' }
         );
     }
-
-    getDeleted(): Observable<FloorArrayResponseType> {
-        return this.http.get<IArrayResponse<IFloor>>(
-            `${this.resourceUrl}/deleted`,
-            {
-                observe: 'response',
-            }
-        );
-    }
 }
