@@ -13,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     exports: [
@@ -31,6 +32,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         MatSelectModule,
         MatChipsModule,
         MatCheckboxModule,
+        MatTooltipModule,
     ],
 })
 export class SharedLibsModule {}

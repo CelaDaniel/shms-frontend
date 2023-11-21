@@ -1,0 +1,110 @@
+<div *ngIf="user">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>User Profile</h2>
+    <dl>
+        <dt>ID: {{ user.id }}</dt>
+
+        <dt>First Name: {{ user.firstName }}</dt>
+
+        <dt>Last Name: {{ user.lastName }}</dt>
+
+        <dt>Email: {{ user.email }}</dt>
+    </dl>
+
+    <div class="login-container">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Change password</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <form
+                    role="form"
+                    (ngSubmit)="submit()"
+                    [formGroup]="changePasswordForm"
+                >
+                    <mat-form-field class="full-width">
+                        <input
+                            matInput
+                            [type]="hideOld ? 'password' : 'text'"
+                            name="oldPassword"
+                            id="oldPassword"
+                            placeholder="Old Password"
+                            formControlName="oldPassword"
+                        />
+                        <button
+                            mat-icon-button
+                            matSuffix
+                            (click)="hideOld = !hideOld"
+                            [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hideOld"
+                            type="button"
+                        >
+                            <mat-icon>{{
+                                hideOld ? "visibility_off" : "visibility"
+                            }}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input
+                            matInput
+                            [type]="hide ? 'password' : 'text'"
+                            name="newPassword"
+                            id="newPassword"
+                            placeholder="New Password"
+                            formControlName="newPassword"
+                        />
+                        <button
+                            mat-icon-button
+                            matSuffix
+                            (click)="hide = !hide"
+                            [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide"
+                            type="button"
+                        >
+                            <mat-icon>{{
+                                hide ? "visibility_off" : "visibility"
+                            }}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input
+                            matInput
+                            [type]="hideConfirm ? 'password' : 'text'"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            placeholder="Confirm new password"
+                            formControlName="confirmPassword"
+                        />
+                        <button
+                            mat-icon-button
+                            matSuffix
+                            (click)="hideConfirm = !hideConfirm"
+                            [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hideConfirm"
+                            type="button"
+                        >
+                            <mat-icon>{{
+                                hideConfirm ? "visibility_off" : "visibility"
+                            }}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="changePasswordForm.invalid"
+                    >
+                        Submit
+                    </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div *ngIf="!user">
+    <p>Loading...</p>
+</div>

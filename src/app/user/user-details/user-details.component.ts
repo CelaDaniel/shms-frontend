@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserResponseType, UserService } from '../user.service';
 import { ActivatedRoute } from '@angular/router';
 import { IUser } from '../user.model';
+import { UserStatus } from 'src/app/enums/user-status.model';
 
 @Component({
     selector: 'app-user-details',
@@ -10,8 +11,7 @@ import { IUser } from '../user.model';
 })
 export class UserDetailsComponent implements OnInit {
     user: IUser | null = null;
-    apartmentsColumns: string[] = ['id', 'number', 'actions'];
-
+    userStatus = UserStatus;
     constructor(
         protected userService: UserService,
         protected route: ActivatedRoute

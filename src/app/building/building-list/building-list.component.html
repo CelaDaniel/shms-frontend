@@ -9,7 +9,12 @@
             <mat-icon>add</mat-icon>
             New
         </button>
-        <table mat-table [dataSource]="buildings" class="mat-elevation-z8">
+        <table
+            *ngIf="buildings.length > 0"
+            mat-table
+            [dataSource]="buildings"
+            class="mat-elevation-z8"
+        >
             <!-- ID Column -->
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -74,5 +79,10 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+    </div>
+    <div *ngIf="buildings.length === 0" class="mat-elevation-z8">
+        <mat-card>
+            <mat-card-header> No data available</mat-card-header>
+        </mat-card>
     </div>
 </div>

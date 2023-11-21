@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
-import { IUser } from './user.model';
+import { IChangePassword, IUser } from './user.model';
 import { IArrayResponse, IResponse } from '../core/response/response.model';
 
 export type UserResponseType = HttpResponse<IResponse<IUser>>;
@@ -50,14 +50,10 @@ export class UserService {
         });
     }
 
-    changePassword(user: IUser): Observable<UserResponseType> {
-        return this.http.post<IResponse<IUser>>(
-            `${this.resourceUrl}/change-password`,
-            user,
-            {
-                observe: 'response',
-            }
-        );
+    changePassword(body: IChangePassword): Observable<HttpResponse<{}>> {
+        return this.http.post(`${this.resourceUrl}/change-password`, body, {
+            observe: 'response',
+        });
     }
 
     delete(id: number): Observable<UserResponseType> {
@@ -82,12 +78,9 @@ export class UserService {
         );
     }
 
-    getLoggedInUser(): Observable<UserArrayResponseType> {
-        return this.http.get<IArrayResponse<IUser>>(
-            `${this.resourceUrl}/logged`,
-            {
-                observe: 'response',
-            }
-        );
+    getLoggedInUser(): Observable<UserResponseType> {
+        return this.http.get<IResponse<IUser>>(`${this.resourceUrl}/logged`, {
+            observe: 'response',
+        });
     }
 }

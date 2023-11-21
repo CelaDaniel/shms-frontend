@@ -11,11 +11,12 @@ export interface IFloor {
     nrElevators?: number;
     apartments?: any[];
     building?: IBuilding;
+    buildingId?: number;
 }
 export class Floor implements IFloor {
     constructor(
         public number?: string,
         public description?: string | null,
-        public nrApartments?: number
+        public buildingId?: number
     ) {}
 }

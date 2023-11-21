@@ -13,7 +13,7 @@ export class FloorFormComponent implements OnInit {
     floorForm = this.fb.group({
         number: ['', [Validators.required]],
         description: [''],
-        nrApartments: [0],
+        buildingId: [0],
     });
     isEditMode = false;
     floorId?: number;
@@ -43,7 +43,7 @@ export class FloorFormComponent implements OnInit {
 
                 this.floorForm.patchValue({
                     ...data,
-                    nrApartments: data.apartments?.length,
+                    buildingId: data.building?.id,
                 });
             },
             error: (res: any) => {
@@ -56,12 +56,13 @@ export class FloorFormComponent implements OnInit {
         const floor: IFloor = new Floor(
             this.floorForm.get('number')!.value!,
             this.floorForm.get('description')!.value!,
-            this.floorForm.get('nrApartments')!.value!
+            this.floorForm.get('buildingId')!.value!
         );
 
         const updatedFloor: IFloor = new Floor(
             this.floorForm.get('number')!.value!,
-            this.floorForm.get('description')!.value!
+            this.floorForm.get('description')!.value!,
+            this.floorForm.get('buildingId')!.value!
         );
 
         if (this.isEditMode) {

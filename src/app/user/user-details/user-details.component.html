@@ -24,6 +24,18 @@
                 {{ role }}
             </mat-chip>
         </dt>
+        <br />
+        <dt>
+            Status:
+            <button
+                mat-flat-button
+                [color]="
+                    user.userStatus === userStatus.ACTIVE ? 'primary' : 'warn'
+                "
+            >
+                {{ user.userStatus }}
+            </button>
+        </dt>
     </dl>
 </div>
 
