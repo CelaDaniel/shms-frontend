@@ -5,7 +5,7 @@ import * as dayjs from 'dayjs';
     name: 'formatDate',
 })
 export class FormatDatePipe implements PipeTransform {
-    transform(day: string | null | undefined): string {
+    transform(day: Date | null | undefined): string {
         const date = dayjs(day);
         return date ? date.format('DD/MM/YYYY') : '';
     }

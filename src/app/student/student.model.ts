@@ -6,7 +6,7 @@ export interface IStudent extends IBaseModel {
     lastName?: string;
     email?: string;
     phoneNumber?: string;
-    birthDate?: string;
+    birthDate?: Date;
     gender?: Gender;
     activeContract?: any;
     nrContracts?: number;
@@ -19,7 +19,7 @@ export class Student implements IStudent {
         public lastName?: string,
         public email?: string,
         public phoneNumber?: string,
-        public birthDate?: string,
+        public birthDate?: Date,
         public gender?: Gender,
         public description?: string
     ) {}

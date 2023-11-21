@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpBackend, HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.dev';
 import { Login } from 'src/app/login/login.model';
 import { ForgotPassword } from 'src/app/forgot-password/forgot-password.model';
@@ -17,8 +17,11 @@ export class AuthService {
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(
         this.hasToken()
     );
+    private http: HttpClient;
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private handler: HttpBackend, private router: Router) {
+        this.http = new HttpClient(handler);
+    }
 
     private hasToken(): boolean {
         return !!localStorage.getItem('token');
@@ -71,12 +74,18 @@ export class AuthService {
                     },
                 }
             )
-            .subscribe((res: any) => {
-                if (res.code === 200) {
+            .pipe(
+                catchError((error) => {
                     localStorage.removeItem('token');
                     this.isAuthenticatedSubject.next(false);
                     this.router.navigate(['/login']);
-                }
+                    return throwError(error);
+                })
+            )
+            .subscribe((res: any) => {
+                localStorage.removeItem('token');
+                this.isAuthenticatedSubject.next(false);
+                this.router.navigate(['/login']);
             });
     }
 }
