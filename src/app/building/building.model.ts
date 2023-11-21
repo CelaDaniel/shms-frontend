@@ -1,12 +1,7 @@
-import * as dayjs from 'dayjs';
+import { IBaseModel } from '../core/base.model';
 import { IFloor } from '../floor/floor.model';
 
-export interface IBuilding {
-    id?: number;
-    number?: string;
-    description?: string | null;
-    createdAt?: dayjs.Dayjs;
-    updatedAt?: dayjs.Dayjs;
+export interface IBuilding extends IBaseModel {
     latitude?: number | null;
     longitude?: number | null;
     color?: string;

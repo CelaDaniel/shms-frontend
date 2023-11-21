@@ -1,0 +1,54 @@
+<div class="form-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Parking Floor
+                <span *ngIf="isEditMode">{{
+                    parkingFloorId
+                }}</span></mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <form
+                role="form"
+                [formGroup]="parkingFloorForm"
+                (ngSubmit)="onSubmit()"
+            >
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Number</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="number"
+                            id="number"
+                            formControlName="number"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="description"
+                            id="description"
+                            formControlName="description"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="button-container">
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="parkingFloorForm.invalid"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,16 +1,11 @@
-import * as dayjs from 'dayjs';
 import { UserStatus } from '../enums/user-status.model';
+import { IBaseModel } from '../core/base.model';
 
-export interface IUser {
-    id?: number;
+export interface IUser extends IBaseModel {
     firstName?: string;
     lastName?: string;
-    description?: string | null;
-    createdAt?: dayjs.Dayjs;
-    updatedAt?: dayjs.Dayjs;
     email?: string;
     roles?: string[];
-    deleted?: boolean;
     userStatus?: UserStatus;
 }
 

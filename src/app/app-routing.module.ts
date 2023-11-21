@@ -52,6 +52,20 @@ const routes: Routes = [
             ),
     },
     {
+        path: 'parking-floors',
+        loadChildren: () =>
+            import('./parking-floor/parking-floor.module').then(
+                (m) => m.ParkingFloorModule
+            ),
+    },
+    {
+        path: 'parking-spots',
+        loadChildren: () =>
+            import('./parking-spot/parking-spot.module').then(
+                (m) => m.ParkingSpotModule
+            ),
+    },
+    {
         path: 'users',
         loadChildren: () =>
             import('./user/user.module').then((m) => m.UserModule),

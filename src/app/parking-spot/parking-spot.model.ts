@@ -1,14 +1,12 @@
 import { IBuilding } from '../building/building.model';
 import { IBaseModel } from '../core/base.model';
 
-export interface IFloor extends IBaseModel {
-    nrApartments?: number;
-    nrElevators?: number;
-    apartments?: any[];
+export interface IParkingSpot extends IBaseModel {
     building?: IBuilding;
     buildingId?: number;
+    parkingSpots?: any[];
 }
-export class Floor implements IFloor {
+export class ParkingSpot implements IParkingSpot {
     constructor(
         public number?: string,
         public description?: string | null,

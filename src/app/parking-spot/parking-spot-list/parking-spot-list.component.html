@@ -1,0 +1,72 @@
+<div class="mat-elevation-z1">
+    <div class="table-container">
+        <button
+            mat-raised-button
+            color="primary"
+            class="newbtn"
+            [routerLink]="['/spots/new']"
+        >
+            <mat-icon>add</mat-icon>
+            New
+        </button>
+        <table
+            *ngIf="parkingSpots.length > 0"
+            mat-table
+            [dataSource]="parkingSpots"
+            class="mat-elevation-z8"
+        >
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let spot">{{ spot.id }}</td>
+            </ng-container>
+
+            <!-- Number Column -->
+            <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef>Number</th>
+                <td mat-cell *matCellDef="let spot">
+                    {{ spot.number }}
+                </td>
+            </ng-container>
+
+            <!-- Parking Spots Column -->
+            <ng-container matColumnDef="parkingSpotsNo">
+                <th mat-header-cell *matHeaderCellDef>Parking spots No</th>
+                <td mat-cell *matCellDef="let spot">
+                    {{ spot.nrParkingSpots }}
+                </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let spot">
+                    <button
+                        mat-icon-button
+                        [routerLink]="['/parking-spots', spot.id, 'view']"
+                    >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button
+                        mat-icon-button
+                        [routerLink]="['/parking-spots', spot.id, 'edit']"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteSpot(spot)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- Define the columns -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
+    <div *ngIf="parkingSpots.length === 0" class="mat-elevation-z8">
+        <mat-card>
+            <mat-card-header> No data available</mat-card-header>
+        </mat-card>
+    </div>
+</div>

@@ -1,14 +1,8 @@
-import * as dayjs from 'dayjs';
-import { IBuilding } from '../building/building.model';
 import { ApartmentTypes } from '../enums/apartment-types.model';
 import { IFloor } from '../floor/floor.model';
+import { IBaseModel } from '../core/base.model';
 
-export interface IApartment {
-    id?: number;
-    number?: string;
-    description?: string | null;
-    createdAt?: dayjs.Dayjs;
-    updatedAt?: dayjs.Dayjs;
+export interface IApartment extends IBaseModel {
     area?: number | null;
     apartmentType?: ApartmentTypes | null;
     balconyNr?: number;

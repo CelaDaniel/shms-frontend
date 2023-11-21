@@ -1,0 +1,22 @@
+<div *ngIf="spot">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>Parking Spot Details</h2>
+    <dl>
+        <dt>ID: {{ spot.id }}</dt>
+
+        <dt>Number: {{ spot.number }}</dt>
+
+        <dt>Description: {{ spot.description }}</dt>
+
+        <dt>Created At: {{ spot.createdAt }}</dt>
+
+        <dt>Updated At: {{ spot.updatedAt }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!spot">
+    <p>Loading...</p>
+</div>
