@@ -35,6 +35,17 @@ export class ContractDetailsComponent {
         });
     }
 
+    viewFile(id: number): void {
+        this.contractService.getFile(id).subscribe({
+            next: (res) => {
+                console.log(res.body);
+            },
+            error: (res) => {
+                console.log(res.body);
+            },
+        });
+    }
+
     goBack(): void {
         window.history.back();
     }

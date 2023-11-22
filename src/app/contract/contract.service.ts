@@ -38,7 +38,7 @@ export class ContractService {
         );
     }
 
-    update(id: number, contract: IContract): Observable<ContractResponseType> {
+    update(id: number, contract: FormData): Observable<ContractResponseType> {
         return this.http.put<IResponse<IContract>>(
             `${this.resourceUrl}/${id}`,
             contract,
@@ -46,7 +46,7 @@ export class ContractService {
         );
     }
 
-    create(contract: IContract): Observable<ContractResponseType> {
+    create(contract: FormData): Observable<ContractResponseType> {
         return this.http.post<IResponse<IContract>>(
             this.resourceUrl,
             contract,

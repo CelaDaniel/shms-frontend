@@ -117,7 +117,7 @@ export class ContractFormComponent {
     }
 
     onFileChange(event: any): void {
-        const file = (event.target as HTMLInputElement).files?.[0];
+        const file: File = (event.target as HTMLInputElement).files?.[0]!;
         console.log('Selected file:', file);
 
         if (file) {
@@ -135,44 +135,53 @@ export class ContractFormComponent {
         const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD');
         const formattedSignDate = dayjs(signDate).format('YYYY-MM-DD');
 
-        const contract: IContract = new Contract(
-            this.contractForm.get('number')!.value!,
-            formattedStartDate,
-            formattedEndDate,
-            this.contractForm.get('fee')!.value!,
-            formattedSignDate,
-            this.contractForm.get('apartmentId')!.value!,
-            this.contractForm.get('parkingSpotId')!.value!,
-            this.contractForm.get('studentId')!.value!,
-            this.contractForm.get('description')!.value!,
-            this.contractForm.get('file')!.value!
-        );
+        // const contract: IContract = new Contract(
+        //     this.contractForm.get('number')!.value!,
+        //     formattedStartDate,
+        //     formattedEndDate,
+        //     this.contractForm.get('fee')!.value!,
+        //     formattedSignDate,
+        //     this.contractForm.get('apartmentId')!.value!,
+        //     this.contractForm.get('parkingSpotId')!.value!,
+        //     this.contractForm.get('studentId')!.value!,
+        //     this.contractForm.get('description')!.value!,
+        //     this.contractForm.get('file')!.value!
+        // );
 
-        const updatedContract: IContract = new Contract(
-            this.contractForm.get('number')!.value!,
-            formattedStartDate,
-            formattedEndDate,
-            this.contractForm.get('fee')!.value!,
-            formattedSignDate,
-            this.contractForm.get('apartmentId')!.value!,
-            this.contractForm.get('parkingSpotId')!.value!,
-            this.contractForm.get('studentId')!.value!,
-            this.contractForm.get('description')!.value!,
-            this.contractForm.get('file')!.value!
+        const contract = new FormData();
+        contract.append('number', this.contractForm.get('number')!.value!);
+        contract.append('initialValidDate', formattedStartDate);
+        contract.append('endValidDate', formattedEndDate);
+        contract.append('fee', this.contractForm.get('fee')!.value!);
+        contract.append('signDate', formattedSignDate);
+        contract.append(
+            'apartmentId',
+            this.contractForm.get('apartmentId')!.value!
         );
+        contract.append(
+            'parkingSpotId',
+            this.contractForm.get('parkingSpotId')!.value!
+        );
+        contract.append(
+            'studentId',
+            this.contractForm.get('studentId')!.value!
+        );
+        contract.append(
+            'description',
+            this.contractForm.get('description')!.value!
+        );
+        contract.append('file', this.contractForm.get('file')!.value!);
 
         if (this.isEditMode) {
             // Update contract
-            this.contractService
-                .update(this.contractId!, updatedContract)
-                .subscribe({
-                    next: () => {
-                        this.router.navigate(['/contracts']);
-                    },
-                    error: (error) => {
-                        console.error('Error updating contract:', error);
-                    },
-                });
+            this.contractService.update(this.contractId!, contract).subscribe({
+                next: () => {
+                    this.router.navigate(['/contracts']);
+                },
+                error: (error) => {
+                    console.error('Error updating contract:', error);
+                },
+            });
         } else {
             // Create new contract
             this.contractService.create(contract).subscribe({

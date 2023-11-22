@@ -18,15 +18,25 @@
 
         <dt>Fee: {{ contract.fee }}</dt>
 
-        <dt>
-            {{
-                contract.apartment
-                    ? "Apartment No: " + contract.apartment.number
-                    : "Parking Spot No: " + contract.parkingSpot?.number
-            }}
-        </dt>
+        <dt>Apartment No: {{ contract.apartment?.number }}</dt>
 
-        <dt>Student No: {{ contract.student?.number }}</dt>
+        <dt>Parking Spot No: {{ contract.parkingSpot?.number }}</dt>
+
+        <dt>
+            Student No: {{ contract.student?.firstName }}
+            {{ contract.student?.lastName }} ({{ contract.student?.number }})
+        </dt>
+        <br />
+        <dt>
+            Contract File:
+            <button
+                mat-flat-button
+                color="primary"
+                (click)="viewFile(contract.id!)"
+            >
+                View
+            </button>
+        </dt>
     </dl>
 </div>
 

@@ -22,8 +22,8 @@ export class ContractListComponent {
         'signDate',
         'fee',
         'apartment',
+        'parkingSpot',
         'student',
-        'birthDate',
         'actions',
     ];
 
