@@ -61,14 +61,14 @@ export class StudentFormComponent implements OnInit {
 
     onSubmit(): void {
         const date: Date = this.studentForm.get('birthDate')!.value!;
-        date.setTime(date.getTime() + 2 * 60 * 60 * 1000);
+        const formattedDate = dayjs(date).format('YYYY-MM-DD');
         const student: IStudent = new Student(
             this.studentForm.get('number')!.value!,
             this.studentForm.get('firstName')!.value!,
             this.studentForm.get('lastName')!.value!,
             this.studentForm.get('email')!.value!,
             this.studentForm.get('phoneNumber')!.value!,
-            date,
+            formattedDate,
             this.studentForm.get('gender')!.value!,
             this.studentForm.get('description')!.value!
         );
@@ -79,7 +79,7 @@ export class StudentFormComponent implements OnInit {
             this.studentForm.get('lastName')!.value!,
             this.studentForm.get('email')!.value!,
             this.studentForm.get('phoneNumber')!.value!,
-            date,
+            formattedDate,
             this.studentForm.get('gender')!.value!,
             this.studentForm.get('description')!.value!
         );
