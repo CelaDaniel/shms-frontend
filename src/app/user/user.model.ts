@@ -16,10 +16,12 @@ export interface IChangePassword {
 }
 export class User implements IUser {
     constructor(
+        public number?: string,
         public firstName?: string,
         public lastName?: string,
         public description?: string | null,
         public email?: string,
-        public roles?: UserRoles[]
+        public roles?: UserRoles[],
+        public userStatus?: UserStatus
     ) {}
 }

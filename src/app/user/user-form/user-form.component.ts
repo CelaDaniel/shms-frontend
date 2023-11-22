@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserResponseType, UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IUser, User } from '../user.model';
 import { UserRoles } from 'src/app/enums/roles.model';
+import { UserStatus } from 'src/app/enums/user-status.model';
 
 @Component({
     selector: 'app-user-form',
@@ -12,14 +13,9 @@ import { UserRoles } from 'src/app/enums/roles.model';
 })
 export class UserFormComponent implements OnInit {
     userRoles = Object.values(UserRoles);
+    userStatus = Object.values(UserStatus);
 
-    userForm = this.fb.group({
-        firstName: ['', [Validators.required]],
-        lastName: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        description: [''],
-        roles: [[UserRoles.USER]],
-    });
+    userForm: FormGroup;
     isEditMode = false;
     userId?: number;
     constructor(
@@ -27,7 +23,23 @@ export class UserFormComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private fb: FormBuilder
-    ) {}
+    ) {
+        this.userForm = this.fb.group({
+            number: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('^[A-Z]{1}[0-9]{8}[A-Z]{1}$'),
+                ],
+            ],
+            firstName: ['', [Validators.required]],
+            lastName: ['', [Validators.required]],
+            description: [''],
+            email: ['', [Validators.required, Validators.email]],
+            roles: [[UserRoles.USER], [Validators.required]],
+            userStatus: [],
+        });
+    }
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
@@ -56,6 +68,7 @@ export class UserFormComponent implements OnInit {
 
     onSubmit(): void {
         const user: IUser = new User(
+            this.userForm.get('number')!.value!,
             this.userForm.get('firstName')!.value!,
             this.userForm.get('lastName')!.value!,
             this.userForm.get('description')!.value!,
@@ -64,11 +77,13 @@ export class UserFormComponent implements OnInit {
         );
 
         const updatedUser: IUser = new User(
+            this.userForm.get('number')!.value!,
             this.userForm.get('firstName')!.value!,
             this.userForm.get('lastName')!.value!,
             this.userForm.get('description')!.value!,
             this.userForm.get('email')!.value!,
-            this.userForm.get('roles')!.value!
+            this.userForm.get('roles')!.value!,
+            this.userForm.get('userStatus')!.value!
         );
 
         if (this.isEditMode) {

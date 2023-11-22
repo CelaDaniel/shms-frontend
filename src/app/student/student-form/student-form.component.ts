@@ -23,7 +23,13 @@ export class StudentFormComponent implements OnInit {
         private fb: FormBuilder
     ) {
         this.studentForm = this.fb.group({
-            number: ['', [Validators.required]],
+            number: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('^[A-Z]{1}[0-9]{8}[A-Z]{1}$'),
+                ],
+            ],
             firstName: ['', [Validators.required]],
             lastName: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
