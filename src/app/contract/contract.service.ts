@@ -31,11 +31,10 @@ export class ContractService {
         );
     }
 
-    getFile(id: number): Observable<ContractResponseType> {
-        return this.http.get<IResponse<IContract>>(
-            `${this.resourceUrl}/${id}/file`,
-            { observe: 'response' }
-        );
+    getFile(id: number): Observable<Blob> {
+        return this.http.get(`${this.resourceUrl}/${id}/file`, {
+            responseType: 'blob',
+        });
     }
 
     update(id: number, contract: FormData): Observable<ContractResponseType> {

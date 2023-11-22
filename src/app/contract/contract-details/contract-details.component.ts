@@ -38,7 +38,23 @@ export class ContractDetailsComponent {
     viewFile(id: number): void {
         this.contractService.getFile(id).subscribe({
             next: (res) => {
+                const url = window.URL.createObjectURL(res);
+                window.open(url);
+            },
+            error: (res) => {
                 console.log(res.body);
+            },
+        });
+    }
+
+    downloadFile(id: number): void {
+        this.contractService.getFile(id).subscribe({
+            next: (res) => {
+                const url = window.URL.createObjectURL(res);
+                const a = document.createElement('a');
+                a.download = `Contract_${this.contract?.number}`;
+                a.href = url;
+                a.click();
             },
             error: (res) => {
                 console.log(res.body);
