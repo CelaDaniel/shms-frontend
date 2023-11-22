@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApartmentResponseType, ApartmentService } from '../apartment.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Apartment, IApartment } from '../apartment.model';
 import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 
@@ -13,18 +13,7 @@ import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 export class ApartmentFormComponent implements OnInit {
     apartmentTypes = Object.values(ApartmentTypes);
 
-    apartmentForm = this.fb.group({
-        number: ['', [Validators.required]],
-        description: [''],
-        area: [0],
-        apartmentType: [this.apartmentTypes[0], [Validators.required]],
-        balconyNr: [0],
-        windowNr: [0],
-        toiletsNr: [0],
-        capacity: [0],
-        hasKitchen: [false],
-        floorId: [0],
-    });
+    apartmentForm: FormGroup;
 
     isEditMode = false;
     apartmentId?: number;
@@ -33,7 +22,20 @@ export class ApartmentFormComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private fb: FormBuilder
-    ) {}
+    ) {
+        this.apartmentForm = this.fb.group({
+            number: ['', [Validators.required]],
+            description: [''],
+            area: [null, [Validators.required]],
+            apartmentType: [this.apartmentTypes[0], [Validators.required]],
+            balconyNr: [0],
+            windowNr: [0],
+            toiletsNr: [0],
+            capacity: [null, [Validators.required, Validators.min(1)]],
+            hasKitchen: [false],
+            floorId: [0],
+        });
+    }
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {

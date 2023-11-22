@@ -6,6 +6,7 @@ import {
 } from '../building.service';
 import { IBuilding } from '../building.model';
 import { IData } from 'src/app/core/response/response.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
 
 @Component({
     selector: 'app-building-list',
@@ -23,6 +24,48 @@ export class BuildingListComponent implements OnInit {
         'elevatorNo',
         'actions',
     ];
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'floorNumber',
+            label: 'Floor Number',
+            type: 'text',
+        },
+        {
+            name: 'elevatorNumber',
+            label: 'Elevator Number',
+            type: 'text',
+        },
+        {
+            name: 'parkingFloorNumber',
+            label: 'ParkingFloor Number',
+            type: 'text',
+        },
+        {
+            name: 'apartmentNumber',
+            label: 'Apartment Number',
+            type: 'text',
+        },
+        {
+            name: 'parkingSpotNumber',
+            label: 'ParkingSpot Number',
+            type: 'text',
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
 
     constructor(protected buildingService: BuildingService) {}
 
@@ -30,8 +73,12 @@ export class BuildingListComponent implements OnInit {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.buildingService.getAll().subscribe({
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.buildingService.getAll(filter).subscribe({
             next: (res: BuildingArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;

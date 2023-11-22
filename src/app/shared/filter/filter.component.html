@@ -1,0 +1,67 @@
+<form role="form" class="main-wrapper" (submit)="applyFilter()">
+    <div class="filter-container">
+        <div class="form-group" *ngFor="let field of fields">
+            <mat-form-field *ngIf="field.type !== 'boolean'">
+                <mat-label>{{ field.label }}</mat-label>
+                <input
+                    *ngIf="field.type === 'text'"
+                    type="text"
+                    [name]="field.name"
+                    matInput
+                    [(ngModel)]="filter[field.name]"
+                />
+                <input
+                    *ngIf="field.type === 'number'"
+                    type="number"
+                    [name]="field.name"
+                    matInput
+                    [(ngModel)]="filter[field.name]"
+                />
+                <mat-select
+                    *ngIf="field.type === 'select'"
+                    [name]="field.name"
+                    [(ngModel)]="filter[field.name]"
+                >
+                    <mat-option>None</mat-option>
+                    <mat-option
+                        *ngFor="let data of field.selectData!"
+                        [value]="data"
+                        >{{ data }}</mat-option
+                    >
+                </mat-select>
+                <div *ngIf="field.type === 'date'">
+                    <input
+                        matInput
+                        [name]="field.name"
+                        [matDatepicker]="picker"
+                        [(ngModel)]="filter[field.name]"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+            </mat-form-field>
+            <mat-checkbox
+                *ngIf="field.type === 'boolean'"
+                [name]="field.name"
+                [(ngModel)]="filter[field.name]"
+                >{{ field.label }}</mat-checkbox
+            >
+        </div>
+    </div>
+    <div class="button-container">
+        <button
+            mat-raised-button
+            type="button"
+            color="secondary"
+            (click)="clear()"
+        >
+            Clear
+        </button>
+
+        <button mat-raised-button type="submit" color="primary">Search</button>
+    </div>
+</form>
