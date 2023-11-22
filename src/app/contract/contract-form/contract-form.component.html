@@ -1,0 +1,179 @@
+<div class="form-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Contract
+                <span *ngIf="isEditMode">{{ contractId }}</span></mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <form
+                role="form"
+                [formGroup]="contractForm"
+                (ngSubmit)="onSubmit()"
+            >
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Number</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="number"
+                            id="number"
+                            formControlName="number"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Description</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            name="description"
+                            id="description"
+                            formControlName="description"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Start Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="startDatePicker"
+                            formControlName="initialValidDate"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="startDatePicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>End Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="endDatePicker"
+                            formControlName="endValidDate"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="endDatePicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #endDatePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Sign Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="signDatePicker"
+                            formControlName="signDate"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="signDatePicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #signDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Fee</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="fee"
+                            id="fee"
+                            formControlName="fee"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Apartment</mat-label>
+                        <mat-select
+                            formControlName="apartmentId"
+                            name="apartmentId"
+                            id="apartmentId"
+                        >
+                            <mat-option>None</mat-option>
+
+                            <mat-option
+                                *ngFor="let apartment of apartments"
+                                [value]="apartment.id"
+                                >{{ apartment.number }}</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Parking Spot</mat-label>
+                        <mat-select
+                            formControlName="parkingSpotId"
+                            name="parkingSpotId"
+                            id="parkingSpotId"
+                        >
+                            <mat-option>None</mat-option>
+
+                            <mat-option
+                                *ngFor="let parkingSpot of parkingSpots"
+                                [value]="parkingSpot.id"
+                                >{{ parkingSpot.number }}</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                    <mat-form-field class="full-width">
+                        <mat-label>Student</mat-label>
+                        <mat-select
+                            formControlName="studentId"
+                            name="studentId"
+                            id="studentId"
+                        >
+                            <mat-option>None</mat-option>
+
+                            <mat-option
+                                *ngFor="let student of students"
+                                [value]="student.id"
+                                >{{ student.firstName }}
+                                {{ student.lastName }} ({{
+                                    student.number
+                                }})</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div class="full-width">
+                        <mat-label>File</mat-label>
+                        <input
+                            (change)="onFileChange($event)"
+                            type="file"
+                            name="file"
+                            id="file"
+                        />
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button
+                        mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="contractForm.invalid"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,35 @@
+<div *ngIf="contract">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+
+    <h2>Contract Details</h2>
+    <dl>
+        <dt>ID: {{ contract.id }}</dt>
+
+        <dt>Number: {{ contract.number }}</dt>
+
+        <dt>Start Date: {{ contract.initialValidDate | formatDate }}</dt>
+
+        <dt>End Date: {{ contract.endValidDate | formatDate }}</dt>
+
+        <dt>Sign Date: {{ contract.signDate | formatDate }}</dt>
+
+        <dt>Fee: {{ contract.fee }}</dt>
+
+        <dt>
+            {{
+                contract.apartment
+                    ? "Apartment No: " + contract.apartment.number
+                    : "Parking Spot No: " + contract.parkingSpot?.number
+            }}
+        </dt>
+
+        <dt>Student No: {{ contract.student?.number }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!contract">
+    <p>Loading...</p>
+</div>
