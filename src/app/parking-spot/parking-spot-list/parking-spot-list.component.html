@@ -75,6 +75,16 @@
                     *matRowDef="let row; columns: displayedColumns"
                 ></tr>
             </table>
+            <mat-paginator
+                [length]="totalElements"
+                [pageSize]="pageSize"
+                [pageIndex]="page"
+                showFirstLastButtons
+                [pageSizeOptions]="pageSizeOptions"
+                aria-label="Select page"
+                (page)="handlePagination($event)"
+            >
+            </mat-paginator>
         </div>
     </div>
 

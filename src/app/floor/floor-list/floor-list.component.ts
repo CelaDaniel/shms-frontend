@@ -5,9 +5,10 @@ import {
     FloorService,
 } from '../floor.service';
 import { IFloor } from '../floor.model';
-import { IData } from 'src/app/core/response/response.model';
+import { IData, IPagination } from 'src/app/core/response/response.model';
 import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
+import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 
 @Component({
     selector: 'app-floor-list',
@@ -51,6 +52,14 @@ export class FloorListComponent implements OnInit {
             type: 'boolean',
         },
     ];
+
+    filter?: { [key: string]: string };
+
+    totalElements = 0;
+    pageSize = PAGE_SIZE;
+    page = 0;
+    pageSizeOptions = PAGE_SIZE_OPTIONS;
+
     constructor(protected floorService: FloorService) {}
 
     ngOnInit(): void {
@@ -58,21 +67,41 @@ export class FloorListComponent implements OnInit {
     }
 
     search(filter: { [key: string]: string }): void {
+        this.filter = filter;
         this.loadAll(filter);
     }
 
     loadAll(filter?: { [key: string]: string }): void {
-        this.floorService.getAll(filter).subscribe({
-            next: (res: FloorArrayResponseType) => {
-                const code = res.body?.code;
-                const message = res.body?.message;
-                const data: IData<IFloor> = res.body?.data!;
-                this.floors = data.content ?? [];
-            },
-            error: (res: any) => {
-                console.log(res.body);
-            },
-        });
+        this.floorService
+            .getAll({
+                ...filter,
+                page: this.page,
+                size: this.pageSize,
+            })
+            .subscribe({
+                next: (res: FloorArrayResponseType) => {
+                    const code = res.body?.code;
+                    const message = res.body?.message;
+                    const data: IData<IFloor> = res.body?.data!;
+                    this.floors = data.content ?? [];
+                    const pageable: IPagination = data.pageable;
+                    this.page = pageable.pageNumber;
+                    this.pageSize = pageable.pageSize;
+                    this.totalElements = pageable.totalElements;
+                },
+                error: (res: any) => {
+                    console.log(res.body);
+                },
+            });
+    }
+
+    handlePagination(paginationData: {
+        pageIndex: number;
+        pageSize: number;
+    }): void {
+        this.page = paginationData.pageIndex;
+        this.pageSize = paginationData.pageSize;
+        this.loadAll(this.filter);
     }
 
     deleteFloor(floor: IFloor): void {

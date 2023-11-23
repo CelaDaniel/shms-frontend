@@ -125,6 +125,16 @@
                     *matRowDef="let row; columns: apartmentsColumns"
                 ></tr>
             </table>
+            <mat-paginator
+                [length]="totalElements"
+                [pageSize]="pageSize"
+                [pageIndex]="page"
+                showFirstLastButtons
+                [pageSizeOptions]="pageSizeOptions"
+                aria-label="Select page"
+                (page)="handlePagination($event)"
+            >
+            </mat-paginator>
         </div>
     </div>
 

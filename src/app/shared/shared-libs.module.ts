@@ -16,6 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
@@ -38,6 +39,7 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
         MatTooltipModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatPaginatorModule,
     ],
 })
 export class SharedLibsModule {}
