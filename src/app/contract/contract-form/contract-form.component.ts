@@ -29,6 +29,8 @@ import { IData } from 'src/app/core/response/response.model';
 export class ContractFormComponent {
     contractForm: FormGroup;
     isEditMode = false;
+    hasFile = false;
+    fileUrl?: string;
     contractId?: number;
 
     apartments: IApartment[] = [];
@@ -64,6 +66,9 @@ export class ContractFormComponent {
             if (params['id']) {
                 this.isEditMode = true;
                 this.contractId = +params['id'];
+                this.contractForm.get('file')!.clearValidators();
+                this.contractForm.get('file')!.updateValueAndValidity();
+                this.loadFile(this.contractId);
                 this.loadById(this.contractId);
             }
         });
@@ -76,12 +81,35 @@ export class ContractFormComponent {
                 const message = res.body?.message;
                 const data: IContract = res.body?.data!;
 
-                this.contractForm.patchValue(data);
+                this.contractForm.patchValue({
+                    ...data,
+                    apartmentId: data.apartment?.id,
+                    studentId: data.student?.id,
+                    parkingSpotId: data.parkingSpot?.id,
+                });
             },
             error: (res: any) => {
                 console.log(res.body);
             },
         });
+    }
+
+    loadFile(id: number): void {
+        this.contractService.getFile(this.contractId!).subscribe({
+            next: (res) => {
+                if (res) {
+                    this.hasFile = true;
+                    this.fileUrl = window.URL.createObjectURL(res);
+                }
+            },
+            error: (res) => {
+                console.log(res.body);
+            },
+        });
+    }
+
+    viewFile(): void {
+        window.open(this.fileUrl);
     }
 
     loadData(): void {
@@ -118,7 +146,6 @@ export class ContractFormComponent {
 
     onFileChange(event: any): void {
         const file: File = (event.target as HTMLInputElement).files?.[0]!;
-        console.log('Selected file:', file);
 
         if (file) {
             this.contractForm.controls['file'].setValue(file);
@@ -170,7 +197,9 @@ export class ContractFormComponent {
             'description',
             this.contractForm.get('description')!.value!
         );
-        contract.append('file', this.contractForm.get('file')!.value!);
+        if (this.contractForm.get('file')!.value! !== null) {
+            contract.append('file', this.contractForm.get('file')!.value!);
+        }
 
         if (this.isEditMode) {
             // Update contract
