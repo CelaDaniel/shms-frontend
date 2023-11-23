@@ -6,6 +6,7 @@ import {
 } from '../elevator.service';
 import { IElevator } from '../elevator.model';
 import { IData } from 'src/app/core/response/response.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
 
 @Component({
     selector: 'app-elevator-list',
@@ -17,9 +18,33 @@ export class ElevatorListComponent implements OnInit {
     displayedColumns: string[] = [
         'id',
         'number',
+        'buildingNumber',
         'capacity',
         'maxWeight',
         'actions',
+    ];
+
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'buildingNumber',
+            label: 'Building Number',
+            type: 'text',
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
     ];
 
     constructor(protected elevatorService: ElevatorService) {}
@@ -28,7 +53,11 @@ export class ElevatorListComponent implements OnInit {
         this.loadAll();
     }
 
-    loadAll(): void {
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
         this.elevatorService.getAll().subscribe({
             next: (res: ElevatorArrayResponseType) => {
                 const code = res.body?.code;
