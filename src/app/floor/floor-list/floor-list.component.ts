@@ -6,6 +6,8 @@ import {
 } from '../floor.service';
 import { IFloor } from '../floor.model';
 import { IData } from 'src/app/core/response/response.model';
+import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
 
 @Component({
     selector: 'app-floor-list',
@@ -14,16 +16,53 @@ import { IData } from 'src/app/core/response/response.model';
 })
 export class FloorListComponent implements OnInit {
     floors: IFloor[] = [];
-    displayedColumns: string[] = ['id', 'number', 'apartmentNo', 'actions'];
+    displayedColumns: string[] = [
+        'id',
+        'number',
+        'buildingNumber',
+        'apartmentNo',
+        'actions',
+    ];
 
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'apartmentNumber',
+            label: 'Apartment Number',
+            type: 'text',
+        },
+        {
+            name: 'buildingNumber',
+            label: 'Building Number',
+            type: 'text',
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
     constructor(protected floorService: FloorService) {}
 
     ngOnInit(): void {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.floorService.getAll().subscribe({
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.floorService.getAll(filter).subscribe({
             next: (res: FloorArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
