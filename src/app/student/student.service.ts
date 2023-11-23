@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IStudent } from './student.model';
 import { IArrayResponse, IResponse } from '../core/response/response.model';
+import { createRequestOption } from '../core/request/request-util';
 
 export type StudentResponseType = HttpResponse<IResponse<IStudent>>;
 export type StudentArrayResponseType = HttpResponse<IArrayResponse<IStudent>>;
@@ -16,8 +17,10 @@ export class StudentService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(): Observable<StudentArrayResponseType> {
+    getAll(req?: any): Observable<StudentArrayResponseType> {
+        const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IStudent>>(this.resourceUrl, {
+            params: options,
             observe: 'response',
         });
     }

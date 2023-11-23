@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IChangePassword, IUser } from './user.model';
 import { IArrayResponse, IResponse } from '../core/response/response.model';
+import { createRequestOption } from '../core/request/request-util';
 
 export type UserResponseType = HttpResponse<IResponse<IUser>>;
 export type UserArrayResponseType = HttpResponse<IArrayResponse<IUser>>;
@@ -16,8 +17,10 @@ export class UserService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(): Observable<UserArrayResponseType> {
+    getAll(req?: any): Observable<UserArrayResponseType> {
+        const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IUser>>(this.resourceUrl, {
+            params: options,
             observe: 'response',
         });
     }

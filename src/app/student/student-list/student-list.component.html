@@ -1,101 +1,118 @@
 <div class="mat-elevation-z1">
-    <div class="table-container">
-        <button
-            mat-raised-button
-            color="primary"
-            class="newbtn"
-            [routerLink]="['/students/new']"
-        >
-            <mat-icon>add</mat-icon>
-            New
-        </button>
-        <table
-            *ngIf="students.length > 0"
-            mat-table
-            [dataSource]="students"
-            class="mat-elevation-z8"
-        >
-            <!-- ID Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let student">{{ student.id }}</td>
-            </ng-container>
+    <div class="main-wrapper">
+        <app-filter
+            [fields]="filterFields"
+            (filterApplied)="search($event)"
+        ></app-filter>
+        <div class="table-container">
+            <div class="header">
+                <h2>Students</h2>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    class="newbtn"
+                    [routerLink]="['/students/new']"
+                >
+                    <mat-icon>add</mat-icon>
+                    New
+                </button>
+            </div>
 
-            <!-- Number Column -->
-            <ng-container matColumnDef="number">
-                <th mat-header-cell *matHeaderCellDef>Number</th>
-                <td mat-cell *matCellDef="let student">
-                    {{ student.number }}
-                </td>
-            </ng-container>
+            <table
+                *ngIf="students.length > 0"
+                mat-table
+                [dataSource]="students"
+                class="mat-elevation-z8"
+            >
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let student">{{ student.id }}</td>
+                </ng-container>
 
-            <!-- firstName Column -->
-            <ng-container matColumnDef="firstName">
-                <th mat-header-cell *matHeaderCellDef>Firstname</th>
-                <td mat-cell *matCellDef="let student">
-                    {{ student.firstName }}
-                </td>
-            </ng-container>
+                <!-- Number Column -->
+                <ng-container matColumnDef="number">
+                    <th mat-header-cell *matHeaderCellDef>Number</th>
+                    <td mat-cell *matCellDef="let student">
+                        {{ student.number }}
+                    </td>
+                </ng-container>
 
-            <!-- lastname Column -->
-            <ng-container matColumnDef="lastName">
-                <th mat-header-cell *matHeaderCellDef>Lastname</th>
-                <td mat-cell *matCellDef="let student">
-                    {{ student.lastName }}
-                </td>
-            </ng-container>
+                <!-- firstName Column -->
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef>Firstname</th>
+                    <td mat-cell *matCellDef="let student">
+                        {{ student.firstName }}
+                    </td>
+                </ng-container>
 
-            <!-- email Column -->
-            <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef>Email</th>
-                <td mat-cell *matCellDef="let student">
-                    {{ student.email }}
-                </td>
-            </ng-container>
+                <!-- lastname Column -->
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef>Lastname</th>
+                    <td mat-cell *matCellDef="let student">
+                        {{ student.lastName }}
+                    </td>
+                </ng-container>
 
-            <!-- phoneNumber Column -->
-            <ng-container matColumnDef="phoneNumber">
-                <th mat-header-cell *matHeaderCellDef>Phone Number</th>
-                <td mat-cell *matCellDef="let student">
-                    {{ student.phoneNumber }}
-                </td>
-            </ng-container>
+                <!-- email Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let student">
+                        {{ student.email }}
+                    </td>
+                </ng-container>
 
-            <!-- birthDate Column -->
-            <ng-container matColumnDef="birthDate">
-                <th mat-header-cell *matHeaderCellDef>Birth Date</th>
-                <td mat-cell *matCellDef="let student">
-                    {{ student.birthDate | formatDate }}
-                </td>
-            </ng-container>
+                <!-- phoneNumber Column -->
+                <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+                    <td mat-cell *matCellDef="let student">
+                        {{ student.phoneNumber }}
+                    </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let student">
-                    <button
-                        mat-icon-button
-                        [routerLink]="['/students', student.id, 'view']"
-                    >
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                    <button
-                        mat-icon-button
-                        [routerLink]="['/students', student.id, 'edit']"
-                    >
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteStudent(student)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                <!-- birthDate Column -->
+                <ng-container matColumnDef="birthDate">
+                    <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+                    <td mat-cell *matCellDef="let student">
+                        {{ student.birthDate | formatDate }}
+                    </td>
+                </ng-container>
 
-            <!-- Define the columns -->
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let student">
+                        <button
+                            mat-icon-button
+                            [routerLink]="['/students', student.id, 'view']"
+                        >
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <button
+                            mat-icon-button
+                            [routerLink]="['/students', student.id, 'edit']"
+                        >
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button
+                            mat-icon-button
+                            (click)="deleteStudent(student)"
+                        >
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Define the columns -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+            </table>
+        </div>
     </div>
+
     <div *ngIf="students.length === 0" class="mat-elevation-z8">
         <mat-card>
             <mat-card-header> No data available</mat-card-header>

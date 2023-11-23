@@ -6,6 +6,8 @@ import {
 } from '../student.service';
 import { IStudent } from '../student.model';
 import { IData } from 'src/app/core/response/response.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
+import { Gender } from 'src/app/enums/gender-types.model';
 
 @Component({
     selector: 'app-student-list',
@@ -25,14 +27,47 @@ export class StudentListComponent implements OnInit {
         'actions',
     ];
 
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'email',
+            label: 'Email',
+            type: 'text',
+        },
+        {
+            name: 'gender',
+            label: 'Gender',
+            type: 'select',
+            selectData: Object.values(Gender),
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
+
     constructor(protected studentService: StudentService) {}
 
     ngOnInit(): void {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.studentService.getAll().subscribe({
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.studentService.getAll(filter).subscribe({
             next: (res: StudentArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;

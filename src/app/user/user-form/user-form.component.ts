@@ -14,6 +14,7 @@ import { UserStatus } from 'src/app/enums/user-status.model';
 export class UserFormComponent implements OnInit {
     userRoles = Object.values(UserRoles);
     userStatus = Object.values(UserStatus);
+    currentUser?: IUser;
 
     userForm: FormGroup;
     isEditMode = false;
@@ -49,6 +50,7 @@ export class UserFormComponent implements OnInit {
                 this.loadById(this.userId);
             }
         });
+        this.loadLoggedInUser();
     }
 
     loadById(id: number): void {
@@ -59,6 +61,20 @@ export class UserFormComponent implements OnInit {
                 const data: IUser = res.body?.data!;
 
                 this.userForm.patchValue(data);
+            },
+            error: (res: any) => {
+                console.log(res.body);
+            },
+        });
+    }
+
+    loadLoggedInUser(): void {
+        this.userService.getLoggedInUser().subscribe({
+            next: (res: UserResponseType) => {
+                const code = res.body?.code;
+                const message = res.body?.message;
+                const data: IUser = res.body?.data!;
+                this.currentUser = data;
             },
             error: (res: any) => {
                 console.log(res.body);

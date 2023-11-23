@@ -7,6 +7,8 @@ import {
 import { IUser } from '../user.model';
 import { IData } from 'src/app/core/response/response.model';
 import { UserStatus } from 'src/app/enums/user-status.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
+import { UserRoles } from 'src/app/enums/roles.model';
 
 @Component({
     selector: 'app-user-list',
@@ -27,6 +29,41 @@ export class UserListComponent implements OnInit {
         'actions',
     ];
 
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'email',
+            label: 'Email',
+            type: 'text',
+        },
+        {
+            name: 'userStatus',
+            label: 'Status',
+            type: 'select',
+            selectData: Object.values(UserStatus),
+        },
+        {
+            name: 'userRole',
+            label: 'Role',
+            type: 'select',
+            selectData: Object.values(UserRoles),
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
+
     constructor(protected userService: UserService) {}
 
     ngOnInit(): void {
@@ -34,8 +71,12 @@ export class UserListComponent implements OnInit {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.userService.getAll().subscribe({
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.userService.getAll(filter).subscribe({
             next: (res: UserArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
