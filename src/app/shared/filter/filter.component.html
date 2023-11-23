@@ -1,7 +1,9 @@
 <form role="form" class="main-wrapper" (submit)="applyFilter()">
     <div class="filter-container">
         <div class="form-group" *ngFor="let field of fields">
-            <mat-form-field *ngIf="field.type !== 'boolean'">
+            <mat-form-field
+                *ngIf="field.type !== 'boolean' && field.type !== 'date'"
+            >
                 <mat-label>{{ field.label }}</mat-label>
                 <input
                     *ngIf="field.type === 'text'"
@@ -29,20 +31,21 @@
                         >{{ data }}</mat-option
                     >
                 </mat-select>
-                <div *ngIf="field.type === 'date'">
-                    <input
-                        matInput
-                        [name]="field.name"
-                        [matDatepicker]="picker"
-                        [(ngModel)]="filter[field.name]"
-                    />
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle
-                        matIconSuffix
-                        [for]="picker"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </div>
+            </mat-form-field>
+            <mat-form-field *ngIf="field.type === 'date'">
+                <mat-label>{{ field.label }}</mat-label>
+                <input
+                    matInput
+                    [name]="field.name"
+                    [matDatepicker]="picker"
+                    [(ngModel)]="filter[field.name]"
+                />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-checkbox
                 *ngIf="field.type === 'boolean'"

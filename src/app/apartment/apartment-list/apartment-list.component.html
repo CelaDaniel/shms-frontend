@@ -56,19 +56,27 @@
                     </td>
                 </ng-container>
 
-                <!-- Balconies No Column -->
-                <ng-container matColumnDef="balconiesNo">
-                    <th mat-header-cell *matHeaderCellDef>Balconies No</th>
+                <!-- Capacity Column -->
+                <ng-container matColumnDef="capacity">
+                    <th mat-header-cell *matHeaderCellDef>Capacity</th>
                     <td mat-cell *matCellDef="let apartment">
-                        {{ apartment.balconyNr }}
+                        {{ apartment.capacity }}
                     </td>
                 </ng-container>
 
-                <!-- Toilets No Column -->
-                <ng-container matColumnDef="toiletsNo">
-                    <th mat-header-cell *matHeaderCellDef>Toilets No</th>
+                <!-- Floor No Column -->
+                <ng-container matColumnDef="floorNumber">
+                    <th mat-header-cell *matHeaderCellDef>Floor No</th>
                     <td mat-cell *matCellDef="let apartment">
-                        {{ apartment.toiletsNr }}
+                        {{ apartment.floorNumber }}
+                    </td>
+                </ng-container>
+
+                <!-- Contracts No Column -->
+                <ng-container matColumnDef="nrContracts">
+                    <th mat-header-cell *matHeaderCellDef>Contracts No</th>
+                    <td mat-cell *matCellDef="let apartment">
+                        {{ apartment.nrContracts }}
                     </td>
                 </ng-container>
 

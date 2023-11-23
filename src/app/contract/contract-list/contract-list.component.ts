@@ -6,6 +6,7 @@ import {
     ContractService,
 } from '../contract.service';
 import { IData } from 'src/app/core/response/response.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
 
 @Component({
     selector: 'app-contract-list',
@@ -27,14 +28,66 @@ export class ContractListComponent {
         'actions',
     ];
 
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'apartmentNumber',
+            label: 'Apartment Number',
+            type: 'text',
+        },
+        {
+            name: 'parkingSpotNumber',
+            label: 'ParkingSpot Number',
+            type: 'text',
+        },
+        {
+            name: 'studentEmail',
+            label: 'Student Email',
+            type: 'text',
+        },
+        {
+            name: 'initialValidDate',
+            label: 'Start Date',
+            type: 'date',
+        },
+        {
+            name: 'endValidDate',
+            label: 'End Date',
+            type: 'date',
+        },
+        {
+            name: 'signDate',
+            label: 'Sign Date',
+            type: 'date',
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
+
     constructor(protected contractService: ContractService) {}
 
     ngOnInit(): void {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.contractService.getAll().subscribe({
+    search(filter?: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.contractService.getAll(filter).subscribe({
             next: (res: ContractArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IContract } from './contract.model';
 import { IArrayResponse, IResponse } from '../core/response/response.model';
+import { createRequestOption } from '../core/request/request-util';
 
 export type ContractResponseType = HttpResponse<IResponse<IContract>>;
 export type ContractArrayResponseType = HttpResponse<IArrayResponse<IContract>>;
@@ -16,8 +17,10 @@ export class ContractService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(): Observable<ContractArrayResponseType> {
+    getAll(req?: any): Observable<ContractArrayResponseType> {
+        const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IContract>>(this.resourceUrl, {
+            params: options,
             observe: 'response',
         });
     }
