@@ -223,4 +223,8 @@ export class ContractFormComponent {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

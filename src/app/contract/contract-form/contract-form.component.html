@@ -162,10 +162,9 @@
                             id="file"
                         />
                     </div>
-                    <div class="full-width">
+                    <div class="full-width" *ngIf="isEditMode && hasFile">
                         <mat-label>Contract File</mat-label> &nbsp;
                         <button
-                            *ngIf="isEditMode && hasFile"
                             mat-flat-button
                             color="primary"
                             type="button"
@@ -177,6 +176,15 @@
                 </div>
 
                 <div class="button-container">
+                    <button
+                        mat-raised-button
+                        type="button"
+                        color="secondary"
+                        (click)="goBack()"
+                    >
+                        <mat-icon>arrow_back</mat-icon>
+                        Back
+                    </button>
                     <button
                         mat-raised-button
                         type="submit"

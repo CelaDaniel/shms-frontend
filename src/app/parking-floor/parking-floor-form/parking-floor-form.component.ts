@@ -92,4 +92,8 @@ export class ParkingFloorFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

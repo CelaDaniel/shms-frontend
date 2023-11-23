@@ -92,4 +92,8 @@ export class ParkingSpotFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

@@ -114,4 +114,8 @@ export class StudentFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

@@ -98,6 +98,15 @@
                 <div class="button-container">
                     <button
                         mat-raised-button
+                        type="button"
+                        color="secondary"
+                        (click)="goBack()"
+                    >
+                        <mat-icon>arrow_back</mat-icon>
+                        Back
+                    </button>
+                    <button
+                        mat-raised-button
                         type="submit"
                         color="primary"
                         [disabled]="userForm.invalid"

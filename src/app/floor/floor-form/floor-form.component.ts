@@ -87,4 +87,8 @@ export class FloorFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

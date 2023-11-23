@@ -95,4 +95,8 @@ export class ElevatorFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

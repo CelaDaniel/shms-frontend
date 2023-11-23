@@ -116,4 +116,8 @@ export class ApartmentFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }

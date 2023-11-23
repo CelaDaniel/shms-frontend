@@ -107,4 +107,8 @@ export class BuildingFormComponent implements OnInit {
             });
         }
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }
