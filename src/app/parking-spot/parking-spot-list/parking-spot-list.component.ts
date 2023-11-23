@@ -6,6 +6,7 @@ import {
 } from '../parking-spot.service';
 import { IParkingSpot } from '../parking-spot.model';
 import { IData } from 'src/app/core/response/response.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
 
 @Component({
     selector: 'app-parking-spot-list',
@@ -14,7 +15,40 @@ import { IData } from 'src/app/core/response/response.model';
 })
 export class ParkingSpotListComponent implements OnInit {
     parkingSpots: IParkingSpot[] = [];
-    displayedColumns: string[] = ['id', 'number', 'parkingSpotsNo', 'actions'];
+    displayedColumns: string[] = ['id', 'number', 'parkingFloorsNo', 'actions'];
+
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'parkingFloorNumber',
+            label: 'ParkingFloor Number',
+            type: 'text',
+        },
+        {
+            name: 'contractNumber',
+            label: 'Contract Number',
+            type: 'text',
+        },
+        {
+            name: 'buildingNumber',
+            label: 'Building Number',
+            type: 'text',
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
 
     constructor(protected parkingSpotService: ParkingSpotService) {}
 
@@ -22,8 +56,12 @@ export class ParkingSpotListComponent implements OnInit {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.parkingSpotService.getAll().subscribe({
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.parkingSpotService.getAll(filter).subscribe({
             next: (res: ParkingSpotArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;

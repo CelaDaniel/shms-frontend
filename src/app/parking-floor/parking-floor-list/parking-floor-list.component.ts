@@ -6,6 +6,7 @@ import {
 } from '../parking-floor.service';
 import { IParkingFloor } from '../parking-floor.model';
 import { IData } from 'src/app/core/response/response.model';
+import { IFilter } from 'src/app/shared/filter/filter.model';
 
 @Component({
     selector: 'app-parking-floor-list',
@@ -14,7 +15,41 @@ import { IData } from 'src/app/core/response/response.model';
 })
 export class ParkingFloorListComponent implements OnInit {
     parkingFloors: IParkingFloor[] = [];
-    displayedColumns: string[] = ['id', 'number', 'parkingSpotsNo', 'actions'];
+    displayedColumns: string[] = [
+        'id',
+        'number',
+        'buildingNumber',
+        'parkingSpotsNo',
+        'actions',
+    ];
+
+    filterFields: IFilter[] = [
+        {
+            name: 'number',
+            label: 'Number',
+            type: 'text',
+        },
+        {
+            name: 'description',
+            label: 'Description',
+            type: 'text',
+        },
+        {
+            name: 'parkingSpotNumber',
+            label: 'ParkingSpot Number',
+            type: 'text',
+        },
+        {
+            name: 'buildingNumber',
+            label: 'Building Number',
+            type: 'text',
+        },
+        {
+            name: 'deleted',
+            label: 'Deleted',
+            type: 'boolean',
+        },
+    ];
 
     constructor(protected parkingFloorService: ParkingFloorService) {}
 
@@ -22,8 +57,12 @@ export class ParkingFloorListComponent implements OnInit {
         this.loadAll();
     }
 
-    loadAll(): void {
-        this.parkingFloorService.getAll().subscribe({
+    search(filter: { [key: string]: string }): void {
+        this.loadAll(filter);
+    }
+
+    loadAll(filter?: { [key: string]: string }): void {
+        this.parkingFloorService.getAll(filter).subscribe({
             next: (res: ParkingFloorArrayResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;

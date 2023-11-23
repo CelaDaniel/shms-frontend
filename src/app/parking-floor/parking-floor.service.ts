@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IParkingFloor } from './parking-floor.model';
 import { IArrayResponse, IResponse } from '../core/response/response.model';
+import { createRequestOption } from '../core/request/request-util';
 
 export type ParkingFloorResponseType = HttpResponse<IResponse<IParkingFloor>>;
 export type ParkingFloorArrayResponseType = HttpResponse<
@@ -18,8 +19,10 @@ export class ParkingFloorService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(): Observable<ParkingFloorArrayResponseType> {
+    getAll(req?: any): Observable<ParkingFloorArrayResponseType> {
+        const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IParkingFloor>>(this.resourceUrl, {
+            params: options,
             observe: 'response',
         });
     }
