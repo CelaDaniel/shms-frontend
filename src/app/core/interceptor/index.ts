@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthExpiredInterceptor } from './auth-expired.interceptor';
+import { ErrorInterceptor } from './error.interceptor';
 
 export const httpInterceptorProviders = [
     {
@@ -11,6 +12,11 @@ export const httpInterceptorProviders = [
     {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthExpiredInterceptor,
+        multi: true,
+    },
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: ErrorInterceptor,
         multi: true,
     },
 ];
