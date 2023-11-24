@@ -1,33 +1,44 @@
 :host {
     display: block;
     min-width: 240px;
-    background-color: #673ab7;
+    background-color: #3f51b5;
     color: #fff;
 }
 
 .logo-container {
-    padding: 10px;
+    padding: 10px 20px;
     text-align: center;
-}
 
-mat-list {
-    margin-top: 50px;
-
-    button {
-        color: #fff;
-        width: 100%;
-
-        &:hover {
-            background-color: #8866c3;
-        }
+    h3 {
+        font-size: 32px;
+        font-family: sans-serif;
     }
 }
 
-mat-list-item {
-    cursor: pointer !important;
-    padding: 10px;
+.list {
+    margin-top: 50px;
 
-    &:hover {
-        background-color: #8866c3;
+    .list-item {
+        cursor: pointer !important;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+
+        h3 {
+            margin-bottom: 0;
+            margin-left: 20px;
+        }
+
+        &:hover {
+            background-color: #3144ae;
+        }
+    }
+
+    .list-item.active {
+        background-color: #1f35af;
+    }
+
+    .mat-divider {
+        border-color: #fff;
     }
 }

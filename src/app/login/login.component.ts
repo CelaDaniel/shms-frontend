@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
                 },
                 error: (e) => {
                     this.showSnackBar(`Login failed. ${e.error?.message}`);
+                    this.loginForm.get('password')!.setValue('');
                 },
             });
     }

@@ -1,17 +1,19 @@
 <div class="logo-container">
-    <h2>SHMS</h2>
+    <h3>SHMS</h3>
 </div>
-<mat-list>
-    <mat-list-item routerLink="/">Home</mat-list-item>
-    <mat-list-item routerLink="/buildings">Buildings</mat-list-item>
-    <mat-list-item routerLink="/floors">Floors</mat-list-item>
-    <mat-list-item routerLink="/apartments">Apartments</mat-list-item>
-    <mat-list-item routerLink="/parking-floors">Parking Floors</mat-list-item>
-    <mat-list-item routerLink="/parking-spots">Parking Spots</mat-list-item>
-    <mat-list-item routerLink="/elevators">Elevators</mat-list-item>
-    <mat-list-item routerLink="/students">Students</mat-list-item>
-    <mat-list-item routerLink="/contracts">Contracts</mat-list-item>
-    <mat-list-item routerLink="/users">Users</mat-list-item>
-    <mat-list-item routerLink="/users/profile">Profile</mat-list-item>
-    <button mat-button (click)="logout()">Logout</button>
-</mat-list>
+<ul class="list">
+    <li
+        class="list-item"
+        [routerLink]="item.path"
+        *ngFor="let item of menuItems"
+        [ngClass]="{ active: isCurrentRoute(item.path) }"
+    >
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <h3 matListItemTitle>{{ item.label }}</h3>
+    </li>
+    <mat-divider></mat-divider>
+    <li class="list-item" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <h3 matListItemTitle>Logout</h3>
+    </li>
+</ul>
