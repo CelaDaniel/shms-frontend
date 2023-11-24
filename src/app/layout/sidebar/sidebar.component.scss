@@ -3,6 +3,11 @@
     min-width: 240px;
     background-color: #3f51b5;
     color: #fff;
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 9999;
 }
 
 .logo-container {
