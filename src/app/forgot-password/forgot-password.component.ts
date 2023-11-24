@@ -46,4 +46,8 @@ export class ForgotPasswordComponent implements OnInit {
             verticalPosition: 'top',
         });
     }
+
+    goBack(): void {
+        window.history.back();
+    }
 }
