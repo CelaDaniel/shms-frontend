@@ -43,6 +43,16 @@ export class UserListComponent implements OnInit {
             type: 'text',
         },
         {
+            name: 'firstName',
+            label: 'First name',
+            type: 'text',
+        },
+        {
+            name: 'lastName',
+            label: 'Last name',
+            type: 'text',
+        },
+        {
             name: 'email',
             label: 'Email',
             type: 'text',

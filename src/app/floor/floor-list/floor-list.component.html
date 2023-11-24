@@ -94,6 +94,7 @@
                 ></tr>
             </table>
             <mat-paginator
+                *ngIf="floors.length > 0"
                 [length]="totalElements"
                 [pageSize]="pageSize"
                 [pageIndex]="page"

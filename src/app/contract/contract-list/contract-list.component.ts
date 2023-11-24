@@ -72,6 +72,11 @@ export class ContractListComponent {
             type: 'date',
         },
         {
+            name: 'fee',
+            label: 'Fee',
+            type: 'number',
+        },
+        {
             name: 'deleted',
             label: 'Deleted',
             type: 'boolean',

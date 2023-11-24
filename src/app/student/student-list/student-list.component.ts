@@ -41,8 +41,23 @@ export class StudentListComponent implements OnInit {
             type: 'text',
         },
         {
+            name: 'firstName',
+            label: 'First name',
+            type: 'text',
+        },
+        {
+            name: 'lastName',
+            label: 'Last name',
+            type: 'text',
+        },
+        {
             name: 'email',
             label: 'Email',
+            type: 'text',
+        },
+        {
+            name: 'phoneNumber',
+            label: 'Phone number',
             type: 'text',
         },
         {
@@ -50,6 +65,11 @@ export class StudentListComponent implements OnInit {
             label: 'Gender',
             type: 'select',
             selectData: Object.values(Gender),
+        },
+        {
+            name: 'birthDate',
+            label: 'Birth date',
+            type: 'date',
         },
         {
             name: 'deleted',

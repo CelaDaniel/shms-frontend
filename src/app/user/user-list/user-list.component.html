@@ -18,6 +18,7 @@
                 </button>
             </div>
             <table
+                *ngIf="users.length > 0"
                 mat-table
                 [dataSource]="users"
                 matSort
@@ -129,6 +130,7 @@
                 ></tr>
             </table>
             <mat-paginator
+                *ngIf="users.length > 0"
                 [length]="totalElements"
                 [pageSize]="pageSize"
                 [pageIndex]="page"
@@ -139,5 +141,10 @@
             >
             </mat-paginator>
         </div>
+    </div>
+    <div *ngIf="users.length === 0" class="mat-elevation-z8">
+        <mat-card>
+            <mat-card-header> No data available</mat-card-header>
+        </mat-card>
     </div>
 </div>

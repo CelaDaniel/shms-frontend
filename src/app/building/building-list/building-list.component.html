@@ -119,6 +119,7 @@
                 ></tr>
             </table>
             <mat-paginator
+                *ngIf="buildings.length > 0"
                 [length]="totalElements"
                 [pageSize]="pageSize"
                 [pageIndex]="page"

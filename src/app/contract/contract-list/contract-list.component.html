@@ -149,6 +149,7 @@
                 ></tr>
             </table>
             <mat-paginator
+                *ngIf="contracts.length > 0"
                 [length]="totalElements"
                 [pageSize]="pageSize"
                 [pageIndex]="page"

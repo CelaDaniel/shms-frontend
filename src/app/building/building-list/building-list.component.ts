@@ -63,6 +63,11 @@ export class BuildingListComponent implements OnInit {
             type: 'text',
         },
         {
+            name: 'color',
+            label: 'Color',
+            type: 'text',
+        },
+        {
             name: 'deleted',
             label: 'Deleted',
             type: 'boolean',

@@ -84,6 +84,7 @@
                 ></tr>
             </table>
             <mat-paginator
+                *ngIf="parkingSpots.length > 0"
                 [length]="totalElements"
                 [pageSize]="pageSize"
                 [pageIndex]="page"
