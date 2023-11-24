@@ -22,11 +22,15 @@
                 *ngIf="elevators.length > 0"
                 mat-table
                 [dataSource]="elevators"
+                matSort
+                (matSortChange)="sortChange($event)"
                 class="mat-elevation-z8"
             >
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        ID
+                    </th>
                     <td mat-cell *matCellDef="let elevator">
                         {{ elevator.id }}
                     </td>
@@ -34,7 +38,9 @@
 
                 <!-- Number Column -->
                 <ng-container matColumnDef="number">
-                    <th mat-header-cell *matHeaderCellDef>Number</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Number
+                    </th>
                     <td mat-cell *matCellDef="let elevator">
                         {{ elevator.number }}
                     </td>
@@ -42,7 +48,9 @@
 
                 <!-- Building Number Column -->
                 <ng-container matColumnDef="buildingNumber">
-                    <th mat-header-cell *matHeaderCellDef>Building Number</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Building Number
+                    </th>
                     <td mat-cell *matCellDef="let elevator">
                         {{ elevator.buildingNumber }}
                     </td>
@@ -50,7 +58,9 @@
 
                 <!-- Capacity Column -->
                 <ng-container matColumnDef="capacity">
-                    <th mat-header-cell *matHeaderCellDef>Capacity</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Capacity
+                    </th>
                     <td mat-cell *matCellDef="let elevator">
                         {{ elevator.capacity }} persons
                     </td>
@@ -58,7 +68,9 @@
 
                 <!-- Max Weight Column -->
                 <ng-container matColumnDef="maxWeight">
-                    <th mat-header-cell *matHeaderCellDef>Max Weight</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Max Weight
+                    </th>
                     <td mat-cell *matCellDef="let elevator">
                         {{ elevator.maxWeight }} kg
                     </td>

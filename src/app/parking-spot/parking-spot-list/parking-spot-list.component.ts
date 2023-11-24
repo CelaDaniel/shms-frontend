@@ -8,6 +8,7 @@ import { IParkingSpot } from '../parking-spot.model';
 import { IData, IPagination } from 'src/app/core/response/response.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
+import { Sort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-parking-spot-list',
@@ -16,7 +17,12 @@ import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 })
 export class ParkingSpotListComponent implements OnInit {
     parkingSpots: IParkingSpot[] = [];
-    displayedColumns: string[] = ['id', 'number', 'parkingFloorsNo', 'actions'];
+    displayedColumns: string[] = [
+        'id',
+        'number',
+        'parkingFloorNumber',
+        'actions',
+    ];
 
     filterFields: IFilter[] = [
         {
@@ -57,6 +63,8 @@ export class ParkingSpotListComponent implements OnInit {
     pageSize = PAGE_SIZE;
     page = 0;
     pageSizeOptions = PAGE_SIZE_OPTIONS;
+    sortDirection?: string;
+    sortColumn?: string;
 
     constructor(protected parkingSpotService: ParkingSpotService) {}
 
@@ -75,6 +83,8 @@ export class ParkingSpotListComponent implements OnInit {
                 ...filter,
                 page: this.page,
                 size: this.pageSize,
+                direction: this.sortDirection,
+                ordering: this.sortDirection && this.sortColumn,
             })
             .subscribe({
                 next: (res: ParkingSpotArrayResponseType) => {
@@ -99,6 +109,12 @@ export class ParkingSpotListComponent implements OnInit {
     }): void {
         this.page = paginationData.pageIndex;
         this.pageSize = paginationData.pageSize;
+        this.loadAll(this.filter);
+    }
+
+    sortChange(sortState: Sort) {
+        this.sortColumn = sortState.active;
+        this.sortDirection = sortState.direction.toUpperCase();
         this.loadAll(this.filter);
     }
 

@@ -9,6 +9,7 @@ import { IData, IPagination } from 'src/app/core/response/response.model';
 import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
+import { Sort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-floor-list',
@@ -21,7 +22,7 @@ export class FloorListComponent implements OnInit {
         'id',
         'number',
         'buildingNumber',
-        'apartmentNo',
+        'nrApartments',
         'actions',
     ];
 
@@ -59,6 +60,8 @@ export class FloorListComponent implements OnInit {
     pageSize = PAGE_SIZE;
     page = 0;
     pageSizeOptions = PAGE_SIZE_OPTIONS;
+    sortDirection?: string;
+    sortColumn?: string;
 
     constructor(protected floorService: FloorService) {}
 
@@ -77,6 +80,8 @@ export class FloorListComponent implements OnInit {
                 ...filter,
                 page: this.page,
                 size: this.pageSize,
+                direction: this.sortDirection,
+                ordering: this.sortDirection && this.sortColumn,
             })
             .subscribe({
                 next: (res: FloorArrayResponseType) => {
@@ -101,6 +106,12 @@ export class FloorListComponent implements OnInit {
     }): void {
         this.page = paginationData.pageIndex;
         this.pageSize = paginationData.pageSize;
+        this.loadAll(this.filter);
+    }
+
+    sortChange(sortState: Sort) {
+        this.sortColumn = sortState.active;
+        this.sortDirection = sortState.direction.toUpperCase();
         this.loadAll(this.filter);
     }
 

@@ -10,6 +10,7 @@ import { UserStatus } from 'src/app/enums/user-status.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
 import { UserRoles } from 'src/app/enums/roles.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
+import { Sort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-user-list',
@@ -26,7 +27,7 @@ export class UserListComponent implements OnInit {
         'lastName',
         'email',
         'roles',
-        'status',
+        'userStatus',
         'actions',
     ];
 
@@ -71,6 +72,8 @@ export class UserListComponent implements OnInit {
     pageSize = PAGE_SIZE;
     page = 0;
     pageSizeOptions = PAGE_SIZE_OPTIONS;
+    sortDirection?: string;
+    sortColumn?: string;
 
     constructor(protected userService: UserService) {}
 
@@ -90,6 +93,8 @@ export class UserListComponent implements OnInit {
                 ...filter,
                 page: this.page,
                 size: this.pageSize,
+                direction: this.sortDirection,
+                ordering: this.sortDirection && this.sortColumn,
             })
             .subscribe({
                 next: (res: UserArrayResponseType) => {
@@ -128,6 +133,12 @@ export class UserListComponent implements OnInit {
     }): void {
         this.page = paginationData.pageIndex;
         this.pageSize = paginationData.pageSize;
+        this.loadAll(this.filter);
+    }
+
+    sortChange(sortState: Sort) {
+        this.sortColumn = sortState.active;
+        this.sortDirection = sortState.direction.toUpperCase();
         this.loadAll(this.filter);
     }
 

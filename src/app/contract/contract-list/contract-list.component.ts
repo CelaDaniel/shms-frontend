@@ -8,6 +8,7 @@ import {
 import { IData, IPagination } from 'src/app/core/response/response.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
+import { Sort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-contract-list',
@@ -19,8 +20,8 @@ export class ContractListComponent {
     displayedColumns: string[] = [
         'id',
         'number',
-        'startDate',
-        'endDate',
+        'initialValidDate',
+        'endValidDate',
         'signDate',
         'fee',
         'apartment',
@@ -83,6 +84,8 @@ export class ContractListComponent {
     pageSize = PAGE_SIZE;
     page = 0;
     pageSizeOptions = PAGE_SIZE_OPTIONS;
+    sortDirection?: string;
+    sortColumn?: string;
 
     constructor(protected contractService: ContractService) {}
 
@@ -101,6 +104,8 @@ export class ContractListComponent {
                 ...filter,
                 page: this.page,
                 size: this.pageSize,
+                direction: this.sortDirection,
+                ordering: this.sortDirection && this.sortColumn,
             })
             .subscribe({
                 next: (res: ContractArrayResponseType) => {
@@ -125,6 +130,12 @@ export class ContractListComponent {
     }): void {
         this.page = paginationData.pageIndex;
         this.pageSize = paginationData.pageSize;
+        this.loadAll(this.filter);
+    }
+
+    sortChange(sortState: Sort) {
+        this.sortColumn = sortState.active;
+        this.sortDirection = sortState.direction.toUpperCase();
         this.loadAll(this.filter);
     }
 

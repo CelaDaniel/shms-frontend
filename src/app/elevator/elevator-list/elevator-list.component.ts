@@ -8,6 +8,7 @@ import { IElevator } from '../elevator.model';
 import { IData, IPagination } from 'src/app/core/response/response.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
+import { Sort } from '@angular/material/sort';
 
 @Component({
     selector: 'app-elevator-list',
@@ -54,6 +55,8 @@ export class ElevatorListComponent implements OnInit {
     pageSize = PAGE_SIZE;
     page = 0;
     pageSizeOptions = PAGE_SIZE_OPTIONS;
+    sortDirection?: string;
+    sortColumn?: string;
 
     constructor(protected elevatorService: ElevatorService) {}
 
@@ -72,6 +75,8 @@ export class ElevatorListComponent implements OnInit {
                 ...filter,
                 page: this.page,
                 size: this.pageSize,
+                direction: this.sortDirection,
+                ordering: this.sortDirection && this.sortColumn,
             })
             .subscribe({
                 next: (res: ElevatorArrayResponseType) => {
@@ -96,6 +101,12 @@ export class ElevatorListComponent implements OnInit {
     }): void {
         this.page = paginationData.pageIndex;
         this.pageSize = paginationData.pageSize;
+        this.loadAll(this.filter);
+    }
+
+    sortChange(sortState: Sort) {
+        this.sortColumn = sortState.active;
+        this.sortDirection = sortState.direction.toUpperCase();
         this.loadAll(this.filter);
     }
 

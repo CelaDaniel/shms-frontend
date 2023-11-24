@@ -21,17 +21,23 @@
                 *ngIf="parkingFloors.length > 0"
                 mat-table
                 [dataSource]="parkingFloors"
+                matSort
+                (matSortChange)="sortChange($event)"
                 class="mat-elevation-z8"
             >
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        ID
+                    </th>
                     <td mat-cell *matCellDef="let floor">{{ floor.id }}</td>
                 </ng-container>
 
                 <!-- Number Column -->
                 <ng-container matColumnDef="number">
-                    <th mat-header-cell *matHeaderCellDef>Number</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Number
+                    </th>
                     <td mat-cell *matCellDef="let floor">
                         {{ floor.number }}
                     </td>
@@ -39,15 +45,19 @@
 
                 <!-- Building Number Column -->
                 <ng-container matColumnDef="buildingNumber">
-                    <th mat-header-cell *matHeaderCellDef>Building Number</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Building Number
+                    </th>
                     <td mat-cell *matCellDef="let floor">
                         {{ floor.buildingNumber }}
                     </td>
                 </ng-container>
 
                 <!-- Parking Spots Column -->
-                <ng-container matColumnDef="parkingSpotsNo">
-                    <th mat-header-cell *matHeaderCellDef>Parking spots No</th>
+                <ng-container matColumnDef="nrParkingSpots">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Parking spots No
+                    </th>
                     <td mat-cell *matCellDef="let floor">
                         {{ floor.nrParkingSpots }}
                     </td>
