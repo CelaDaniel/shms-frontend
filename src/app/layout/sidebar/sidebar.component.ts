@@ -72,6 +72,6 @@ export class SidebarComponent {
     }
 
     isCurrentRoute(path: string): boolean {
-        return this.router.isActive(path, true);
+        return this.router.isActive(path, false);
     }
 }
