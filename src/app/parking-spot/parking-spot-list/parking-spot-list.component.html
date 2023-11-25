@@ -70,7 +70,7 @@
                         >
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="deleteSpot(spot)">
+                        <button mat-icon-button (click)="openModal(spot.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>
@@ -103,3 +103,9 @@
         </mat-card>
     </div>
 </div>
+<app-delete-modal
+    *ngIf="opened"
+    [item]="'parking spot'"
+    (canceled)="closeModal()"
+    (confirmed)="deleteSpot()"
+></app-delete-modal>

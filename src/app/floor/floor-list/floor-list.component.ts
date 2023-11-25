@@ -62,6 +62,8 @@ export class FloorListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    floorId?: number;
 
     constructor(protected floorService: FloorService) {}
 
@@ -115,8 +117,17 @@ export class FloorListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteFloor(floor: IFloor): void {
-        this.floorService.delete(floor.id!).subscribe({
+    openModal(id: number): void {
+        this.floorId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteFloor(): void {
+        this.floorService.delete(this.floorId!).subscribe({
             next: (res: FloorResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -127,5 +138,6 @@ export class FloorListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

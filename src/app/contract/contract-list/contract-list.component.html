@@ -134,7 +134,7 @@
                         </button>
                         <button
                             mat-icon-button
-                            (click)="deleteContract(contract)"
+                            (click)="openModal(contract.id)"
                         >
                             <mat-icon>delete</mat-icon>
                         </button>
@@ -167,3 +167,9 @@
         </mat-card>
     </div>
 </div>
+<app-delete-modal
+    *ngIf="opened"
+    [item]="'contract'"
+    (canceled)="closeModal()"
+    (confirmed)="deleteContract()"
+></app-delete-modal>

@@ -94,7 +94,7 @@
                         </button>
                         <button
                             mat-icon-button
-                            (click)="deleteElevator(elevator)"
+                            (click)="openModal(elevator.id)"
                         >
                             <mat-icon>delete</mat-icon>
                         </button>
@@ -128,3 +128,9 @@
         </mat-card>
     </div>
 </div>
+<app-delete-modal
+    *ngIf="opened"
+    [item]="'elevator'"
+    (canceled)="closeModal()"
+    (confirmed)="deleteElevator()"
+></app-delete-modal>

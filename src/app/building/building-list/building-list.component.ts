@@ -82,6 +82,8 @@ export class BuildingListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    buildingId?: number;
 
     constructor(protected buildingService: BuildingService) {}
 
@@ -135,8 +137,17 @@ export class BuildingListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteBuilding(building: IBuilding): void {
-        this.buildingService.delete(building.id!).subscribe({
+    openModal(id: number): void {
+        this.buildingId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteBuilding(): void {
+        this.buildingService.delete(this.buildingId!).subscribe({
             next: (res: BuildingResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -147,5 +158,6 @@ export class BuildingListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

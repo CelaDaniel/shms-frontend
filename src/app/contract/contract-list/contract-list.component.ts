@@ -91,6 +91,8 @@ export class ContractListComponent {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    contractId?: number;
 
     constructor(protected contractService: ContractService) {}
 
@@ -144,8 +146,17 @@ export class ContractListComponent {
         this.loadAll(this.filter);
     }
 
-    deleteContract(contract: IContract): void {
-        this.contractService.delete(contract.id!).subscribe({
+    openModal(id: number): void {
+        this.contractId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteContract(): void {
+        this.contractService.delete(this.contractId!).subscribe({
             next: (res: ContractResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -156,5 +167,6 @@ export class ContractListComponent {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

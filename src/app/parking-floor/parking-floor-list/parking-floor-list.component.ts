@@ -61,6 +61,8 @@ export class ParkingFloorListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    floorId?: number;
 
     constructor(protected parkingFloorService: ParkingFloorService) {}
 
@@ -114,8 +116,17 @@ export class ParkingFloorListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteFloor(floor: IParkingFloor): void {
-        this.parkingFloorService.delete(floor.id!).subscribe({
+    openModal(id: number): void {
+        this.floorId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteFloor(): void {
+        this.parkingFloorService.delete(this.floorId!).subscribe({
             next: (res: ParkingFloorResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -126,5 +137,6 @@ export class ParkingFloorListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

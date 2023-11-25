@@ -1,0 +1,16 @@
+<div class="modal-overlay" (click)="cancel()">
+    <div class="modal-content" (click)="stopPropagation($event)">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete this {{ item }}?</p>
+        <div class="button-container">
+            <button mat-raised-button color="secondary" (click)="cancel()">
+                <mat-icon>close</mat-icon>
+                No
+            </button>
+            <button mat-raised-button color="primary" (click)="confirm()">
+                <mat-icon>done</mat-icon>
+                Yes
+            </button>
+        </div>
+    </div>
+</div>

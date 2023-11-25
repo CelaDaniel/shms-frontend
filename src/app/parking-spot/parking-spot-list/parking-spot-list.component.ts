@@ -65,6 +65,8 @@ export class ParkingSpotListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    parkingSpotId?: number;
 
     constructor(protected parkingSpotService: ParkingSpotService) {}
 
@@ -118,8 +120,17 @@ export class ParkingSpotListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteSpot(spot: IParkingSpot): void {
-        this.parkingSpotService.delete(spot.id!).subscribe({
+    openModal(id: number): void {
+        this.parkingSpotId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteSpot(): void {
+        this.parkingSpotService.delete(this.parkingSpotId!).subscribe({
             next: (res: ParkingSpotResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -130,5 +141,6 @@ export class ParkingSpotListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

@@ -86,6 +86,8 @@ export class StudentListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    studentId?: number;
 
     constructor(protected studentService: StudentService) {}
 
@@ -139,8 +141,17 @@ export class StudentListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteStudent(student: IStudent): void {
-        this.studentService.delete(student.id!).subscribe({
+    openModal(id: number): void {
+        this.studentId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteStudent(): void {
+        this.studentService.delete(this.studentId!).subscribe({
             next: (res: StudentResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -151,5 +162,6 @@ export class StudentListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

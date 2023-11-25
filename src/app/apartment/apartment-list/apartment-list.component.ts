@@ -87,6 +87,8 @@ export class ApartmentListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    apartmentId?: number;
 
     constructor(protected apartmentService: ApartmentService) {}
 
@@ -140,8 +142,17 @@ export class ApartmentListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteApartment(apartment: IApartment): void {
-        this.apartmentService.delete(apartment.id!).subscribe({
+    openModal(id: number): void {
+        this.apartmentId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteApartment(): void {
+        this.apartmentService.delete(this.apartmentId!).subscribe({
             next: (res: ApartmentResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -152,5 +163,6 @@ export class ApartmentListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }

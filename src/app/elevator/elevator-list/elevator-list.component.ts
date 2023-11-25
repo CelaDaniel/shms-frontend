@@ -57,6 +57,8 @@ export class ElevatorListComponent implements OnInit {
     pageSizeOptions = PAGE_SIZE_OPTIONS;
     sortDirection?: string;
     sortColumn?: string;
+    opened = false;
+    elevatorId?: number;
 
     constructor(protected elevatorService: ElevatorService) {}
 
@@ -110,8 +112,17 @@ export class ElevatorListComponent implements OnInit {
         this.loadAll(this.filter);
     }
 
-    deleteElevator(elevator: IElevator): void {
-        this.elevatorService.delete(elevator.id!).subscribe({
+    openModal(id: number): void {
+        this.elevatorId = id;
+        this.opened = true;
+    }
+
+    closeModal(): void {
+        this.opened = false;
+    }
+
+    deleteElevator(): void {
+        this.elevatorService.delete(this.elevatorId!).subscribe({
             next: (res: ElevatorResponseType) => {
                 const code = res.body?.code;
                 const message = res.body?.message;
@@ -122,5 +133,6 @@ export class ElevatorListComponent implements OnInit {
                 console.log(res.body);
             },
         });
+        this.closeModal();
     }
 }
