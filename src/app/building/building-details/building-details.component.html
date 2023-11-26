@@ -45,7 +45,7 @@
                 <ng-container matColumnDef="capacity">
                     <th mat-header-cell *matHeaderCellDef>Capacity</th>
                     <td mat-cell *matCellDef="let elevator">
-                        {{ elevator.capacity }}
+                        {{ elevator.capacity }} persons
                     </td>
                 </ng-container>
 
@@ -53,7 +53,7 @@
                 <ng-container matColumnDef="maxWeight">
                     <th mat-header-cell *matHeaderCellDef>Max Weight</th>
                     <td mat-cell *matCellDef="let elevator">
-                        {{ elevator.maxWeight }}
+                        {{ elevator.maxWeight }} kg
                     </td>
                 </ng-container>
 
@@ -63,13 +63,13 @@
                     <td mat-cell *matCellDef="let floor">
                         <button
                             mat-icon-button
-                            [routerLink]="['/parking-floors', floor.id, 'view']"
+                            [routerLink]="['/elevators', floor.id, 'view']"
                         >
                             <mat-icon>visibility</mat-icon>
                         </button>
                         <button
                             mat-icon-button
-                            [routerLink]="['/parking-floors', floor.id, 'edit']"
+                            [routerLink]="['/elevators', floor.id, 'edit']"
                         >
                             <mat-icon>edit</mat-icon>
                         </button>

@@ -4,8 +4,14 @@ import {
     ParkingFloorService,
 } from '../parking-floor.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParkingFloor, IParkingFloor } from '../parking-floor.model';
+import {
+    BuildingArrayResponseType,
+    BuildingService,
+} from 'src/app/building/building.service';
+import { IBuilding } from 'src/app/building/building.model';
+import { IData } from 'src/app/core/response/response.model';
 
 @Component({
     selector: 'app-parking-floor-form',
@@ -13,19 +19,24 @@ import { ParkingFloor, IParkingFloor } from '../parking-floor.model';
     styleUrls: ['./parking-floor-form.component.scss'],
 })
 export class ParkingFloorFormComponent implements OnInit {
-    parkingFloorForm = this.fb.group({
-        number: ['', [Validators.required]],
-        description: [''],
-        buildingId: [0],
-    });
+    buildings: IBuilding[] = [];
+    parkingFloorForm: FormGroup;
     isEditMode = false;
     parkingFloorId?: number;
     constructor(
         protected parkingfloorService: ParkingFloorService,
+        private buildingService: BuildingService,
         private router: Router,
         private route: ActivatedRoute,
         private fb: FormBuilder
-    ) {}
+    ) {
+        this.parkingFloorForm = this.fb.group({
+            number: ['', [Validators.required]],
+            description: [''],
+            buildingId: [null],
+            nrParkingSpots: [0],
+        });
+    }
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
@@ -35,6 +46,7 @@ export class ParkingFloorFormComponent implements OnInit {
                 this.loadById(this.parkingFloorId);
             }
         });
+        this.loadData();
     }
 
     loadById(id: number): void {
@@ -55,11 +67,24 @@ export class ParkingFloorFormComponent implements OnInit {
         });
     }
 
+    loadData(): void {
+        this.buildingService.getAll().subscribe({
+            next: (res: BuildingArrayResponseType) => {
+                const data: IData<IBuilding> = res.body?.data!;
+                this.buildings = data.content ?? [];
+            },
+            error: (res: any) => {
+                console.log(res.body);
+            },
+        });
+    }
+
     onSubmit(): void {
         const floor: IParkingFloor = new ParkingFloor(
             this.parkingFloorForm.get('number')!.value!,
             this.parkingFloorForm.get('description')!.value!,
-            this.parkingFloorForm.get('buildingId')!.value!
+            this.parkingFloorForm.get('buildingId')!.value!,
+            this.parkingFloorForm.get('nrParkingSpots')!.value
         );
 
         const updatedFloor: IParkingFloor = new ParkingFloor(

@@ -32,6 +32,36 @@
                     </mat-form-field>
                 </div>
 
+                <div class="form-group" *ngIf="!isEditMode">
+                    <mat-form-field class="full-width">
+                        <mat-label>Building</mat-label>
+                        <mat-select
+                            formControlName="buildingId"
+                            name="buildingId"
+                            id="buildingId"
+                        >
+                            <mat-option>None</mat-option>
+
+                            <mat-option
+                                *ngFor="let building of buildings"
+                                [value]="building.id"
+                                >{{ building.number }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>Apartments number</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="nrApartments"
+                            id="nrApartments"
+                            formControlName="nrApartments"
+                        />
+                    </mat-form-field>
+                </div>
+
                 <div class="button-container">
                     <button
                         mat-raised-button

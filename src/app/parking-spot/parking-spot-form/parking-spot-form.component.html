@@ -37,6 +37,24 @@
                         />
                     </mat-form-field>
                 </div>
+                <div class="form-group" *ngIf="!isEditMode">
+                    <mat-form-field class="full-width" *ngIf="!isEditMode">
+                        <mat-label>Parking Floor</mat-label>
+                        <mat-select
+                            formControlName="parkingFloorId"
+                            name="parkingFloorId"
+                            id="parkingFloorId"
+                        >
+                            <mat-option>None</mat-option>
+
+                            <mat-option
+                                *ngFor="let floor of parkingFloors"
+                                [value]="floor.id"
+                                >{{ floor.number }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
 
                 <div class="button-container">
                     <button

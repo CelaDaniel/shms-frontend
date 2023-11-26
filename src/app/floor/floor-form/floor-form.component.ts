@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FloorResponseType, FloorService } from '../floor.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Floor, IFloor } from '../floor.model';
+import {
+    BuildingArrayResponseType,
+    BuildingService,
+} from 'src/app/building/building.service';
+import { IBuilding } from 'src/app/building/building.model';
+import { IData } from 'src/app/core/response/response.model';
 
 @Component({
     selector: 'app-floor-form',
@@ -10,19 +16,24 @@ import { Floor, IFloor } from '../floor.model';
     styleUrls: ['./floor-form.component.scss'],
 })
 export class FloorFormComponent implements OnInit {
-    floorForm = this.fb.group({
-        number: ['', [Validators.required]],
-        description: [''],
-        buildingId: [0],
-    });
+    buildings: IBuilding[] = [];
+    floorForm: FormGroup;
     isEditMode = false;
     floorId?: number;
     constructor(
         protected floorService: FloorService,
+        private buildingService: BuildingService,
         private router: Router,
         private route: ActivatedRoute,
         private fb: FormBuilder
-    ) {}
+    ) {
+        this.floorForm = this.fb.group({
+            number: ['', [Validators.required]],
+            description: [''],
+            buildingId: [null],
+            nrApartments: [0],
+        });
+    }
 
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
@@ -32,6 +43,7 @@ export class FloorFormComponent implements OnInit {
                 this.loadById(this.floorId);
             }
         });
+        this.loadData();
     }
 
     loadById(id: number): void {
@@ -52,11 +64,24 @@ export class FloorFormComponent implements OnInit {
         });
     }
 
+    loadData(): void {
+        this.buildingService.getAll().subscribe({
+            next: (res: BuildingArrayResponseType) => {
+                const data: IData<IBuilding> = res.body?.data!;
+                this.buildings = data.content ?? [];
+            },
+            error: (res: any) => {
+                console.log(res.body);
+            },
+        });
+    }
+
     onSubmit(): void {
         const floor: IFloor = new Floor(
             this.floorForm.get('number')!.value!,
             this.floorForm.get('description')!.value!,
-            this.floorForm.get('buildingId')!.value!
+            this.floorForm.get('buildingId')!.value!,
+            this.floorForm.get('nrApartments')!.value!
         );
 
         const updatedFloor: IFloor = new Floor(

@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ApartmentResponseType, ApartmentService } from '../apartment.service';
+import {
+    ApartmentArrayResponseType,
+    ApartmentResponseType,
+    ApartmentService,
+} from '../apartment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Apartment, IApartment } from '../apartment.model';
 import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
+import { IFloor } from 'src/app/floor/floor.model';
+import { FloorService } from 'src/app/floor/floor.service';
+import { IData } from 'src/app/core/response/response.model';
 
 @Component({
     selector: 'app-apartment-form',
@@ -12,6 +19,7 @@ import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 })
 export class ApartmentFormComponent implements OnInit {
     apartmentTypes = Object.values(ApartmentTypes);
+    floors: IFloor[] = [];
 
     apartmentForm: FormGroup;
 
@@ -19,6 +27,7 @@ export class ApartmentFormComponent implements OnInit {
     apartmentId?: number;
     constructor(
         protected apartmentService: ApartmentService,
+        private floorService: FloorService,
         private router: Router,
         private route: ActivatedRoute,
         private fb: FormBuilder
@@ -33,7 +42,7 @@ export class ApartmentFormComponent implements OnInit {
             toiletsNr: [0],
             capacity: [null, [Validators.required, Validators.min(1)]],
             hasKitchen: [false],
-            floorId: [0],
+            floorId: [null],
         });
     }
 
@@ -45,6 +54,7 @@ export class ApartmentFormComponent implements OnInit {
                 this.loadById(this.apartmentId);
             }
         });
+        this.loadData();
     }
 
     loadById(id: number): void {
@@ -66,6 +76,18 @@ export class ApartmentFormComponent implements OnInit {
         });
     }
 
+    loadData(): void {
+        this.apartmentService.getAll().subscribe({
+            next: (res: ApartmentArrayResponseType) => {
+                const data: IData<IFloor> = res.body?.data!;
+                this.floors = data.content ?? [];
+            },
+            error: (res: any) => {
+                console.log(res.body);
+            },
+        });
+    }
+
     onSubmit(): void {
         const apartment: IApartment = new Apartment(
             this.apartmentForm.get('number')!.value!,
@@ -76,7 +98,8 @@ export class ApartmentFormComponent implements OnInit {
             this.apartmentForm.get('windowNr')!.value!,
             this.apartmentForm.get('toiletsNr')!.value!,
             this.apartmentForm.get('capacity')!.value!,
-            this.apartmentForm.get('hasKitchen')!.value!
+            this.apartmentForm.get('hasKitchen')!.value!,
+            this.apartmentForm.get('floorId')!.value
         );
 
         const updatedApartment: IApartment = new Apartment(
