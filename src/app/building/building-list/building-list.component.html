@@ -58,7 +58,9 @@
 
                 <!-- Floor Column -->
                 <ng-container matColumnDef="nrFloors">
-                    <th mat-header-cell *matHeaderCellDef>Floors No</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Floors No
+                    </th>
                     <td mat-cell *matCellDef="let building">
                         {{ building.nrFloors }}
                     </td>
@@ -66,7 +68,9 @@
 
                 <!-- Parking Floor Column -->
                 <ng-container matColumnDef="nrParkingFloors">
-                    <th mat-header-cell *matHeaderCellDef>Parking Floors no</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Parking Floors no
+                    </th>
                     <td mat-cell *matCellDef="let building">
                         {{ building.nrParkingFloors }}
                     </td>
@@ -74,7 +78,9 @@
 
                 <!-- Elevator Column -->
                 <ng-container matColumnDef="nrElevators">
-                    <th mat-header-cell *matHeaderCellDef>Elevator no</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Elevator no
+                    </th>
                     <td mat-cell *matCellDef="let building">
                         {{ building.nrElevators }}
                     </td>

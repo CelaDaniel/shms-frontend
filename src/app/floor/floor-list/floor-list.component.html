@@ -56,7 +56,9 @@
 
                 <!-- Apartment Column -->
                 <ng-container matColumnDef="nrApartments">
-                    <th mat-header-cell *matHeaderCellDef>Apartments No</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apartments No
+                    </th>
                     <td mat-cell *matCellDef="let floor">
                         {{ floor.nrApartments }}
                     </td>

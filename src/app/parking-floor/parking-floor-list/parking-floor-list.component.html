@@ -55,7 +55,9 @@
 
                 <!-- Parking Spots Column -->
                 <ng-container matColumnDef="nrParkingSpots">
-                    <th mat-header-cell *matHeaderCellDef>Parking spots No</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Parking spots No
+                    </th>
                     <td mat-cell *matCellDef="let floor">
                         {{ floor.nrParkingSpots }}
                     </td>
