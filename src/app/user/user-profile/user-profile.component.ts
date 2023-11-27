@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IUser } from '../user.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserStatus } from 'src/app/enums/user-status.model';
 
 @Component({
     selector: 'app-user-profile',
@@ -12,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UserProfileComponent implements OnInit {
     user: IUser | null = null;
+    userStatus = UserStatus;
 
     hide = true;
     hideOld = true;
@@ -90,9 +92,5 @@ export class UserProfileComponent implements OnInit {
             horizontalPosition: 'center',
             verticalPosition: 'top',
         });
-    }
-
-    goBack(): void {
-        window.history.back();
     }
 }

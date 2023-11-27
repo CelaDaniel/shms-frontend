@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IChangePassword, IUser } from './user.model';
 import { IArrayResponse, IResponse } from '../core/response/response.model';
 import { createRequestOption } from '../core/request/request-util';
+import { UserRoles } from '../enums/roles.model';
 
 export type UserResponseType = HttpResponse<IResponse<IUser>>;
 export type UserArrayResponseType = HttpResponse<IArrayResponse<IUser>>;
@@ -14,6 +15,7 @@ export type UserArrayResponseType = HttpResponse<IArrayResponse<IUser>>;
 })
 export class UserService {
     private resourceUrl = `${environment.apiUrl}/users`;
+    private currentUser: IUser | null = null;
 
     constructor(private http: HttpClient) {}
 
@@ -73,8 +75,28 @@ export class UserService {
     }
 
     getLoggedInUser(): Observable<UserResponseType> {
-        return this.http.get<IResponse<IUser>>(`${this.resourceUrl}/logged`, {
-            observe: 'response',
-        });
+        return this.http
+            .get<IResponse<IUser>>(`${this.resourceUrl}/logged`, {
+                observe: 'response',
+            })
+            .pipe(
+                tap((res: UserResponseType) => {
+                    this.currentUser = res.body?.data ?? null;
+                })
+            );
+    }
+
+    hasAnyRole(roles: UserRoles[] | UserRoles): boolean {
+        if (!this.currentUser) {
+            return false;
+        }
+
+        if (!Array.isArray(roles)) {
+            roles = [roles];
+        }
+
+        return this.currentUser.roles!.some((role: UserRoles) =>
+            roles.includes(role)
+        );
     }
 }

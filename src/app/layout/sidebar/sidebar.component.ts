@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { UserRoles } from 'src/app/enums/roles.model';
 
 @Component({
     selector: 'app-sidebar',
@@ -13,63 +14,64 @@ export class SidebarComponent {
             path: '/home',
             label: 'Home',
             icon: 'home',
+            roles: [],
         },
         {
             path: '/buildings',
             label: 'Buildings',
             icon: 'domain',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/floors',
             label: 'Floors',
             icon: 'stairs',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/apartments',
             label: 'Apartments',
             icon: 'apartment',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/parking-floors',
             label: 'Parking Floors',
             icon: 'stairs',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/parking-spots',
             label: 'Parking Spots',
             icon: 'local_parking',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/elevators',
             label: 'Elevators',
             icon: 'elevator',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/students',
             label: 'Students',
             icon: 'groups',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/contracts',
             label: 'Contracts',
             icon: 'description',
+            roles: [UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/users',
             label: 'Users',
             icon: 'group',
-        },
-        {
-            path: '/users/profile',
-            label: 'Profile',
-            icon: 'account_circle',
+            roles: [UserRoles.ADMIN],
         },
     ];
-    constructor(private authService: AuthService, private router: Router) {}
-
-    logout(): void {
-        this.authService.logout();
-    }
+    constructor(private router: Router) {}
 
     isCurrentRoute(path: string): boolean {
         return this.router.isActive(path, false);

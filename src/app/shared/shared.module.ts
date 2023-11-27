@@ -4,6 +4,7 @@ import { FormatDatePipe } from './date/format-date.pipe';
 import { FormatDateTimePipe } from './date/format-datetime.pipe';
 import { FilterComponent } from './filter/filter.component';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
+import { HasAnyRoleDirective } from './auth/has-any-role.directive';
 
 @NgModule({
     imports: [SharedLibsModule],
@@ -12,6 +13,7 @@ import { DeleteModalComponent } from './delete-modal/delete-modal.component';
         FormatDateTimePipe,
         FilterComponent,
         DeleteModalComponent,
+        HasAnyRoleDirective,
     ],
     exports: [
         SharedLibsModule,
@@ -19,6 +21,7 @@ import { DeleteModalComponent } from './delete-modal/delete-modal.component';
         FormatDateTimePipe,
         FilterComponent,
         DeleteModalComponent,
+        HasAnyRoleDirective,
     ],
 })
 export class SharedModule {}

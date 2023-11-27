@@ -3,7 +3,38 @@
     min-height: 100vh;
 }
 
+.main-content {
+    width: 100%;
+}
+
 .content {
     flex: 1;
     padding: 20px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.profile-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 40px;
+        height: 40px;
+        border: solid 1px #fff;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: #3649b3;
+        }
+    }
 }

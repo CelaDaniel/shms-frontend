@@ -2,18 +2,15 @@
     <h3>SHMS</h3>
 </div>
 <ul class="list">
-    <li
-        class="list-item"
-        [routerLink]="item.path"
-        *ngFor="let item of menuItems"
-        [ngClass]="{ active: isCurrentRoute(item.path) }"
-    >
-        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-        <h3 matListItemTitle>{{ item.label }}</h3>
-    </li>
-    <mat-divider></mat-divider>
-    <li class="list-item" (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <h3 matListItemTitle>Logout</h3>
-    </li>
+    <ng-container *ngFor="let item of menuItems">
+        <li
+            *hasAnyRole="item.roles"
+            class="list-item"
+            [routerLink]="item.path"
+            [ngClass]="{ active: isCurrentRoute(item.path) }"
+        >
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <h3 matListItemTitle>{{ item.label }}</h3>
+        </li>
+    </ng-container>
 </ul>

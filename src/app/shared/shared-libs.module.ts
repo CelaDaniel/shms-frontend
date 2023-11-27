@@ -19,6 +19,8 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
@@ -44,6 +46,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatPaginatorModule,
         MatSortModule,
         MatAutocompleteModule,
+        MatToolbarModule,
+        MatMenuModule,
     ],
 })
 export class SharedLibsModule {}
