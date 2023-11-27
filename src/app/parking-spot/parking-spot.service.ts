@@ -19,7 +19,7 @@ export class ParkingSpotService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(req?: any): Observable<ParkingSpotArrayResponseType> {
+    query(req?: any): Observable<ParkingSpotArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IParkingSpot>>(this.resourceUrl, {
             params: options,

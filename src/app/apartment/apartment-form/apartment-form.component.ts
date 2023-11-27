@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {
-    ApartmentArrayResponseType,
-    ApartmentResponseType,
-    ApartmentService,
-} from '../apartment.service';
+import { ApartmentResponseType, ApartmentService } from '../apartment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Apartment, IApartment } from '../apartment.model';
 import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 import { IFloor } from 'src/app/floor/floor.model';
-import { FloorService } from 'src/app/floor/floor.service';
-import { IData } from 'src/app/core/response/response.model';
+import {
+    FloorListResponseType,
+    FloorService,
+} from 'src/app/floor/floor.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-apartment-form',
@@ -25,6 +25,9 @@ export class ApartmentFormComponent implements OnInit {
 
     isEditMode = false;
     apartmentId?: number;
+
+    filteredFloors?: Observable<IFloor[]>;
+
     constructor(
         protected apartmentService: ApartmentService,
         private floorService: FloorService,
@@ -42,7 +45,7 @@ export class ApartmentFormComponent implements OnInit {
             toiletsNr: [0],
             capacity: [null, [Validators.required, Validators.min(1)]],
             hasKitchen: [false],
-            floorId: [null],
+            floor: [null, [Validators.required]],
         });
     }
 
@@ -65,10 +68,7 @@ export class ApartmentFormComponent implements OnInit {
                 const data: IApartment = res.body?.data!;
                 console.log(data);
 
-                this.apartmentForm.patchValue({
-                    ...data,
-                    floorId: data.floor?.id,
-                });
+                this.apartmentForm.patchValue(data);
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -77,10 +77,16 @@ export class ApartmentFormComponent implements OnInit {
     }
 
     loadData(): void {
-        this.apartmentService.getAll().subscribe({
-            next: (res: ApartmentArrayResponseType) => {
-                const data: IData<IFloor> = res.body?.data!;
-                this.floors = data.content ?? [];
+        this.floorService.getAll().subscribe({
+            next: (res: FloorListResponseType) => {
+                const data: IFloor[] = res.body?.data ?? [];
+                this.floors = data;
+                this.filteredFloors = this.apartmentForm
+                    .get('floor')!
+                    .valueChanges.pipe(
+                        startWith(''),
+                        map((value) => this._filterFloors(value))
+                    );
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -88,7 +94,22 @@ export class ApartmentFormComponent implements OnInit {
         });
     }
 
+    private _filterFloors(value: string | IFloor): IFloor[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.floors.filter((floor) =>
+            floor?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    displayFloor(floor: IFloor | null): string {
+        return floor ? floor.number! : '';
+    }
+
     onSubmit(): void {
+        const floor: IFloor = this.apartmentForm.get('floor')!.value;
+
         const apartment: IApartment = new Apartment(
             this.apartmentForm.get('number')!.value!,
             this.apartmentForm.get('description')!.value!,
@@ -99,7 +120,7 @@ export class ApartmentFormComponent implements OnInit {
             this.apartmentForm.get('toiletsNr')!.value!,
             this.apartmentForm.get('capacity')!.value!,
             this.apartmentForm.get('hasKitchen')!.value!,
-            this.apartmentForm.get('floorId')!.value
+            floor.id
         );
 
         const updatedApartment: IApartment = new Apartment(
@@ -112,7 +133,7 @@ export class ApartmentFormComponent implements OnInit {
             this.apartmentForm.get('toiletsNr')!.value!,
             this.apartmentForm.get('capacity')!.value!,
             this.apartmentForm.get('hasKitchen')!.value!,
-            this.apartmentForm.get('floorId')!.value!
+            floor.id
         );
 
         if (this.isEditMode) {

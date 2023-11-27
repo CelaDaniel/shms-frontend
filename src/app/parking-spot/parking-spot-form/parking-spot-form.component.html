@@ -40,19 +40,28 @@
                 <div class="form-group" *ngIf="!isEditMode">
                     <mat-form-field class="full-width" *ngIf="!isEditMode">
                         <mat-label>Parking Floor</mat-label>
-                        <mat-select
-                            formControlName="parkingFloorId"
-                            name="parkingFloorId"
-                            id="parkingFloorId"
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="parkingFloor"
+                            name="parkingFloor"
+                            id="parkingFloor"
+                            [matAutocomplete]="auto"
+                        />
+                        <mat-autocomplete
+                            autoActiveFirstOption
+                            #auto="matAutocomplete"
+                            [displayWith]="displayParkingFloor"
                         >
-                            <mat-option>None</mat-option>
-
                             <mat-option
-                                *ngFor="let floor of parkingFloors"
-                                [value]="floor.id"
-                                >{{ floor.number }}
+                                *ngFor="
+                                    let parkingFloor of filteredParkingFloors
+                                        | async
+                                "
+                                [value]="parkingFloor"
+                                >{{ parkingFloor.number }}
                             </mat-option>
-                        </mat-select>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 

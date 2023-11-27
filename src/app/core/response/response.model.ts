@@ -10,6 +10,12 @@ export interface IArrayResponse<T> {
     data: IData<T>;
 }
 
+export interface IListResponse<T> {
+    code: number;
+    message: string;
+    data: T[];
+}
+
 export interface IData<T> {
     content: T[];
     pageable: IPagination;

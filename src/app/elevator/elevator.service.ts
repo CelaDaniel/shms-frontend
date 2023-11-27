@@ -17,7 +17,7 @@ export class ElevatorService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(req?: any): Observable<ElevatorArrayResponseType> {
+    query(req?: any): Observable<ElevatorArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IElevator>>(this.resourceUrl, {
             params: options,

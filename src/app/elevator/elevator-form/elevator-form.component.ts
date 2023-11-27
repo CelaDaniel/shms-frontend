@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Elevator, IElevator } from '../elevator.model';
 import {
-    BuildingArrayResponseType,
+    BuildingListResponseType,
     BuildingService,
 } from 'src/app/building/building.service';
-import { IData } from 'src/app/core/response/response.model';
 import { IBuilding } from 'src/app/building/building.model';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-elevator-form',
@@ -20,6 +21,9 @@ export class ElevatorFormComponent implements OnInit {
     elevatorForm: FormGroup;
     isEditMode = false;
     elevatorId?: number;
+
+    filteredBuildings?: Observable<IBuilding[]>;
+
     constructor(
         protected elevatorService: ElevatorService,
         private buildingService: BuildingService,
@@ -30,7 +34,7 @@ export class ElevatorFormComponent implements OnInit {
         this.elevatorForm = this.fb.group({
             number: ['', [Validators.required]],
             description: [''],
-            buildingId: [null],
+            building: [null, [Validators.required]],
             capacity: [0],
             maxWeight: [0],
         });
@@ -54,10 +58,7 @@ export class ElevatorFormComponent implements OnInit {
                 const message = res.body?.message;
                 const data: IElevator = res.body?.data!;
 
-                this.elevatorForm.patchValue({
-                    ...data,
-                    buildingId: data.building?.id,
-                });
+                this.elevatorForm.patchValue(data);
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -67,9 +68,15 @@ export class ElevatorFormComponent implements OnInit {
 
     loadData(): void {
         this.buildingService.getAll().subscribe({
-            next: (res: BuildingArrayResponseType) => {
-                const data: IData<IBuilding> = res.body?.data!;
-                this.buildings = data.content ?? [];
+            next: (res: BuildingListResponseType) => {
+                const data: IBuilding[] = res.body?.data ?? [];
+                this.buildings = data;
+                this.filteredBuildings = this.elevatorForm
+                    .get('building')!
+                    .valueChanges.pipe(
+                        startWith(''),
+                        map((value) => this._filterBuildings(value))
+                    );
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -77,11 +84,26 @@ export class ElevatorFormComponent implements OnInit {
         });
     }
 
+    private _filterBuildings(value: string | IBuilding): IBuilding[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.buildings.filter((building) =>
+            building?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    displayBuilding(building: IBuilding | null): string {
+        return building ? building.number! : '';
+    }
+
     onSubmit(): void {
+        const building: IBuilding = this.elevatorForm.get('building')!.value!;
+
         const elevator: IElevator = new Elevator(
             this.elevatorForm.get('number')!.value!,
             this.elevatorForm.get('description')!.value!,
-            this.elevatorForm.get('buildingId')!.value!,
+            building.id,
             this.elevatorForm.get('capacity')!.value!,
             this.elevatorForm.get('maxWeight')!.value!
         );
@@ -89,7 +111,7 @@ export class ElevatorFormComponent implements OnInit {
         const updatedElevator: IElevator = new Elevator(
             this.elevatorForm.get('number')!.value!,
             this.elevatorForm.get('description')!.value!,
-            this.elevatorForm.get('buildingId')!.value!,
+            building.id,
             this.elevatorForm.get('capacity')!.value!,
             this.elevatorForm.get('maxWeight')!.value!
         );

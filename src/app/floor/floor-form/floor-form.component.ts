@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Floor, IFloor } from '../floor.model';
 import {
-    BuildingArrayResponseType,
+    BuildingListResponseType,
     BuildingService,
 } from 'src/app/building/building.service';
 import { IBuilding } from 'src/app/building/building.model';
-import { IData } from 'src/app/core/response/response.model';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-floor-form',
@@ -20,6 +21,9 @@ export class FloorFormComponent implements OnInit {
     floorForm: FormGroup;
     isEditMode = false;
     floorId?: number;
+
+    filteredBuildings?: Observable<IBuilding[]>;
+
     constructor(
         protected floorService: FloorService,
         private buildingService: BuildingService,
@@ -30,7 +34,7 @@ export class FloorFormComponent implements OnInit {
         this.floorForm = this.fb.group({
             number: ['', [Validators.required]],
             description: [''],
-            buildingId: [null],
+            building: [null, [Validators.required]],
             nrApartments: [0],
         });
     }
@@ -53,10 +57,7 @@ export class FloorFormComponent implements OnInit {
                 const message = res.body?.message;
                 const data: IFloor = res.body?.data!;
 
-                this.floorForm.patchValue({
-                    ...data,
-                    buildingId: data.building?.id,
-                });
+                this.floorForm.patchValue(data);
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -66,9 +67,15 @@ export class FloorFormComponent implements OnInit {
 
     loadData(): void {
         this.buildingService.getAll().subscribe({
-            next: (res: BuildingArrayResponseType) => {
-                const data: IData<IBuilding> = res.body?.data!;
-                this.buildings = data.content ?? [];
+            next: (res: BuildingListResponseType) => {
+                const data: IBuilding[] = res.body?.data ?? [];
+                this.buildings = data;
+                this.filteredBuildings = this.floorForm
+                    .get('building')!
+                    .valueChanges.pipe(
+                        startWith(''),
+                        map((value) => this._filterBuildings(value))
+                    );
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -76,18 +83,33 @@ export class FloorFormComponent implements OnInit {
         });
     }
 
+    private _filterBuildings(value: string | IBuilding): IBuilding[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.buildings.filter((building) =>
+            building?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    displayBuilding(building: IBuilding | null): string {
+        return building ? building.number! : '';
+    }
+
     onSubmit(): void {
+        const building: IBuilding = this.floorForm.get('building')!.value!;
+
         const floor: IFloor = new Floor(
             this.floorForm.get('number')!.value!,
             this.floorForm.get('description')!.value!,
-            this.floorForm.get('buildingId')!.value!,
+            building.id,
             this.floorForm.get('nrApartments')!.value!
         );
 
         const updatedFloor: IFloor = new Floor(
             this.floorForm.get('number')!.value!,
             this.floorForm.get('description')!.value!,
-            this.floorForm.get('buildingId')!.value!
+            building.id
         );
 
         if (this.isEditMode) {

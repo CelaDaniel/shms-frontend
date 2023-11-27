@@ -107,7 +107,7 @@ export class ContractListComponent {
 
     loadAll(filter?: { [key: string]: string }): void {
         this.contractService
-            .getAll({
+            .query({
                 ...filter,
                 page: this.page,
                 size: this.pageSize,

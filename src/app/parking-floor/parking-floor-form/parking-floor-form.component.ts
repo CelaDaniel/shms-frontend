@@ -7,11 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParkingFloor, IParkingFloor } from '../parking-floor.model';
 import {
-    BuildingArrayResponseType,
+    BuildingListResponseType,
     BuildingService,
 } from 'src/app/building/building.service';
 import { IBuilding } from 'src/app/building/building.model';
-import { IData } from 'src/app/core/response/response.model';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-parking-floor-form',
@@ -23,6 +24,9 @@ export class ParkingFloorFormComponent implements OnInit {
     parkingFloorForm: FormGroup;
     isEditMode = false;
     parkingFloorId?: number;
+
+    filteredBuildings?: Observable<IBuilding[]>;
+
     constructor(
         protected parkingfloorService: ParkingFloorService,
         private buildingService: BuildingService,
@@ -33,7 +37,7 @@ export class ParkingFloorFormComponent implements OnInit {
         this.parkingFloorForm = this.fb.group({
             number: ['', [Validators.required]],
             description: [''],
-            buildingId: [null],
+            building: [null, [Validators.required]],
             nrParkingSpots: [0],
         });
     }
@@ -56,10 +60,7 @@ export class ParkingFloorFormComponent implements OnInit {
                 const message = res.body?.message;
                 const data: IParkingFloor = res.body?.data!;
 
-                this.parkingFloorForm.patchValue({
-                    ...data,
-                    buildingId: data.building?.id,
-                });
+                this.parkingFloorForm.patchValue(data);
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -69,9 +70,15 @@ export class ParkingFloorFormComponent implements OnInit {
 
     loadData(): void {
         this.buildingService.getAll().subscribe({
-            next: (res: BuildingArrayResponseType) => {
-                const data: IData<IBuilding> = res.body?.data!;
-                this.buildings = data.content ?? [];
+            next: (res: BuildingListResponseType) => {
+                const data: IBuilding[] = res.body?.data ?? [];
+                this.buildings = data;
+                this.filteredBuildings = this.parkingFloorForm
+                    .get('building')!
+                    .valueChanges.pipe(
+                        startWith(''),
+                        map((value) => this._filterBuildings(value))
+                    );
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -79,18 +86,34 @@ export class ParkingFloorFormComponent implements OnInit {
         });
     }
 
+    private _filterBuildings(value: string | IBuilding): IBuilding[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.buildings.filter((building) =>
+            building?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    displayBuilding(building: IBuilding | null): string {
+        return building ? building.number! : '';
+    }
+
     onSubmit(): void {
+        const building: IBuilding =
+            this.parkingFloorForm.get('building')!.value!;
+
         const floor: IParkingFloor = new ParkingFloor(
             this.parkingFloorForm.get('number')!.value!,
             this.parkingFloorForm.get('description')!.value!,
-            this.parkingFloorForm.get('buildingId')!.value!,
+            building.id,
             this.parkingFloorForm.get('nrParkingSpots')!.value
         );
 
         const updatedFloor: IParkingFloor = new ParkingFloor(
             this.parkingFloorForm.get('number')!.value!,
             this.parkingFloorForm.get('description')!.value!,
-            this.parkingFloorForm.get('buildingId')!.value!
+            building.id
         );
 
         if (this.isEditMode) {

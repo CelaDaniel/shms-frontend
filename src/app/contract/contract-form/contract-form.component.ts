@@ -113,7 +113,7 @@ export class ContractFormComponent {
     }
 
     loadData(): void {
-        this.apartmentService.getAll().subscribe({
+        this.apartmentService.query().subscribe({
             next: (res: ApartmentArrayResponseType) => {
                 const data: IData<IApartment> = res.body?.data!;
                 this.apartments = data.content ?? [];
@@ -123,7 +123,7 @@ export class ContractFormComponent {
             },
         });
 
-        this.parkingSpotService.getAll().subscribe({
+        this.parkingSpotService.query().subscribe({
             next: (res: ParkingSpotArrayResponseType) => {
                 const data: IData<IParkingSpot> = res.body?.data!;
                 this.parkingSpots = data.content ?? [];
@@ -133,7 +133,7 @@ export class ContractFormComponent {
             },
         });
 
-        this.studentService.getAll().subscribe({
+        this.studentService.query().subscribe({
             next: (res: StudentArrayResponseType) => {
                 const data: IData<IStudent> = res.body?.data!;
                 this.students = data.content ?? [];

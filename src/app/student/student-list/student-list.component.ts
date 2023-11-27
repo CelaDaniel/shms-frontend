@@ -102,7 +102,7 @@ export class StudentListComponent implements OnInit {
 
     loadAll(filter?: { [key: string]: string }): void {
         this.studentService
-            .getAll({
+            .query({
                 ...filter,
                 page: this.page,
                 size: this.pageSize,

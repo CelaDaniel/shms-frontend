@@ -19,7 +19,7 @@ export class ApartmentService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(req?: any): Observable<ApartmentArrayResponseType> {
+    query(req?: any): Observable<ApartmentArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IApartment>>(this.resourceUrl, {
             params: options,

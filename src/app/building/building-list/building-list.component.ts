@@ -98,7 +98,7 @@ export class BuildingListComponent implements OnInit {
 
     loadAll(filter?: { [key: string]: string }): void {
         this.buildingService
-            .getAll({
+            .query({
                 ...filter,
                 page: this.page,
                 size: this.pageSize,

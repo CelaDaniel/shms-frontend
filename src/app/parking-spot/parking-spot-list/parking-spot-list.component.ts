@@ -81,7 +81,7 @@ export class ParkingSpotListComponent implements OnInit {
 
     loadAll(filter?: { [key: string]: string }): void {
         this.parkingSpotService
-            .getAll({
+            .query({
                 ...filter,
                 page: this.page,
                 size: this.pageSize,

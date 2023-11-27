@@ -78,7 +78,7 @@ export class FloorListComponent implements OnInit {
 
     loadAll(filter?: { [key: string]: string }): void {
         this.floorService
-            .getAll({
+            .query({
                 ...filter,
                 page: this.page,
                 size: this.pageSize,

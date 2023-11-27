@@ -3,12 +3,19 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IParkingFloor } from './parking-floor.model';
-import { IArrayResponse, IResponse } from '../core/response/response.model';
+import {
+    IArrayResponse,
+    IListResponse,
+    IResponse,
+} from '../core/response/response.model';
 import { createRequestOption } from '../core/request/request-util';
 
 export type ParkingFloorResponseType = HttpResponse<IResponse<IParkingFloor>>;
 export type ParkingFloorArrayResponseType = HttpResponse<
     IArrayResponse<IParkingFloor>
+>;
+export type ParkingFloorListResponseType = HttpResponse<
+    IListResponse<IParkingFloor>
 >;
 
 @Injectable({
@@ -19,12 +26,21 @@ export class ParkingFloorService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(req?: any): Observable<ParkingFloorArrayResponseType> {
+    query(req?: any): Observable<ParkingFloorArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IParkingFloor>>(this.resourceUrl, {
             params: options,
             observe: 'response',
         });
+    }
+
+    getAll(): Observable<ParkingFloorListResponseType> {
+        return this.http.get<IListResponse<IParkingFloor>>(
+            `${this.resourceUrl}/all`,
+            {
+                observe: 'response',
+            }
+        );
     }
 
     getById(id: number): Observable<ParkingFloorResponseType> {

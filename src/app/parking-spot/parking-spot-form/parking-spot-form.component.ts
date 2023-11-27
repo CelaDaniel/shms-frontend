@@ -8,10 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParkingSpot, IParkingSpot } from '../parking-spot.model';
 import { IParkingFloor } from 'src/app/parking-floor/parking-floor.model';
 import {
-    ParkingFloorArrayResponseType,
+    ParkingFloorListResponseType,
     ParkingFloorService,
 } from 'src/app/parking-floor/parking-floor.service';
-import { IData } from 'src/app/core/response/response.model';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-parking-spot-form',
@@ -23,6 +24,9 @@ export class ParkingSpotFormComponent implements OnInit {
     parkingSpotForm: FormGroup;
     isEditMode = false;
     parkingSpotId?: number;
+
+    filteredParkingFloors?: Observable<IParkingFloor[]>;
+
     constructor(
         protected parkingspotService: ParkingSpotService,
         private parkingFloorService: ParkingFloorService,
@@ -33,7 +37,7 @@ export class ParkingSpotFormComponent implements OnInit {
         this.parkingSpotForm = this.fb.group({
             number: ['', [Validators.required]],
             description: [''],
-            parkingFloorId: [null],
+            parkingFloor: [null, [Validators.required]],
         });
     }
 
@@ -55,10 +59,7 @@ export class ParkingSpotFormComponent implements OnInit {
                 const message = res.body?.message;
                 const data: IParkingSpot = res.body?.data!;
 
-                this.parkingSpotForm.patchValue({
-                    ...data,
-                    parkingFloorId: data.parkingFloor?.id,
-                });
+                this.parkingSpotForm.patchValue(data);
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -68,9 +69,15 @@ export class ParkingSpotFormComponent implements OnInit {
 
     loadData(): void {
         this.parkingFloorService.getAll().subscribe({
-            next: (res: ParkingFloorArrayResponseType) => {
-                const data: IData<IParkingFloor> = res.body?.data!;
-                this.parkingFloors = data.content ?? [];
+            next: (res: ParkingFloorListResponseType) => {
+                const data: IParkingFloor[] = res.body?.data ?? [];
+                this.parkingFloors = data;
+                this.filteredParkingFloors = this.parkingSpotForm
+                    .get('parkingFloor')!
+                    .valueChanges.pipe(
+                        startWith(''),
+                        map((value) => this._filterParkingFloors(value))
+                    );
             },
             error: (res: any) => {
                 console.log(res.body);
@@ -78,17 +85,35 @@ export class ParkingSpotFormComponent implements OnInit {
         });
     }
 
+    private _filterParkingFloors(
+        value: string | IParkingFloor
+    ): IParkingFloor[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.parkingFloors.filter((floor) =>
+            floor?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    displayParkingFloor(floor: IParkingFloor | null): string {
+        return floor ? floor.number! : '';
+    }
+
     onSubmit(): void {
+        const parkingFloor: IParkingFloor =
+            this.parkingSpotForm.get('parkingFloor')!.value!;
+
         const spot: IParkingSpot = new ParkingSpot(
             this.parkingSpotForm.get('number')!.value!,
             this.parkingSpotForm.get('description')!.value!,
-            this.parkingSpotForm.get('parkingFloorId')!.value!
+            parkingFloor.id
         );
 
         const updatedSpot: IParkingSpot = new ParkingSpot(
             this.parkingSpotForm.get('number')!.value!,
             this.parkingSpotForm.get('description')!.value!,
-            this.parkingSpotForm.get('parkingFloorId')!.value!
+            parkingFloor.id
         );
 
         if (this.isEditMode) {

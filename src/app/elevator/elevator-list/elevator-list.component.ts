@@ -73,7 +73,7 @@ export class ElevatorListComponent implements OnInit {
 
     loadAll(filter?: { [key: string]: string }): void {
         this.elevatorService
-            .getAll({
+            .query({
                 ...filter,
                 page: this.page,
                 size: this.pageSize,

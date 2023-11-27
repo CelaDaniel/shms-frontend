@@ -17,7 +17,7 @@ export class UserService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(req?: any): Observable<UserArrayResponseType> {
+    query(req?: any): Observable<UserArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IUser>>(this.resourceUrl, {
             params: options,

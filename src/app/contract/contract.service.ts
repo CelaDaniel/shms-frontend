@@ -17,7 +17,7 @@ export class ContractService {
 
     constructor(private http: HttpClient) {}
 
-    getAll(req?: any): Observable<ContractArrayResponseType> {
+    query(req?: any): Observable<ContractArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<IArrayResponse<IContract>>(this.resourceUrl, {
             params: options,
