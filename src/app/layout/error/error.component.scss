@@ -1,9 +1,11 @@
-.not-found-container {
-    text-align: center;
-    margin-top: 50px;
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
 
-    h2 {
-        color: #f00;
-        /* Red color for emphasis */
+    .content {
+        text-align: center;
     }
 }

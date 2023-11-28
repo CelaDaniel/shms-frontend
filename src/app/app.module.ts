@@ -8,9 +8,18 @@ import { SharedModule } from './shared/shared.module';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { MainComponent } from './layout/main/main.component';
 import { httpInterceptorProviders } from './core/interceptor';
+import { AppComponent } from './app.component';
+import { ToolbarComponent } from './layout/toolbar/toolbar.component';
+import { ErrorComponent } from './layout/error/error.component';
 
 @NgModule({
-    declarations: [SidebarComponent, MainComponent],
+    declarations: [
+        AppComponent,
+        MainComponent,
+        SidebarComponent,
+        ToolbarComponent,
+        ErrorComponent,
+    ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -23,6 +32,6 @@ import { httpInterceptorProviders } from './core/interceptor';
         AppRoutingModule,
     ],
     providers: [httpInterceptorProviders],
-    bootstrap: [MainComponent],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

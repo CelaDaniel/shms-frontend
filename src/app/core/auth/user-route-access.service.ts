@@ -38,7 +38,7 @@ export class UserRouteAccessService implements CanActivate {
                     return false;
                 }
 
-                this.router.navigate(['/login']);
+                this.router.navigate(['/auth/login']);
                 return false;
             })
         );

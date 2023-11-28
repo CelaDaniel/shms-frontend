@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+    <h3>{{ pageTitle }}</h3>
+    <span class="spacer"></span>
+    <mat-divider [vertical]="true"></mat-divider>
+    <button [matMenuTriggerFor]="profileMenu" class="profile-button">
+        <span
+            >{{ user?.firstName?.charAt(0)
+            }}{{ user?.lastName?.charAt(0) }}</span
+        >
+    </button>
+    <mat-menu #profileMenu="matMenu">
+        <button
+            class="menu-button"
+            mat-menu-item
+            [ngClass]="{ active: isCurrentRoute('/account/profile') }"
+            routerLink="/account/profile"
+        >
+            <mat-icon>account_circle</mat-icon>
+            My Profile
+        </button>
+        <button
+            class="menu-button"
+            mat-menu-item
+            [ngClass]="{ active: isCurrentRoute('/account/change-password') }"
+            routerLink="/account/change-password"
+        >
+            <mat-icon>manage_accounts</mat-icon>
+            Change Password
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Logout
+        </button>
+    </mat-menu>
+</mat-toolbar>

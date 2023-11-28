@@ -118,7 +118,7 @@ export class AuthService {
                     localStorage.removeItem('token');
                     this.isAuthenticatedSubject.next(false);
                     this.currentUserSubject.next(null);
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/auth/login']);
                     return throwError(error);
                 })
             )
@@ -127,7 +127,7 @@ export class AuthService {
                 localStorage.removeItem('user');
                 this.isAuthenticatedSubject.next(false);
                 this.currentUserSubject.next(null);
-                this.router.navigate(['/login']);
+                this.router.navigate(['/auth/login']);
             });
     }
 

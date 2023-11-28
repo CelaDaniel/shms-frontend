@@ -17,7 +17,12 @@ export class UserService {
     private resourceUrl = `${environment.apiUrl}/users`;
     private currentUser: IUser | null = null;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        const user = localStorage.getItem('user');
+        if (user) {
+            this.currentUser = this.decodeUser(user);
+        }
+    }
 
     query(req?: any): Observable<UserArrayResponseType> {
         const options = createRequestOption(req);
@@ -98,5 +103,9 @@ export class UserService {
         return this.currentUser.roles!.some((role: UserRoles) =>
             roles.includes(role)
         );
+    }
+
+    private decodeUser(encodedUser: string): IUser {
+        return JSON.parse(atob(encodedUser));
     }
 }

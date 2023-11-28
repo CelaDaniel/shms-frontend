@@ -1,0 +1,34 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.profile-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 40px;
+        height: 40px;
+        border: solid 1px #fff;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: #3649b3;
+        }
+    }
+}
+
+.menu-button.active {
+    background-color: #d3d3d3;
+
+    &:hover {
+        background-color: #d3d3d3;
+    }
+}
