@@ -10,6 +10,7 @@ import { IFilter } from 'src/app/shared/filter/filter.model';
 import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
+import { UserRoles } from 'src/app/enums/roles.model';
 
 @Component({
     selector: 'app-apartment-list',
@@ -17,6 +18,7 @@ import { Sort } from '@angular/material/sort';
     styleUrls: ['./apartment-list.component.scss'],
 })
 export class ApartmentListComponent implements OnInit {
+    userRoles = UserRoles;
     apartments: IApartment[] = [];
     apartmentsColumns: string[] = [
         'id',

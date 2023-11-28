@@ -10,6 +10,7 @@ import { IFilter } from 'src/app/shared/filter/filter.model';
 import { Gender } from 'src/app/enums/gender-types.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
+import { UserRoles } from 'src/app/enums/roles.model';
 
 @Component({
     selector: 'app-student-list',
@@ -17,6 +18,7 @@ import { Sort } from '@angular/material/sort';
     styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
+    userRoles = UserRoles;
     students: IStudent[] = [];
     displayedColumns: string[] = [
         'id',

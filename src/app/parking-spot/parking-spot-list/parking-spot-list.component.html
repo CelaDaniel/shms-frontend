@@ -8,6 +8,7 @@
             <div class="header">
                 <h2>Parking Spots</h2>
                 <button
+                    *hasAnyRole="userRoles.MANAGER"
                     mat-raised-button
                     color="primary"
                     class="newbtn"
@@ -65,12 +66,17 @@
                             <mat-icon>visibility</mat-icon>
                         </button>
                         <button
+                            *hasAnyRole="userRoles.MANAGER"
                             mat-icon-button
                             [routerLink]="['/parking-spots', spot.id, 'edit']"
                         >
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="openModal(spot.id)">
+                        <button
+                            *hasAnyRole="userRoles.MANAGER"
+                            mat-icon-button
+                            (click)="openModal(spot.id)"
+                        >
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>

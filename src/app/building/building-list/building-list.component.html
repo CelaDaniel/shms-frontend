@@ -8,6 +8,7 @@
             <div class="header">
                 <h2>Buildings</h2>
                 <button
+                    *hasAnyRole="userRoles.MANAGER"
                     mat-raised-button
                     color="primary"
                     class="newbtn"
@@ -97,12 +98,14 @@
                             <mat-icon>visibility</mat-icon>
                         </button>
                         <button
+                            *hasAnyRole="userRoles.MANAGER"
                             mat-icon-button
                             [routerLink]="['/buildings', building.id, 'edit']"
                         >
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button
+                            *hasAnyRole="userRoles.MANAGER"
                             mat-icon-button
                             (click)="openModal(building.id)"
                         >

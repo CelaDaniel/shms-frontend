@@ -9,6 +9,7 @@ import { IData, IPagination } from 'src/app/core/response/response.model';
 import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
+import { UserRoles } from 'src/app/enums/roles.model';
 
 @Component({
     selector: 'app-building-list',
@@ -16,6 +17,7 @@ import { Sort } from '@angular/material/sort';
     styleUrls: ['./building-list.component.scss'],
 })
 export class BuildingListComponent implements OnInit {
+    userRoles = UserRoles;
     buildings: IBuilding[] = [];
     displayedColumns: string[] = [
         'id',

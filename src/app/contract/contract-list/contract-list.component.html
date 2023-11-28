@@ -133,6 +133,7 @@
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button
+                            *hasAnyRole="userRoles.MANAGER"
                             mat-icon-button
                             (click)="openModal(contract.id)"
                         >
