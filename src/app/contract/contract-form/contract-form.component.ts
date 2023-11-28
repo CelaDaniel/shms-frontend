@@ -1,25 +1,35 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
 import { ContractResponseType, ContractService } from '../contract.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Contract, IContract } from '../contract.model';
+import { IContract } from '../contract.model';
 import * as dayjs from 'dayjs';
 import { IApartment } from 'src/app/apartment/apartment.model';
 import { IStudent } from 'src/app/student/student.model';
 import { IParkingSpot } from 'src/app/parking-spot/parking-spot.model';
 import {
-    ApartmentArrayResponseType,
+    ApartmentListResponseType,
     ApartmentService,
 } from 'src/app/apartment/apartment.service';
 import {
-    ParkingSpotArrayResponseType,
+    ParkingSpotListResponseType,
     ParkingSpotService,
 } from 'src/app/parking-spot/parking-spot.service';
 import {
     StudentArrayResponseType,
+    StudentListResponseType,
     StudentService,
 } from 'src/app/student/student.service';
 import { IData } from 'src/app/core/response/response.model';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { apartmentOrParkingSpotRequired } from './contract-form-validator';
 
 @Component({
     selector: 'app-contract-form',
@@ -37,6 +47,10 @@ export class ContractFormComponent {
     students: IStudent[] = [];
     parkingSpots: IParkingSpot[] = [];
 
+    filteredApartments?: Observable<IApartment[]>;
+    filteredParkingSpots?: Observable<IParkingSpot[]>;
+    filteredStudents?: Observable<IStudent[]>;
+
     constructor(
         protected contractService: ContractService,
         protected apartmentService: ApartmentService,
@@ -46,22 +60,26 @@ export class ContractFormComponent {
         private route: ActivatedRoute,
         private fb: FormBuilder
     ) {
-        this.contractForm = this.fb.group({
-            number: ['', [Validators.required]],
-            initialValidDate: [new Date(), [Validators.required]],
-            endValidDate: [new Date(), [Validators.required]],
-            fee: ['', [Validators.required]],
-            signDate: [new Date(), [Validators.required]],
-            apartmentId: [null, [Validators.required]],
-            parkingSpotId: [null, [Validators.required]],
-            studentId: [null, [Validators.required]],
-            description: [''],
-            file: [null, [Validators.required]],
-        });
+        this.contractForm = this.fb.group(
+            {
+                number: ['', [Validators.required]],
+                initialValidDate: [new Date(), [Validators.required]],
+                endValidDate: [new Date(), [Validators.required]],
+                fee: ['', [Validators.required]],
+                signDate: [new Date(), [Validators.required]],
+                apartment: [null],
+                parkingSpot: [null],
+                student: [null, [Validators.required]],
+                description: [''],
+                file: [null, [Validators.required]],
+            },
+            { validators: [apartmentOrParkingSpotRequired] }
+        );
     }
 
     ngOnInit(): void {
-        this.loadData();
+        this.onDateChanges();
+
         this.route.params.subscribe((params) => {
             if (params['id']) {
                 this.isEditMode = true;
@@ -81,17 +99,140 @@ export class ContractFormComponent {
                 const message = res.body?.message;
                 const data: IContract = res.body?.data!;
 
-                this.contractForm.patchValue({
-                    ...data,
-                    apartmentId: data.apartment?.id,
-                    studentId: data.student?.id,
-                    parkingSpotId: data.parkingSpot?.id,
-                });
+                this.contractForm.patchValue(data);
             },
             error: (res: any) => {
                 console.log(res.body);
             },
         });
+    }
+
+    private onDateChanges(): void {
+        this.contractForm
+            .get('initialValidDate')!
+            .valueChanges.subscribe(() => {
+                this.loadData();
+            });
+
+        this.contractForm.get('endValidDate')!.valueChanges.subscribe(() => {
+            this.loadData();
+        });
+    }
+
+    loadData(): void {
+        const startDate: Date =
+            this.contractForm.get('initialValidDate')!.value!;
+        const endDate: Date = this.contractForm.get('endValidDate')!.value!;
+
+        const formattedStartDate = dayjs(startDate).format('YYYY-MM-DD');
+        const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD');
+
+        this.apartmentService
+            .getAvailable({
+                initialValidDate: formattedStartDate,
+                endValidDate: formattedEndDate,
+            })
+            .subscribe({
+                next: (res: ApartmentListResponseType) => {
+                    const data: IApartment[] = res.body?.data ?? [];
+                    this.apartments = data;
+                    this.filteredApartments = this.contractForm
+                        .get('apartment')!
+                        .valueChanges.pipe(
+                            startWith(''),
+                            map((value) => this._filterApartments(value))
+                        );
+                },
+                error: (res: any) => {
+                    console.log(res.body);
+                },
+            });
+
+        this.parkingSpotService
+            .getAvailable({
+                initialValidDate: formattedStartDate,
+                endValidDate: formattedEndDate,
+            })
+            .subscribe({
+                next: (res: ParkingSpotListResponseType) => {
+                    const data: IParkingSpot[] = res.body?.data ?? [];
+                    this.parkingSpots = data;
+                    this.filteredParkingSpots = this.contractForm
+                        .get('parkingSpot')!
+                        .valueChanges.pipe(
+                            startWith(''),
+                            map((value) => this._filterParkingSpots(value))
+                        );
+                },
+                error: (res: any) => {
+                    console.log(res.body);
+                },
+            });
+
+        this.studentService
+            .getAvailable({
+                initialValidDate: formattedStartDate,
+                endValidDate: formattedEndDate,
+            })
+            .subscribe({
+                next: (res: StudentListResponseType) => {
+                    const data: IStudent[] = res.body?.data ?? [];
+                    this.students = data;
+                    this.filteredStudents = this.contractForm
+                        .get('student')!
+                        .valueChanges.pipe(
+                            startWith(''),
+                            map((value) => this._filterStudents(value))
+                        );
+                },
+                error: (res: any) => {
+                    console.log(res.body);
+                },
+            });
+    }
+
+    private _filterApartments(value: string | IApartment): IApartment[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.apartments.filter((apartment) =>
+            apartment?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterParkingSpots(value: string | IParkingSpot): IParkingSpot[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.parkingSpots.filter((parkingSpot) =>
+            parkingSpot?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    private _filterStudents(value: string | IStudent): IStudent[] {
+        const filterValue =
+            value && typeof value === 'string' ? value.toLowerCase() : '';
+
+        return this.students.filter(
+            (student) =>
+                student?.firstName?.toLowerCase().includes(filterValue) ||
+                student?.lastName?.toLowerCase().includes(filterValue) ||
+                student?.number?.toLowerCase().includes(filterValue)
+        );
+    }
+
+    displayApartment(apartment: IApartment | null): string {
+        return apartment ? apartment.number! : '';
+    }
+
+    displayParkingSpot(parkingSpot: IParkingSpot | null): string {
+        return parkingSpot ? parkingSpot.number! : '';
+    }
+
+    displayStudent(student: IStudent | null): string {
+        return student
+            ? `${student.firstName} ${student.lastName} (${student.number})`
+            : '';
     }
 
     loadFile(id: number): void {
@@ -112,38 +253,6 @@ export class ContractFormComponent {
         window.open(this.fileUrl);
     }
 
-    loadData(): void {
-        this.apartmentService.query().subscribe({
-            next: (res: ApartmentArrayResponseType) => {
-                const data: IData<IApartment> = res.body?.data!;
-                this.apartments = data.content ?? [];
-            },
-            error: (res: any) => {
-                console.log(res.body);
-            },
-        });
-
-        this.parkingSpotService.query().subscribe({
-            next: (res: ParkingSpotArrayResponseType) => {
-                const data: IData<IParkingSpot> = res.body?.data!;
-                this.parkingSpots = data.content ?? [];
-            },
-            error: (res: any) => {
-                console.log(res.body);
-            },
-        });
-
-        this.studentService.query().subscribe({
-            next: (res: StudentArrayResponseType) => {
-                const data: IData<IStudent> = res.body?.data!;
-                this.students = data.content ?? [];
-            },
-            error: (res: any) => {
-                console.log(res.body);
-            },
-        });
-    }
-
     onFileChange(event: any): void {
         const file: File = (event.target as HTMLInputElement).files?.[0]!;
 
@@ -161,6 +270,12 @@ export class ContractFormComponent {
         const formattedStartDate = dayjs(startDate).format('YYYY-MM-DD');
         const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD');
         const formattedSignDate = dayjs(signDate).format('YYYY-MM-DD');
+
+        const apartment: IApartment =
+            this.contractForm.get('apartment')!.value!;
+        const parkingSpot: IParkingSpot =
+            this.contractForm.get('parkingSpot')!.value!;
+        const student: IStudent = this.contractForm.get('student')!.value!;
 
         // const contract: IContract = new Contract(
         //     this.contractForm.get('number')!.value!,
@@ -181,18 +296,10 @@ export class ContractFormComponent {
         contract.append('endValidDate', formattedEndDate);
         contract.append('fee', this.contractForm.get('fee')!.value!);
         contract.append('signDate', formattedSignDate);
-        contract.append(
-            'apartmentId',
-            this.contractForm.get('apartmentId')!.value!
-        );
-        contract.append(
-            'parkingSpotId',
-            this.contractForm.get('parkingSpotId')!.value!
-        );
-        contract.append(
-            'studentId',
-            this.contractForm.get('studentId')!.value!
-        );
+        apartment && contract.append('apartmentId', apartment.id!.toString());
+        parkingSpot &&
+            contract.append('parkingSpotId', parkingSpot.id!.toString());
+        contract.append('studentId', student.id!.toString());
         contract.append(
             'description',
             this.contractForm.get('description')!.value!

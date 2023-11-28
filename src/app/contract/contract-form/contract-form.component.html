@@ -98,63 +98,84 @@
                 <div class="form-group">
                     <mat-form-field class="full-width">
                         <mat-label>Apartment</mat-label>
-                        <mat-select
-                            formControlName="apartmentId"
-                            name="apartmentId"
-                            id="apartmentId"
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="apartment"
+                            name="apartment"
+                            id="apartment"
+                            [matAutocomplete]="apartment"
+                        />
+                        <mat-autocomplete
+                            autoActiveFirstOption
+                            #apartment="matAutocomplete"
+                            [displayWith]="displayApartment"
                         >
-                            <mat-option>None</mat-option>
-
                             <mat-option
-                                *ngFor="let apartment of apartments"
-                                [value]="apartment.id"
-                                >{{ apartment.number }}</mat-option
-                            >
-                        </mat-select>
+                                *ngFor="
+                                    let apartment of filteredApartments | async
+                                "
+                                [value]="apartment"
+                                >{{ apartment.number }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
 
                     <mat-form-field class="full-width">
                         <mat-label>Parking Spot</mat-label>
-                        <mat-select
-                            formControlName="parkingSpotId"
-                            name="parkingSpotId"
-                            id="parkingSpotId"
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="parkingSpot"
+                            name="parkingSpot"
+                            id="parkingSpot"
+                            [matAutocomplete]="parkingSpot"
+                        />
+                        <mat-autocomplete
+                            autoActiveFirstOption
+                            #parkingSpot="matAutocomplete"
+                            [displayWith]="displayParkingSpot"
                         >
-                            <mat-option>None</mat-option>
-
                             <mat-option
-                                *ngFor="let parkingSpot of parkingSpots"
-                                [value]="parkingSpot.id"
-                                >{{ parkingSpot.number }}</mat-option
-                            >
-                        </mat-select>
+                                *ngFor="
+                                    let parkingSpot of filteredParkingSpots
+                                        | async
+                                "
+                                [value]="parkingSpot"
+                                >{{ parkingSpot.number }}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
 
                 <div class="form-group">
                     <mat-form-field class="full-width">
                         <mat-label>Student</mat-label>
-                        <mat-select
-                            formControlName="studentId"
-                            name="studentId"
-                            id="studentId"
+                        <input
+                            type="text"
+                            matInput
+                            formControlName="student"
+                            name="student"
+                            id="student"
+                            [matAutocomplete]="student"
+                        />
+                        <mat-autocomplete
+                            autoActiveFirstOption
+                            #student="matAutocomplete"
+                            [displayWith]="displayStudent"
                         >
-                            <mat-option>None</mat-option>
-
                             <mat-option
-                                *ngFor="let student of students"
-                                [value]="student.id"
+                                *ngFor="let student of filteredStudents | async"
+                                [value]="student"
                                 >{{ student.firstName }}
-                                {{ student.lastName }} ({{
-                                    student.number
-                                }})</mat-option
-                            >
-                        </mat-select>
+                                {{ student.lastName }} ({{ student.number }})
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
                 <div class="form-group">
                     <div class="full-width">
-                        <mat-label>File</mat-label>
+                        <mat-label>Contract File</mat-label>
                         <input
                             (change)="onFileChange($event)"
                             type="file"

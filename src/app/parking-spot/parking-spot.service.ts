@@ -3,14 +3,20 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { IParkingSpot } from './parking-spot.model';
-import { IArrayResponse, IResponse } from '../core/response/response.model';
+import {
+    IArrayResponse,
+    IListResponse,
+    IResponse,
+} from '../core/response/response.model';
 import { createRequestOption } from '../core/request/request-util';
 
 export type ParkingSpotResponseType = HttpResponse<IResponse<IParkingSpot>>;
 export type ParkingSpotArrayResponseType = HttpResponse<
     IArrayResponse<IParkingSpot>
 >;
-
+export type ParkingSpotListResponseType = HttpResponse<
+    IListResponse<IParkingSpot>
+>;
 @Injectable({
     providedIn: 'root',
 })
@@ -25,6 +31,17 @@ export class ParkingSpotService {
             params: options,
             observe: 'response',
         });
+    }
+
+    getAvailable(req?: any): Observable<ParkingSpotListResponseType> {
+        const options = createRequestOption(req);
+        return this.http.get<IListResponse<IParkingSpot>>(
+            `${this.resourceUrl}/all`,
+            {
+                params: options,
+                observe: 'response',
+            }
+        );
     }
 
     getById(id: number): Observable<ParkingSpotResponseType> {

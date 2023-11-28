@@ -13,10 +13,8 @@ import { UserService } from 'src/app/user/user.service';
 @Directive({
     selector: '[hasAnyRole]',
 })
-export class HasAnyRoleDirective implements OnDestroy {
+export class HasAnyRoleDirective {
     private roles!: UserRoles | UserRoles[];
-
-    private readonly destroy$ = new Subject<void>();
 
     constructor(
         private userService: UserService,
@@ -28,18 +26,6 @@ export class HasAnyRoleDirective implements OnDestroy {
     @Input() set hasAnyRole(value: UserRoles | UserRoles[]) {
         this.roles = value;
         this.updateView();
-
-        this.userService
-            .getLoggedInUser()
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.updateView();
-            });
-    }
-
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
     }
 
     private updateView(): void {
