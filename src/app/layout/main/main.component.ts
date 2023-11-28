@@ -11,7 +11,7 @@ import { UserResponseType, UserService } from 'src/app/user/user.service';
 })
 export class MainComponent implements OnInit {
     loggedIn = false;
-    user?: IUser;
+    user: IUser | null = null;
     pageTitle = '';
     constructor(
         private authService: AuthService,
@@ -30,20 +30,19 @@ export class MainComponent implements OnInit {
             this.loggedIn = authenticated;
         });
 
-        this.userService.getLoggedInUser().subscribe({
-            next: (res: UserResponseType) => {
-                const data: IUser = res.body?.data!;
-                this.user = data;
-                console.log(this.user);
-            },
-            error: (res: any) => {
-                console.log(res.body);
-            },
-        });
+        this.authService
+            .getAuthenticatedUser()
+            .subscribe((authnticatedUser) => {
+                this.user = authnticatedUser;
+            });
     }
 
     logout(): void {
         this.authService.logout();
+    }
+
+    isCurrentRoute(path: string): boolean {
+        return this.router.isActive(path, false);
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {

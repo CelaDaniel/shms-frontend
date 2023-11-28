@@ -4,32 +4,6 @@ import { errorRoutes } from './layout/error/error.route';
 
 const routes: Routes = [
     {
-        path: 'login',
-        loadChildren: () =>
-            import('./login/login.module').then((m) => m.LoginModule),
-    },
-    {
-        path: 'forgot-password',
-        loadChildren: () =>
-            import('./forgot-password/forgot-password.module').then(
-                (m) => m.ForgotPasswordModule
-            ),
-    },
-    {
-        path: 'reset-password',
-        loadChildren: () =>
-            import('./reset-password/reset-password.module').then(
-                (m) => m.ResetPasswordModule
-            ),
-    },
-    {
-        path: 'activate-user',
-        loadChildren: () =>
-            import('./activate-user/activate-user.module').then(
-                (m) => m.ActivateUserModule
-            ),
-    },
-    {
         path: 'home',
         data: { pageTitle: 'Home' },
         loadChildren: () =>
@@ -97,8 +71,8 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: '/home',
-        pathMatch: 'full',
+        loadChildren: () =>
+            import('./auth/auth.module').then((m) => m.AuthModule),
     },
     ...errorRoutes,
 ];

@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserFormComponent } from './user-form/user-form.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserRouteAccessService } from '../core/auth/user-route-access.service';
 import { UserRoles } from '../enums/roles.model';
 
@@ -30,15 +29,6 @@ const routes: Routes = [
         path: ':id/edit',
         data: { roles: [UserRoles.ADMIN] },
         component: UserFormComponent,
-        canActivate: [UserRouteAccessService],
-    },
-    {
-        path: 'profile',
-        data: {
-            pageTitle: 'User Profile',
-            roles: [UserRoles.ADMIN, UserRoles.MANAGER, UserRoles.USER],
-        },
-        component: UserProfileComponent,
         canActivate: [UserRouteAccessService],
     },
 ];

@@ -38,3 +38,11 @@
         }
     }
 }
+
+.menu-button.active {
+    background-color: #d3d3d3;
+
+    &:hover {
+        background-color: #d3d3d3;
+    }
+}

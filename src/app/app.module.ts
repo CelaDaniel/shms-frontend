@@ -1,7 +1,6 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,7 +10,7 @@ import { MainComponent } from './layout/main/main.component';
 import { httpInterceptorProviders } from './core/interceptor';
 
 @NgModule({
-    declarations: [AppComponent, SidebarComponent, MainComponent],
+    declarations: [SidebarComponent, MainComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -24,6 +23,6 @@ import { httpInterceptorProviders } from './core/interceptor';
         AppRoutingModule,
     ],
     providers: [httpInterceptorProviders],
-    bootstrap: [AppComponent],
+    bootstrap: [MainComponent],
 })
 export class AppModule {}

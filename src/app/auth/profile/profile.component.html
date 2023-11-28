@@ -1,0 +1,37 @@
+<div *ngIf="user">
+    <h2>My Profile</h2>
+    <dl>
+        <dt>Number: {{ user.number }}</dt>
+
+        <dt>First Name: {{ user.firstName }}</dt>
+
+        <dt>Last Name: {{ user.lastName }}</dt>
+
+        <dt>Email: {{ user.email }}</dt>
+
+        <dt>Description: {{ user.description }}</dt>
+        <br />
+        <dt>
+            Roles:
+            <mat-chip *ngFor="let role of user.roles">
+                {{ role }}
+            </mat-chip>
+        </dt>
+        <br />
+        <dt>
+            Status:
+            <button
+                mat-flat-button
+                [color]="
+                    user.userStatus === userStatus.ACTIVE ? 'primary' : 'warn'
+                "
+            >
+                {{ user.userStatus }}
+            </button>
+        </dt>
+    </dl>
+</div>
+
+<div *ngIf="!user">
+    <p>Loading...</p>
+</div>

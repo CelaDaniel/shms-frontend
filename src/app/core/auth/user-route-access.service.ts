@@ -8,19 +8,23 @@ import {
 import { Observable, map } from 'rxjs';
 import { UserRoles } from 'src/app/enums/roles.model';
 import { UserService } from 'src/app/user/user.service';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserRouteAccessService implements CanActivate {
-    constructor(private userService: UserService, private router: Router) {}
+    constructor(
+        private userService: UserService,
+        private authService: AuthService,
+        private router: Router
+    ) {}
 
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> {
-        return this.userService.getLoggedInUser().pipe(
-            map((res) => {
-                const user = res?.body?.data;
-                if (user) {
+        return this.authService.isAuthenticated().pipe(
+            map((isAuthenticated) => {
+                if (isAuthenticated) {
                     const roles: UserRoles[] | UserRoles = route.data['roles'];
 
                     if (

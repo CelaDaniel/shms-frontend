@@ -14,7 +14,7 @@ export class SidebarComponent {
             path: '/home',
             label: 'Home',
             icon: 'home',
-            roles: [],
+            roles: [UserRoles.ADMIN, UserRoles.MANAGER, UserRoles.USER],
         },
         {
             path: '/buildings',

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { UserResponseType, UserService } from '../user.service';
+import { UserResponseType, UserService } from '../../user/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { IUser } from '../user.model';
+import { IUser } from '../../user/user.model';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserStatus } from 'src/app/enums/user-status.model';
 
 @Component({
-    selector: 'app-user-profile',
-    templateUrl: './user-profile.component.html',
-    styleUrls: ['./user-profile.component.scss'],
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
 })
-export class UserProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit {
     user: IUser | null = null;
     userStatus = UserStatus;
 

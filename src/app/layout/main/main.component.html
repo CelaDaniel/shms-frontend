@@ -12,9 +12,23 @@
                 >
             </button>
             <mat-menu #profileMenu="matMenu">
-                <button mat-menu-item routerLink="/users/profile">
+                <button
+                    class="menu-button"
+                    mat-menu-item
+                    [ngClass]="{ active: isCurrentRoute('/profile') }"
+                    routerLink="/profile"
+                >
                     <mat-icon>account_circle</mat-icon>
                     My Profile
+                </button>
+                <button
+                    class="menu-button"
+                    mat-menu-item
+                    [ngClass]="{ active: isCurrentRoute('/change-password') }"
+                    routerLink="/change-password"
+                >
+                    <mat-icon>manage_accounts</mat-icon>
+                    Change Password
                 </button>
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>logout</mat-icon>
