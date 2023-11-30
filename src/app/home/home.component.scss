@@ -1,32 +1,8 @@
-.home-container {
-    text-align: center;
-    margin-top: 50px;
+mat-tab-group {
+    background-color: #f0f0f0;
+}
 
-    h2 {
-        margin-bottom: 20px;
-    }
-
-    .dashboard {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .card {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        width: 200px;
-        margin: 0 10px;
-
-        h3 {
-            color: #333;
-        }
-
-        p {
-            font-size: 24px;
-            margin-top: 10px;
-        }
-    }
+mat-card {
+    width: 300px;
+    margin: 20px;
 }

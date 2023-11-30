@@ -54,8 +54,8 @@ export class ContractListComponent {
             type: 'text',
         },
         {
-            name: 'studentEmail',
-            label: 'Student Email',
+            name: 'student',
+            label: 'Student',
             type: 'text',
         },
         {

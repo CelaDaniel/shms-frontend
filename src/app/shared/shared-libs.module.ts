@@ -21,6 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
@@ -48,6 +49,7 @@ import { MatMenuModule } from '@angular/material/menu';
         MatAutocompleteModule,
         MatToolbarModule,
         MatMenuModule,
+        MatTabsModule,
     ],
 })
 export class SharedLibsModule {}

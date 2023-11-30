@@ -4,6 +4,7 @@ import { ProfileComponent } from '../account/profile/profile.component';
 import { UserRouteAccessService } from '../core/auth/user-route-access.service';
 import { UserRoles } from '../enums/roles.model';
 import { ChangePasswordComponent } from '../account/change-password/change-password.component';
+import { UserProfileFormComponent } from './user-profile-form/user-profile-form.component';
 
 const routes: Routes = [
     {
@@ -13,6 +14,15 @@ const routes: Routes = [
             roles: [UserRoles.ADMIN, UserRoles.MANAGER, UserRoles.USER],
         },
         component: ProfileComponent,
+        canActivate: [UserRouteAccessService],
+    },
+    {
+        path: 'edit',
+        data: {
+            pageTitle: 'Update Profile',
+            roles: [UserRoles.ADMIN, UserRoles.MANAGER, UserRoles.USER],
+        },
+        component: UserProfileFormComponent,
         canActivate: [UserRouteAccessService],
     },
     {

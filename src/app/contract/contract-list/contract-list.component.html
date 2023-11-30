@@ -92,7 +92,8 @@
                         Student
                     </th>
                     <td mat-cell *matCellDef="let contract">
-                        {{ contract.studentEmail }}
+                        {{ contract.student?.firstName }}
+                        {{ contract.student?.lastName }}
                     </td>
                 </ng-container>
 

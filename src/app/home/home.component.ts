@@ -8,6 +8,25 @@ import { Router } from '@angular/router';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+    dashboardData: any = {
+        students: {
+            active: 0,
+            total: 0,
+        },
+        apartments: {
+            active: 0,
+            total: 0,
+        },
+        parkingSpots: {
+            active: 0,
+            total: 0,
+        },
+        contracts: {
+            active: 0,
+            total: 0,
+        },
+    };
+
     constructor(private authService: AuthService, private router: Router) {}
 
     ngOnInit(): void {

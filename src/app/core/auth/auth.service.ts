@@ -13,6 +13,7 @@ import {
 import { IUser } from 'src/app/user/user.model';
 import { UserResponseType } from 'src/app/user/user.service';
 import { IResponse } from '../response/response.model';
+import { UserRoles } from 'src/app/enums/roles.model';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class AuthService {
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(
         this.hasToken()
     );
+    private currentUser: IUser | null = null;
     private currentUserSubject = new BehaviorSubject<IUser | null>(null);
     private http: HttpClient;
 
@@ -29,6 +31,7 @@ export class AuthService {
         this.http = new HttpClient(handler);
         const user = localStorage.getItem('user');
         if (user) {
+            this.currentUser = this.decodeUser(user);
             this.currentUserSubject.next(this.decodeUser(user));
         }
     }
@@ -65,6 +68,7 @@ export class AuthService {
                             next: (res: UserResponseType) => {
                                 const user: IUser | null =
                                     res.body?.data ?? null;
+                                this.currentUser = user;
                                 this.currentUserSubject.next(user);
                                 localStorage.setItem(
                                     'user',
@@ -117,6 +121,7 @@ export class AuthService {
                 catchError((error) => {
                     localStorage.removeItem('token');
                     this.isAuthenticatedSubject.next(false);
+                    this.currentUser = null;
                     this.currentUserSubject.next(null);
                     this.router.navigate(['/auth/login']);
                     return throwError(error);
@@ -126,9 +131,24 @@ export class AuthService {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 this.isAuthenticatedSubject.next(false);
+                this.currentUser = null;
                 this.currentUserSubject.next(null);
                 this.router.navigate(['/auth/login']);
             });
+    }
+
+    hasAnyRole(roles: UserRoles[] | UserRoles): boolean {
+        if (!this.currentUser) {
+            return false;
+        }
+
+        if (!Array.isArray(roles)) {
+            roles = [roles];
+        }
+
+        return this.currentUser.roles!.some((role: UserRoles) =>
+            roles.includes(role)
+        );
     }
 
     private encodeUser(user: IUser | null): string {

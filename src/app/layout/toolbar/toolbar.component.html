@@ -21,10 +21,19 @@
         <button
             class="menu-button"
             mat-menu-item
+            [ngClass]="{ active: isCurrentRoute('/account/edit') }"
+            routerLink="/account/edit"
+        >
+            <mat-icon>manage_accounts</mat-icon>
+            Update Profile
+        </button>
+        <button
+            class="menu-button"
+            mat-menu-item
             [ngClass]="{ active: isCurrentRoute('/account/change-password') }"
             routerLink="/account/change-password"
         >
-            <mat-icon>manage_accounts</mat-icon>
+            <mat-icon>lock</mat-icon>
             Change Password
         </button>
         <button mat-menu-item (click)="logout()">

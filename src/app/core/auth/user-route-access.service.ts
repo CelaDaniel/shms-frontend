@@ -7,16 +7,11 @@ import {
 } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { UserRoles } from 'src/app/enums/roles.model';
-import { UserService } from 'src/app/user/user.service';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserRouteAccessService implements CanActivate {
-    constructor(
-        private userService: UserService,
-        private authService: AuthService,
-        private router: Router
-    ) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(
         route: ActivatedRouteSnapshot,
@@ -30,7 +25,7 @@ export class UserRouteAccessService implements CanActivate {
                     if (
                         !roles ||
                         roles.length === 0 ||
-                        this.userService.hasAnyRole(roles)
+                        this.authService.hasAnyRole(roles)
                     ) {
                         return true;
                     }

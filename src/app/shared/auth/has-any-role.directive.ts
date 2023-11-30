@@ -8,7 +8,6 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserRoles } from 'src/app/enums/roles.model';
-import { UserService } from 'src/app/user/user.service';
 
 @Directive({
     selector: '[hasAnyRole]',
@@ -19,7 +18,6 @@ export class HasAnyRoleDirective implements OnDestroy {
     private readonly destroy$ = new Subject<void>();
 
     constructor(
-        private userService: UserService,
         private authService: AuthService,
         private templateRef: TemplateRef<any>,
         private viewContainerRef: ViewContainerRef
@@ -29,8 +27,8 @@ export class HasAnyRoleDirective implements OnDestroy {
         this.roles = value;
         this.updateView();
 
-        this.userService
-            .getLoggedInUser()
+        this.authService
+            .getAuthenticatedUser()
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => {
                 this.updateView();
@@ -43,7 +41,7 @@ export class HasAnyRoleDirective implements OnDestroy {
     }
 
     private updateView(): void {
-        const hasAnyRole = this.userService.hasAnyRole(this.roles);
+        const hasAnyRole = this.authService.hasAnyRole(this.roles);
         this.viewContainerRef.clear();
         if (hasAnyRole) {
             this.viewContainerRef.createEmbeddedView(this.templateRef);

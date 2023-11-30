@@ -25,3 +25,13 @@ export class User implements IUser {
         public userStatus?: UserStatus
     ) {}
 }
+
+export class UserProfile implements IUser {
+    constructor(
+        public number?: string,
+        public firstName?: string,
+        public lastName?: string,
+        public email?: string,
+        public description?: string | null
+    ) {}
+}

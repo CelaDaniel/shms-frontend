@@ -1,0 +1,32 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .full-width {
+            width: 48%;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+    }
+
+    .button-container {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    mat-card {
+        max-width: 600px;
+        width: 100%;
+    }
+}
