@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-    FormBuilder,
-    FormGroup,
-    ValidationErrors,
-    ValidatorFn,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContractResponseType, ContractService } from '../contract.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IContract } from '../contract.model';
@@ -22,14 +16,16 @@ import {
     ParkingSpotService,
 } from 'src/app/parking-spot/parking-spot.service';
 import {
-    StudentArrayResponseType,
     StudentListResponseType,
     StudentService,
 } from 'src/app/student/student.service';
-import { IData } from 'src/app/core/response/response.model';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { apartmentOrParkingSpotRequired } from './contract-form-validator';
+import {
+    apartmentOrParkingSpotRequired,
+    discountMaxValue,
+    maxFileSize,
+} from './contract-form-validator';
 
 @Component({
     selector: 'app-contract-form',
@@ -50,6 +46,9 @@ export class ContractFormComponent {
     filteredApartments?: Observable<IApartment[]>;
     filteredParkingSpots?: Observable<IParkingSpot[]>;
     filteredStudents?: Observable<IStudent[]>;
+
+    apartmentPercentage = false;
+    parkingSpotPercentage = false;
 
     constructor(
         protected contractService: ContractService,
@@ -72,8 +71,20 @@ export class ContractFormComponent {
                 student: [null, [Validators.required]],
                 description: [''],
                 file: [null, [Validators.required]],
+                apartmentFee: [0],
+                parkingSpotFee: [0],
+                apartmentDiscount: [0, [Validators.min(0)]],
+                parkingSpotDiscount: [0, [Validators.min(0)]],
+                apartmentPercentage: [false],
+                parkingSpotPercentage: [false],
             },
-            { validators: [apartmentOrParkingSpotRequired] }
+            {
+                validators: [
+                    apartmentOrParkingSpotRequired,
+                    discountMaxValue,
+                    maxFileSize,
+                ],
+            }
         );
     }
 
@@ -112,6 +123,49 @@ export class ContractFormComponent {
         });
     }
 
+    calculateTotalFee(): number {
+        const apartmentFee = Number(
+            this.contractForm.get('apartmentFee')!.value!
+        );
+        const parkingSpotFee = Number(
+            this.contractForm.get('parkingSpotFee')!.value!
+        );
+
+        const apartmentDiscountValue = Number(
+            this.contractForm.get('apartmentDiscount')!.value!
+        );
+        const parkingSpotDiscountValue = Number(
+            this.contractForm.get('parkingSpotDiscount')!.value!
+        );
+
+        const apartmentDiscount = this.apartmentPercentage
+            ? apartmentFee * (apartmentDiscountValue / 100)
+            : apartmentDiscountValue;
+        const parkingSpotDiscount = this.parkingSpotPercentage
+            ? parkingSpotFee * (parkingSpotDiscountValue / 100)
+            : parkingSpotDiscountValue;
+
+        return (
+            apartmentFee -
+            apartmentDiscount +
+            (parkingSpotFee - parkingSpotDiscount)
+        );
+    }
+
+    toggleApartmentPercentage(): void {
+        this.apartmentPercentage = !this.apartmentPercentage;
+        this.contractForm
+            .get('apartmentPercentage')!
+            .setValue(this.apartmentPercentage);
+    }
+
+    toggleParkingSpotPercentage(): void {
+        this.parkingSpotPercentage = !this.parkingSpotPercentage;
+        this.contractForm
+            .get('parkingSpotPercentage')!
+            .setValue(this.parkingSpotPercentage);
+    }
+
     private updateFee(): void {
         this.contractForm
             .get('apartment')!
@@ -121,6 +175,15 @@ export class ContractFormComponent {
                     this.contractForm
                         .get('fee')!
                         .setValue(fee + Number(apartment.price!));
+
+                    this.contractForm
+                        .get('apartmentFee')!
+                        .setValue(Number(apartment.price!));
+                } else {
+                    this.contractForm.get('fee')!.setValue(fee);
+
+                    this.contractForm.get('apartmentFee')!.setValue(0);
+                    this.contractForm.get('apartmentDiscount')!.setValue(0);
                 }
             });
 
@@ -132,6 +195,15 @@ export class ContractFormComponent {
                     this.contractForm
                         .get('fee')!
                         .setValue(fee + Number(parkingSpot.price!));
+
+                    this.contractForm
+                        .get('parkingSpotFee')!
+                        .setValue(Number(parkingSpot.price!));
+                } else {
+                    this.contractForm.get('fee')!.setValue(fee);
+
+                    this.contractForm.get('parkingSpotFee')!.setValue(0);
+                    this.contractForm.get('parkingSpotDiscount')!.setValue(0);
                 }
             });
     }
@@ -178,6 +250,7 @@ export class ContractFormComponent {
             .getAvailable({
                 initialValidDate: formattedStartDate,
                 endValidDate: formattedEndDate,
+                contractId: this.contractId,
             })
             .subscribe({
                 next: (res: ApartmentListResponseType) => {
@@ -199,6 +272,7 @@ export class ContractFormComponent {
             .getAvailable({
                 initialValidDate: formattedStartDate,
                 endValidDate: formattedEndDate,
+                contractId: this.contractId,
             })
             .subscribe({
                 next: (res: ParkingSpotListResponseType) => {
@@ -220,6 +294,7 @@ export class ContractFormComponent {
             .getAvailable({
                 initialValidDate: formattedStartDate,
                 endValidDate: formattedEndDate,
+                contractId: this.contractId,
             })
             .subscribe({
                 next: (res: StudentListResponseType) => {
@@ -353,6 +428,35 @@ export class ContractFormComponent {
         );
         if (this.contractForm.get('file')!.value! !== null) {
             contract.append('file', this.contractForm.get('file')!.value!);
+        }
+        if (apartment?.price! > 0) {
+            contract.append('apartmentFee', apartment.price!.toString());
+        }
+
+        if (parkingSpot?.price! > 0) {
+            contract.append('parkingSpotFee', parkingSpot.price!.toString());
+        }
+
+        if (this.contractForm.get('apartmentDiscount')!.value! > 0) {
+            contract.append(
+                'apartmentDiscount',
+                this.contractForm.get('apartmentDiscount')!.value!
+            );
+            contract.append(
+                'apartmentPercentage',
+                this.contractForm.get('apartmentPercentage')!.value!
+            );
+        }
+
+        if (this.contractForm.get('parkingSpotDiscount')!.value! > 0) {
+            contract.append(
+                'parkingSpotDiscount',
+                this.contractForm.get('parkingSpotDiscount')!.value!
+            );
+            contract.append(
+                'parkingSpotPercentage',
+                this.contractForm.get('parkingSpotPercentage')!.value!
+            );
         }
 
         if (this.isEditMode) {
