@@ -97,6 +97,16 @@
                     </td>
                 </ng-container>
 
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Price
+                    </th>
+                    <td mat-cell *matCellDef="let apartment">
+                        {{ apartment.price }}
+                    </td>
+                </ng-container>
+
                 <!-- Number Column -->
                 <ng-container matColumnDef="hasKitchen">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

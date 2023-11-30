@@ -24,6 +24,7 @@ export class ParkingSpotListComponent implements OnInit {
         'number',
         'parkingFloorNumber',
         'nrContracts',
+        'price',
         'actions',
     ];
 

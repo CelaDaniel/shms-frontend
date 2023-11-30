@@ -65,7 +65,7 @@ export class ContractFormComponent {
                 number: ['', [Validators.required]],
                 initialValidDate: [new Date(), [Validators.required]],
                 endValidDate: [new Date(), [Validators.required]],
-                fee: ['', [Validators.required]],
+                fee: [0, [Validators.required, Validators.min(0)]],
                 signDate: [new Date(), [Validators.required]],
                 apartment: [null],
                 parkingSpot: [null],
@@ -79,6 +79,7 @@ export class ContractFormComponent {
 
     ngOnInit(): void {
         this.onDateChanges();
+        this.updateFee();
 
         this.route.params.subscribe((params) => {
             if (params['id']) {
@@ -88,6 +89,10 @@ export class ContractFormComponent {
                 this.contractForm.get('file')!.updateValueAndValidity();
                 this.loadFile(this.contractId);
                 this.loadById(this.contractId);
+            } else {
+                this.contractForm.get('apartment')!.disable();
+                this.contractForm.get('parkingSpot')!.disable();
+                this.contractForm.get('student')!.disable();
             }
         });
     }
@@ -107,15 +112,57 @@ export class ContractFormComponent {
         });
     }
 
+    private updateFee(): void {
+        this.contractForm
+            .get('apartment')!
+            .valueChanges.subscribe((apartment: IApartment) => {
+                const fee = Number(this.contractForm.get('fee')!.value!);
+                if (apartment instanceof Object) {
+                    this.contractForm
+                        .get('fee')!
+                        .setValue(fee + Number(apartment.price!));
+                }
+            });
+
+        this.contractForm
+            .get('parkingSpot')!
+            .valueChanges.subscribe((parkingSpot: IParkingSpot) => {
+                const fee = Number(this.contractForm.get('fee')!.value!);
+                if (parkingSpot instanceof Object) {
+                    this.contractForm
+                        .get('fee')!
+                        .setValue(fee + Number(parkingSpot.price!));
+                }
+            });
+    }
+
     private onDateChanges(): void {
         this.contractForm
             .get('initialValidDate')!
             .valueChanges.subscribe(() => {
                 this.loadData();
+                if (
+                    this.contractForm.get('apartment')!.disabled ||
+                    this.contractForm.get('parkingSpot')!.disabled ||
+                    this.contractForm.get('student')!.disabled
+                ) {
+                    this.contractForm.get('apartment')!.enable();
+                    this.contractForm.get('parkingSpot')!.enable();
+                    this.contractForm.get('student')!.enable();
+                }
             });
 
         this.contractForm.get('endValidDate')!.valueChanges.subscribe(() => {
             this.loadData();
+            if (
+                this.contractForm.get('apartment')!.disabled ||
+                this.contractForm.get('parkingSpot')!.disabled ||
+                this.contractForm.get('student')!.disabled
+            ) {
+                this.contractForm.get('apartment')!.enable();
+                this.contractForm.get('parkingSpot')!.enable();
+                this.contractForm.get('student')!.enable();
+            }
         });
     }
 

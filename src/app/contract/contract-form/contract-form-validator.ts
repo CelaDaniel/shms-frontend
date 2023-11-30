@@ -6,7 +6,7 @@ export const apartmentOrParkingSpotRequired: ValidatorFn = (
     const apartment = formGroup.get('apartment')?.value;
     const parkingSpot = formGroup.get('parkingSpot')?.value;
 
-    if (!apartment && !parkingSpot) {
+    if (!(apartment instanceof Object) && !(parkingSpot instanceof Object)) {
         return {
             apartmentOrParkingSpotRequired:
                 'Select either Apartment or Parking Spot',

@@ -38,6 +38,7 @@ export class ParkingSpotFormComponent implements OnInit {
             number: ['', [Validators.required]],
             description: [''],
             parkingFloor: [null, [Validators.required]],
+            price: [null, [Validators.required, Validators.min(0)]],
         });
     }
 
@@ -107,13 +108,15 @@ export class ParkingSpotFormComponent implements OnInit {
         const spot: IParkingSpot = new ParkingSpot(
             this.parkingSpotForm.get('number')!.value!,
             this.parkingSpotForm.get('description')!.value!,
-            parkingFloor.id
+            parkingFloor.id,
+            this.parkingSpotForm.get('price')!.value!
         );
 
         const updatedSpot: IParkingSpot = new ParkingSpot(
             this.parkingSpotForm.get('number')!.value!,
             this.parkingSpotForm.get('description')!.value!,
-            parkingFloor.id
+            parkingFloor.id,
+            this.parkingSpotForm.get('price')!.value!
         );
 
         if (this.isEditMode) {

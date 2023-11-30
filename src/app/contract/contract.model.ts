@@ -18,6 +18,9 @@ export interface IContract extends IBaseModel {
     parkingSpotId?: number;
     studentId?: number;
     file?: File;
+    apartmentFee?: number;
+    parkingSpotFee?: number;
+    discount?: number;
 }
 
 export class Contract implements IContract {

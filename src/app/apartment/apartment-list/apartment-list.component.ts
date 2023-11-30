@@ -28,6 +28,7 @@ export class ApartmentListComponent implements OnInit {
         'capacity',
         'floorNumber',
         'nrContracts',
+        'price',
         'hasKitchen',
         'actions',
     ];

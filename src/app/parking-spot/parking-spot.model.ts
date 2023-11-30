@@ -7,11 +7,13 @@ export interface IParkingSpot extends IBaseModel {
     activeContract?: any;
     parkingFloorNumber?: string;
     nrContracts?: number;
+    price?: number;
 }
 export class ParkingSpot implements IParkingSpot {
     constructor(
         public number?: string,
         public description?: string | null,
-        public parkingFloorId?: number
+        public parkingFloorId?: number,
+        public price?: number
     ) {}
 }

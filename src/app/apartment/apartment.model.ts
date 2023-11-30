@@ -15,6 +15,7 @@ export interface IApartment extends IBaseModel {
     floor?: IFloor;
     floorId?: number;
     activeContracts?: any[];
+    price?: number;
 }
 export class Apartment implements IApartment {
     constructor(
@@ -27,6 +28,7 @@ export class Apartment implements IApartment {
         public toiletsNr?: number,
         public capacity?: number,
         public hasKitchen?: boolean,
-        public floorId?: number
+        public floorId?: number,
+        public price?: number
     ) {}
 }

@@ -139,10 +139,20 @@
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
-                    <mat-checkbox formControlName="hasKitchen"
-                        >Has Kitchen</mat-checkbox
-                    >
+                    <mat-form-field class="full-width">
+                        <mat-label>Price</mat-label>
+                        <input
+                            matInput
+                            type="number"
+                            name="price"
+                            id="price"
+                            formControlName="price"
+                        />
+                    </mat-form-field>
                 </div>
+                <mat-checkbox formControlName="hasKitchen"
+                    >Has Kitchen</mat-checkbox
+                >
 
                 <div class="button-container">
                     <button

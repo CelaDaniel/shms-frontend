@@ -46,6 +46,7 @@ export class ApartmentFormComponent implements OnInit {
             capacity: [null, [Validators.required, Validators.min(1)]],
             hasKitchen: [false],
             floor: [null, [Validators.required]],
+            price: [null, [Validators.required, Validators.min(0)]],
         });
     }
 
@@ -120,7 +121,8 @@ export class ApartmentFormComponent implements OnInit {
             this.apartmentForm.get('toiletsNr')!.value!,
             this.apartmentForm.get('capacity')!.value!,
             this.apartmentForm.get('hasKitchen')!.value!,
-            floor.id
+            floor.id,
+            this.apartmentForm.get('price')!.value!
         );
 
         const updatedApartment: IApartment = new Apartment(
@@ -133,7 +135,8 @@ export class ApartmentFormComponent implements OnInit {
             this.apartmentForm.get('toiletsNr')!.value!,
             this.apartmentForm.get('capacity')!.value!,
             this.apartmentForm.get('hasKitchen')!.value!,
-            floor.id
+            floor.id,
+            this.apartmentForm.get('price')!.value!
         );
 
         if (this.isEditMode) {
