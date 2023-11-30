@@ -68,11 +68,4 @@ export class BuildingService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<BuildingResponseType> {
-        return this.http.delete<IResponse<IBuilding>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }

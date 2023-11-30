@@ -20,7 +20,10 @@ export interface IContract extends IBaseModel {
     file?: File;
     apartmentFee?: number;
     parkingSpotFee?: number;
-    discount?: number;
+    apartmentDiscount?: number;
+    apartmentPercentage?: boolean;
+    parkingSpotDiscount?: number;
+    parkingSpotPercentage?: boolean;
 }
 
 export class Contract implements IContract {

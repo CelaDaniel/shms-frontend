@@ -58,11 +58,4 @@ export class ElevatorService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<ElevatorResponseType> {
-        return this.http.delete<IResponse<IElevator>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }

@@ -62,11 +62,4 @@ export class FloorService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<FloorResponseType> {
-        return this.http.delete<IResponse<IFloor>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }

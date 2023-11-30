@@ -64,11 +64,4 @@ export class ContractService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<ContractResponseType> {
-        return this.http.delete<IResponse<IContract>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }

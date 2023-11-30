@@ -79,11 +79,4 @@ export class ApartmentService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<ApartmentResponseType> {
-        return this.http.delete<IResponse<IApartment>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }

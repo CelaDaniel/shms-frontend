@@ -67,11 +67,4 @@ export class StudentService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<StudentResponseType> {
-        return this.http.delete<IResponse<IStudent>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }

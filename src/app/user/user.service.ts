@@ -75,13 +75,6 @@ export class UserService {
         });
     }
 
-    permanentDelete(id: number): Observable<UserResponseType> {
-        return this.http.delete<IResponse<IUser>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
-
     getLoggedInUser(): Observable<UserResponseType> {
         return this.http.get<IResponse<IUser>>(`${this.resourceUrl}/logged`, {
             observe: 'response',

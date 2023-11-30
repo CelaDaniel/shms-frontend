@@ -76,11 +76,4 @@ export class ParkingSpotService {
             { observe: 'response' }
         );
     }
-
-    permanentDelete(id: number): Observable<ParkingSpotResponseType> {
-        return this.http.delete<IResponse<IParkingSpot>>(
-            `${this.resourceUrl}/permanent/${id}`,
-            { observe: 'response' }
-        );
-    }
 }
