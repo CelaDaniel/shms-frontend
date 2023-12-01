@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { DashboardTabResponseType, HomeService } from './home.service';
+import { IDashboardTab } from './home.model';
 
 @Component({
     selector: 'app-home',
@@ -8,32 +11,59 @@ import { Router } from '@angular/router';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    dashboardData: any = {
-        students: {
-            active: 0,
-            total: 0,
+    dashboardTabs = [
+        {
+            label: 'Students',
         },
-        apartments: {
-            active: 0,
-            total: 0,
+        {
+            label: 'Apartments',
         },
-        parkingSpots: {
-            active: 0,
-            total: 0,
+        {
+            label: 'Parking Spots',
         },
-        contracts: {
-            active: 0,
-            total: 0,
+        {
+            label: 'Contracts',
         },
-    };
+    ];
 
-    constructor(private authService: AuthService, private router: Router) {}
+    selectedTabData?: IDashboardTab;
+
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private homeService: HomeService
+    ) {}
 
     ngOnInit(): void {
         this.authService.isAuthenticated().subscribe((authenticated) => {
             if (!authenticated) {
                 this.router.navigate(['/auth/login']);
             }
+        });
+
+        const firstTabName = this.dashboardTabs[0].label
+            .toLowerCase()
+            .replace(' ', '-');
+        this.loadTabData(firstTabName);
+    }
+
+    tabChanged(event: MatTabChangeEvent): void {
+        const label = event.tab.textLabel;
+        const tabName = label.toLowerCase().replace(' ', '-');
+        this.loadTabData(tabName);
+    }
+
+    loadTabData(tabName: string): void {
+        this.homeService.get(tabName).subscribe({
+            next: (res: DashboardTabResponseType) => {
+                const code = res.body?.code;
+                const message = res.body?.message;
+                const data: IDashboardTab = res.body?.data!;
+                this.selectedTabData = data;
+            },
+            error: (res: any) => {
+                console.log(res.body);
+            },
         });
     }
 }

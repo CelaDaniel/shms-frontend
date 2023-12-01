@@ -1,42 +1,12 @@
 <div class="home-container">
     <div class="dashboard-tabs">
-        <mat-tab-group>
-            <mat-tab label="Students">
+        <mat-tab-group (selectedTabChange)="tabChanged($event)">
+            <mat-tab *ngFor="let tab of dashboardTabs" [label]="tab.label">
                 <mat-card>
                     <mat-card-content>
-                        <h2>Students</h2>
-                        <p>Active: {{ dashboardData.students?.active }}</p>
-                        <p>Total: {{ dashboardData.students?.total }}</p>
-                    </mat-card-content>
-                </mat-card>
-            </mat-tab>
-
-            <mat-tab label="Apartments">
-                <mat-card>
-                    <mat-card-content>
-                        <h2>Apartments</h2>
-                        <p>Active: {{ dashboardData.apartments?.active }}</p>
-                        <p>Total: {{ dashboardData.apartments?.total }}</p>
-                    </mat-card-content>
-                </mat-card>
-            </mat-tab>
-
-            <mat-tab label="Parking Spots">
-                <mat-card>
-                    <mat-card-content>
-                        <h2>Parking Spots</h2>
-                        <p>Active: {{ dashboardData.parkingSpots?.active }}</p>
-                        <p>Total: {{ dashboardData.parkingSpots?.total }}</p>
-                    </mat-card-content>
-                </mat-card>
-            </mat-tab>
-
-            <mat-tab label="Contracts">
-                <mat-card>
-                    <mat-card-content>
-                        <h2>Contracts</h2>
-                        <p>Active: {{ dashboardData.contracts?.active }}</p>
-                        <p>Total: {{ dashboardData.contracts?.total }}</p>
+                        <h2>{{ tab.label }}</h2>
+                        <p>Active: {{ selectedTabData?.nrActive }}</p>
+                        <p>Total: {{ selectedTabData?.nrTotal }}</p>
                     </mat-card-content>
                 </mat-card>
             </mat-tab>
