@@ -95,7 +95,6 @@
                             [matAutocomplete]="student"
                         />
                         <mat-autocomplete
-                            autoActiveFirstOption
                             #student="matAutocomplete"
                             [displayWith]="displayStudent"
                         >
@@ -118,11 +117,12 @@
                             name="apartment"
                             id="apartment"
                             [matAutocomplete]="apartment"
+                            (input)="apartmentInputChanged($event)"
                         />
                         <mat-autocomplete
-                            autoActiveFirstOption
                             #apartment="matAutocomplete"
                             [displayWith]="displayApartment"
+                            (optionSelected)="apartmentChanged($event)"
                         >
                             <mat-option
                                 *ngFor="
@@ -143,11 +143,12 @@
                             name="parkingSpot"
                             id="parkingSpot"
                             [matAutocomplete]="parkingSpot"
+                            (input)="parkingSpotInputChanged($event)"
                         />
                         <mat-autocomplete
-                            autoActiveFirstOption
                             #parkingSpot="matAutocomplete"
                             [displayWith]="displayParkingSpot"
+                            (optionSelected)="parkingSpotChanged($event)"
                         >
                             <mat-option
                                 *ngFor="

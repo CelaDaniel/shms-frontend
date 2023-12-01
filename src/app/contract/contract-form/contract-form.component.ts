@@ -26,6 +26,7 @@ import {
     discountMaxValue,
     maxFileSize,
 } from './contract-form-validator';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
     selector: 'app-contract-form',
@@ -49,6 +50,8 @@ export class ContractFormComponent {
 
     apartmentPercentage = false;
     parkingSpotPercentage = false;
+
+    currentContract: IContract | null = null;
 
     constructor(
         protected contractService: ContractService,
@@ -90,7 +93,6 @@ export class ContractFormComponent {
 
     ngOnInit(): void {
         this.onDateChanges();
-        this.updateFee();
 
         this.route.params.subscribe((params) => {
             if (params['id']) {
@@ -114,7 +116,9 @@ export class ContractFormComponent {
                 const code = res.body?.code;
                 const message = res.body?.message;
                 const data: IContract = res.body?.data!;
-
+                this.currentContract = data;
+                this.apartmentPercentage = data.apartmentPercentage!;
+                this.parkingSpotPercentage = data.parkingSpotPercentage!;
                 this.contractForm.patchValue(data);
             },
             error: (res: any) => {
@@ -145,11 +149,13 @@ export class ContractFormComponent {
             ? parkingSpotFee * (parkingSpotDiscountValue / 100)
             : parkingSpotDiscountValue;
 
-        return (
+        const totalFee =
             apartmentFee -
             apartmentDiscount +
-            (parkingSpotFee - parkingSpotDiscount)
-        );
+            (parkingSpotFee - parkingSpotDiscount);
+
+        this.contractForm.get('fee')!.setValue(totalFee);
+        return totalFee;
     }
 
     toggleApartmentPercentage(): void {
@@ -166,46 +172,53 @@ export class ContractFormComponent {
             .setValue(this.parkingSpotPercentage);
     }
 
-    private updateFee(): void {
-        this.contractForm
-            .get('apartment')!
-            .valueChanges.subscribe((apartment: IApartment) => {
-                const fee = Number(this.contractForm.get('fee')!.value!);
-                if (apartment instanceof Object) {
-                    this.contractForm
-                        .get('fee')!
-                        .setValue(fee + Number(apartment.price!));
+    apartmentInputChanged(e: Event): void {
+        const apartment = (e.target as HTMLInputElement).value;
+        if (!apartment) {
+            this.contractForm.get('apartmentFee')!.setValue(0);
+        }
+    }
 
-                    this.contractForm
-                        .get('apartmentFee')!
-                        .setValue(Number(apartment.price!));
-                } else {
-                    this.contractForm.get('fee')!.setValue(fee);
+    parkingSpotInputChanged(e: Event): void {
+        const parkingSpot = (e.target as HTMLInputElement).value;
+        if (!parkingSpot) {
+            this.contractForm.get('parkingSpotFee')!.setValue(0);
+        }
+    }
 
-                    this.contractForm.get('apartmentFee')!.setValue(0);
-                    this.contractForm.get('apartmentDiscount')!.setValue(0);
-                }
-            });
+    apartmentChanged(e: MatAutocompleteSelectedEvent): void {
+        const apartment: IApartment = e.option.value;
 
-        this.contractForm
-            .get('parkingSpot')!
-            .valueChanges.subscribe((parkingSpot: IParkingSpot) => {
-                const fee = Number(this.contractForm.get('fee')!.value!);
-                if (parkingSpot instanceof Object) {
-                    this.contractForm
-                        .get('fee')!
-                        .setValue(fee + Number(parkingSpot.price!));
+        if (apartment instanceof Object) {
+            if (apartment.id !== this.currentContract?.apartment?.id) {
+                this.contractForm
+                    .get('apartmentFee')!
+                    .setValue(Number(apartment.price!));
+            } else {
+                this.contractForm
+                    .get('apartmentFee')!
+                    .setValue(Number(this.currentContract?.apartmentFee));
+            }
+        } else {
+            this.contractForm.get('apartmentFee')!.setValue(0);
+        }
+    }
 
-                    this.contractForm
-                        .get('parkingSpotFee')!
-                        .setValue(Number(parkingSpot.price!));
-                } else {
-                    this.contractForm.get('fee')!.setValue(fee);
-
-                    this.contractForm.get('parkingSpotFee')!.setValue(0);
-                    this.contractForm.get('parkingSpotDiscount')!.setValue(0);
-                }
-            });
+    parkingSpotChanged(e: MatAutocompleteSelectedEvent): void {
+        const parkingSpot: IParkingSpot = e.option.value;
+        if (parkingSpot instanceof Object) {
+            if (parkingSpot.id !== this.currentContract?.parkingSpot?.id) {
+                this.contractForm
+                    .get('parkingSpotFee')!
+                    .setValue(Number(parkingSpot.price!));
+            } else {
+                this.contractForm
+                    .get('parkingSpotFee')!
+                    .setValue(Number(this.currentContract?.parkingSpotFee));
+            }
+        } else {
+            this.contractForm.get('parkingSpotFee')!.setValue(0);
+        }
     }
 
     private onDateChanges(): void {
@@ -429,12 +442,18 @@ export class ContractFormComponent {
         if (this.contractForm.get('file')!.value! !== null) {
             contract.append('file', this.contractForm.get('file')!.value!);
         }
-        if (apartment?.price! > 0) {
-            contract.append('apartmentFee', apartment.price!.toString());
+        if (this.contractForm.get('apartmentFee')!.value! > 0) {
+            contract.append(
+                'apartmentFee',
+                this.contractForm.get('apartmentFee')!.value!
+            );
         }
 
-        if (parkingSpot?.price! > 0) {
-            contract.append('parkingSpotFee', parkingSpot.price!.toString());
+        if (this.contractForm.get('parkingSpotFee')!.value! > 0) {
+            contract.append(
+                'parkingSpotFee',
+                this.contractForm.get('parkingSpotFee')!.value!
+            );
         }
 
         if (this.contractForm.get('apartmentDiscount')!.value! > 0) {
