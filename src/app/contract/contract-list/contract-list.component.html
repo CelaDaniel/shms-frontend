@@ -133,13 +133,15 @@
                         >
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button
-                            *hasAnyRole="userRoles.MANAGER"
-                            mat-icon-button
-                            (click)="openModal(contract.id)"
-                        >
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <ng-container *ngIf="!contract.deleted">
+                            <button
+                                *hasAnyRole="userRoles.MANAGER"
+                                mat-icon-button
+                                (click)="openModal(contract.id)"
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-container>
                     </td>
                 </ng-container>
 
@@ -148,6 +150,7 @@
                 <tr
                     mat-row
                     *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="row.deleted ? 'deleted' : ''"
                 ></tr>
             </table>
             <mat-paginator

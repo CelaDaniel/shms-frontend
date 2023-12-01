@@ -10,6 +10,7 @@ import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
 import { UserRoles } from 'src/app/enums/roles.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-elevator-list',
@@ -62,7 +63,10 @@ export class ElevatorListComponent implements OnInit {
     opened = false;
     elevatorId?: number;
 
-    constructor(protected elevatorService: ElevatorService) {}
+    constructor(
+        protected elevatorService: ElevatorService,
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.loadAll();
@@ -127,7 +131,8 @@ export class ElevatorListComponent implements OnInit {
         this.elevatorService.delete(this.elevatorId!).subscribe({
             next: (res: ElevatorResponseType) => {
                 const code = res.body?.code;
-                const message = res.body?.message;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
                 const data: IElevator = res.body?.data!;
                 this.loadAll();
             },
@@ -136,5 +141,13 @@ export class ElevatorListComponent implements OnInit {
             },
         });
         this.closeModal();
+    }
+
+    private showSnackBar(message: string): void {
+        this.snackBar.open(message, 'Close', {
+            duration: 5000, // Duration in milliseconds
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+        });
     }
 }

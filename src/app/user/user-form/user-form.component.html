@@ -19,21 +19,6 @@
                             formControlName="number"
                         />
                     </mat-form-field>
-
-                    <mat-form-field *ngIf="isEditMode" class="full-width">
-                        <mat-label>Status</mat-label>
-                        <mat-select
-                            formControlName="userStatus"
-                            [disabled]="currentUser?.id === userId"
-                        >
-                            <mat-option
-                                *ngFor="let status of userStatus"
-                                [value]="status"
-                            >
-                                {{ status }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
                 </div>
 
                 <div class="form-group">

@@ -13,7 +13,6 @@ import { UserStatus } from 'src/app/enums/user-status.model';
 })
 export class UserFormComponent implements OnInit {
     userRoles = Object.values(UserRoles);
-    userStatus = Object.values(UserStatus);
     currentUser?: IUser;
 
     userForm: FormGroup;
@@ -38,7 +37,6 @@ export class UserFormComponent implements OnInit {
             description: [''],
             email: ['', [Validators.required, Validators.email]],
             roles: [[UserRoles.USER], [Validators.required]],
-            userStatus: [],
         });
     }
 
@@ -98,8 +96,7 @@ export class UserFormComponent implements OnInit {
             this.userForm.get('lastName')!.value!,
             this.userForm.get('description')!.value!,
             this.userForm.get('email')!.value!,
-            this.userForm.get('roles')!.value!,
-            this.userForm.get('userStatus')!.value!
+            this.userForm.get('roles')!.value!
         );
 
         if (this.isEditMode) {

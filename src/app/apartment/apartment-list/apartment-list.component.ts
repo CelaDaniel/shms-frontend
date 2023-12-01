@@ -11,6 +11,7 @@ import { ApartmentTypes } from 'src/app/enums/apartment-types.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
 import { UserRoles } from 'src/app/enums/roles.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-apartment-list',
@@ -93,7 +94,10 @@ export class ApartmentListComponent implements OnInit {
     opened = false;
     apartmentId?: number;
 
-    constructor(protected apartmentService: ApartmentService) {}
+    constructor(
+        protected apartmentService: ApartmentService,
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.loadAll();
@@ -158,7 +162,8 @@ export class ApartmentListComponent implements OnInit {
         this.apartmentService.delete(this.apartmentId!).subscribe({
             next: (res: ApartmentResponseType) => {
                 const code = res.body?.code;
-                const message = res.body?.message;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
                 const data: IApartment = res.body?.data!;
                 this.loadAll();
             },
@@ -167,5 +172,13 @@ export class ApartmentListComponent implements OnInit {
             },
         });
         this.closeModal();
+    }
+
+    private showSnackBar(message: string): void {
+        this.snackBar.open(message, 'Close', {
+            duration: 5000, // Duration in milliseconds
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+        });
     }
 }

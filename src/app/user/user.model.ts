@@ -21,8 +21,7 @@ export class User implements IUser {
         public lastName?: string,
         public description?: string | null,
         public email?: string,
-        public roles?: UserRoles[],
-        public userStatus?: UserStatus
+        public roles?: UserRoles[]
     ) {}
 }
 

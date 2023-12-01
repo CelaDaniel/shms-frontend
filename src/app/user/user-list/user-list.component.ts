@@ -11,6 +11,7 @@ import { IFilter } from 'src/app/shared/filter/filter.model';
 import { UserRoles } from 'src/app/enums/roles.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-user-list',
@@ -85,7 +86,10 @@ export class UserListComponent implements OnInit {
     sortDirection?: string;
     sortColumn?: string;
 
-    constructor(protected userService: UserService) {}
+    constructor(
+        protected userService: UserService,
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.loadLoggedInUser();
@@ -156,7 +160,8 @@ export class UserListComponent implements OnInit {
         this.userService.delete(user.id!).subscribe({
             next: (res: UserResponseType) => {
                 const code = res.body?.code;
-                const message = res.body?.message;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
                 const data: IUser = res.body?.data!;
                 this.loadAll();
             },
@@ -170,13 +175,22 @@ export class UserListComponent implements OnInit {
         this.userService.restore(user.id!).subscribe({
             next: (res: UserResponseType) => {
                 const code = res.body?.code;
-                const message = res.body?.message;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
                 const data: IUser = res.body?.data!;
                 this.loadAll();
             },
             error: (res: any) => {
                 console.log(res.body);
             },
+        });
+    }
+
+    private showSnackBar(message: string): void {
+        this.snackBar.open(message, 'Close', {
+            duration: 5000, // Duration in milliseconds
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
         });
     }
 }

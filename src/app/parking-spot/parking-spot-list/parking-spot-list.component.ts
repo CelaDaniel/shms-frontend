@@ -10,6 +10,7 @@ import { IFilter } from 'src/app/shared/filter/filter.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
 import { UserRoles } from 'src/app/enums/roles.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-parking-spot-list',
@@ -72,7 +73,10 @@ export class ParkingSpotListComponent implements OnInit {
     opened = false;
     parkingSpotId?: number;
 
-    constructor(protected parkingSpotService: ParkingSpotService) {}
+    constructor(
+        protected parkingSpotService: ParkingSpotService,
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.loadAll();
@@ -137,7 +141,8 @@ export class ParkingSpotListComponent implements OnInit {
         this.parkingSpotService.delete(this.parkingSpotId!).subscribe({
             next: (res: ParkingSpotResponseType) => {
                 const code = res.body?.code;
-                const message = res.body?.message;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
                 const data: IParkingSpot = res.body?.data!;
                 this.loadAll();
             },
@@ -146,5 +151,13 @@ export class ParkingSpotListComponent implements OnInit {
             },
         });
         this.closeModal();
+    }
+
+    private showSnackBar(message: string): void {
+        this.snackBar.open(message, 'Close', {
+            duration: 5000, // Duration in milliseconds
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+        });
     }
 }

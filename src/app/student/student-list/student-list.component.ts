@@ -11,6 +11,7 @@ import { Gender } from 'src/app/enums/gender-types.model';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/constants/pagination';
 import { Sort } from '@angular/material/sort';
 import { UserRoles } from 'src/app/enums/roles.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-student-list',
@@ -91,7 +92,10 @@ export class StudentListComponent implements OnInit {
     opened = false;
     studentId?: number;
 
-    constructor(protected studentService: StudentService) {}
+    constructor(
+        protected studentService: StudentService,
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.loadAll();
@@ -156,7 +160,8 @@ export class StudentListComponent implements OnInit {
         this.studentService.delete(this.studentId!).subscribe({
             next: (res: StudentResponseType) => {
                 const code = res.body?.code;
-                const message = res.body?.message;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
                 const data: IStudent = res.body?.data!;
                 this.loadAll();
             },
@@ -165,5 +170,13 @@ export class StudentListComponent implements OnInit {
             },
         });
         this.closeModal();
+    }
+
+    private showSnackBar(message: string): void {
+        this.snackBar.open(message, 'Close', {
+            duration: 5000, // Duration in milliseconds
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+        });
     }
 }

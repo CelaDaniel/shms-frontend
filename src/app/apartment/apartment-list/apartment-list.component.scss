@@ -13,6 +13,10 @@
 
 table {
     width: 100%;
+
+    tr.deleted {
+        background-color: #faa0a0;
+    }
 }
 
 .newbtn {
