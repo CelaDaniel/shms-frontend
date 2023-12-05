@@ -1,0 +1,30 @@
+<div *ngIf="action">
+    <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+    </button>
+    <h2>Action Details</h2>
+    <dl>
+        <dt>ID: {{ action.id }}</dt>
+
+        <dt>Action: {{ action.action }}</dt>
+
+        <dt>Description: {{ action.description }}</dt>
+
+        <dt>Request Method: {{ action.requestMethod }}</dt>
+
+        <dt>Status: {{ action.status }}</dt>
+
+        <dt>Error: {{ action.error }}</dt>
+
+        <dt>Status Code: {{ action.statusCode }}</dt>
+
+        <dt>Created At: {{ action.createdAt | formatDateTime }}</dt>
+
+        <dt>Created By: {{ action.createdBy }}</dt>
+    </dl>
+</div>
+
+<div *ngIf="!action">
+    <p>Loading...</p>
+</div>

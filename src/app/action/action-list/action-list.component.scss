@@ -1,0 +1,29 @@
+.main-wrapper {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+table {
+    width: 100%;
+
+    tr.deleted {
+        background-color: #faa0a0;
+    }
+}
+
+.newbtn {
+    float: right;
+    margin-bottom: 20px;
+}
+
+mat-icon {
+    cursor: pointer;
+}

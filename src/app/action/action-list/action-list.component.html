@@ -1,0 +1,154 @@
+<div class="mat-elevation-z1">
+    <div class="main-wrapper">
+        <app-filter
+            [fields]="filterFields"
+            (filterApplied)="search($event)"
+        ></app-filter>
+        <div class="table-container">
+            <div class="header">
+                <h2>Apartments</h2>
+            </div>
+
+            <table
+                *ngIf="actions.length > 0"
+                mat-table
+                [dataSource]="actions"
+                matSort
+                (matSortChange)="sortChange($event)"
+                class="mat-elevation-z8"
+            >
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        ID
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.id }}
+                    </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Action
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.action }}
+                    </td>
+                </ng-container>
+
+                <!-- Request Method Column -->
+                <ng-container matColumnDef="requestMethod">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Request Method
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.requestMethod }}
+                    </td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Status
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.status }}
+                    </td>
+                </ng-container>
+
+                <!-- Error Column -->
+                <ng-container matColumnDef="error">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Error
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.error }}
+                    </td>
+                </ng-container>
+
+                <!-- Status Code Column -->
+                <ng-container matColumnDef="statusCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Status Code
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.statusCode }}
+                    </td>
+                </ng-container>
+
+                <!-- Created At Column -->
+                <ng-container matColumnDef="createdAt">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Created At
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.createdAt | formatDateTime }}
+                    </td>
+                </ng-container>
+
+                <!-- Created By Column -->
+                <ng-container matColumnDef="createdBy">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Created By
+                    </th>
+                    <td mat-cell *matCellDef="let action">
+                        {{ action.createdBy }}
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let action">
+                        <button
+                            mat-icon-button
+                            [routerLink]="['/actions', action.id, 'view']"
+                        >
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <ng-container *ngIf="!action.deleted">
+                            <button
+                                mat-icon-button
+                                (click)="openModal(action.id)"
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+
+                <!-- Define the columns -->
+                <tr mat-header-row *matHeaderRowDef="actionsColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: actionsColumns"
+                    [ngClass]="row.deleted ? 'deleted' : ''"
+                ></tr>
+            </table>
+            <mat-paginator
+                *ngIf="actions.length > 0"
+                [length]="totalElements"
+                [pageSize]="pageSize"
+                [pageIndex]="page"
+                showFirstLastButtons
+                [pageSizeOptions]="pageSizeOptions"
+                aria-label="Select page"
+                (page)="handlePagination($event)"
+            >
+            </mat-paginator>
+        </div>
+    </div>
+
+    <div *ngIf="actions.length === 0" class="mat-elevation-z8">
+        <mat-card>
+            <mat-card-header> No data available</mat-card-header>
+        </mat-card>
+    </div>
+</div>
+<app-delete-modal
+    *ngIf="opened"
+    [item]="'action'"
+    (canceled)="closeModal()"
+    (confirmed)="deleteApartment()"
+></app-delete-modal>

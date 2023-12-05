@@ -97,6 +97,14 @@ const routes: Routes = [
                     import('./user/user.module').then((m) => m.UserModule),
             },
             {
+                path: 'actions',
+                data: { pageTitle: 'Actions' },
+                loadChildren: () =>
+                    import('./action/action.module').then(
+                        (m) => m.ActionModule
+                    ),
+            },
+            {
                 path: '',
                 redirectTo: '/home',
                 pathMatch: 'full',

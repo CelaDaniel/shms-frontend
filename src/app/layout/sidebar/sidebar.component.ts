@@ -70,6 +70,12 @@ export class SidebarComponent {
             icon: 'group',
             roles: [UserRoles.ADMIN],
         },
+        {
+            path: '/actions',
+            label: 'Actions',
+            icon: 'list',
+            roles: [UserRoles.ADMIN],
+        },
     ];
     constructor(private router: Router) {}
 
