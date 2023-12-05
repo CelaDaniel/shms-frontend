@@ -22,6 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
@@ -50,6 +51,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatToolbarModule,
         MatMenuModule,
         MatTabsModule,
+        NgChartsModule,
     ],
 })
 export class SharedLibsModule {}
