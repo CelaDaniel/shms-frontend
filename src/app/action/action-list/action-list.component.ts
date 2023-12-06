@@ -11,6 +11,7 @@ import {
     ActionService,
 } from '../action.service';
 import { ActionStatus } from 'src/app/enums/action-status.model';
+import * as dayjs from 'dayjs';
 
 @Component({
     selector: 'app-action-list',
@@ -89,6 +90,7 @@ export class ActionListComponent implements OnInit {
     sortDirection?: string;
     sortColumn?: string;
     opened = false;
+    deleteAllOpened = false;
     actionId?: number;
 
     constructor(
@@ -151,11 +153,19 @@ export class ActionListComponent implements OnInit {
         this.opened = true;
     }
 
+    openDeleteAllModal(): void {
+        this.deleteAllOpened = true;
+    }
+
     closeModal(): void {
         this.opened = false;
     }
 
-    deleteApartment(): void {
+    closeDeleteAllModal(): void {
+        this.deleteAllOpened = false;
+    }
+
+    deleteAction(): void {
         this.actionService.delete(this.actionId!).subscribe({
             next: (res: ActionResponseType) => {
                 const code = res.body?.code;
@@ -169,6 +179,29 @@ export class ActionListComponent implements OnInit {
             },
         });
         this.closeModal();
+    }
+
+    deleteAll(data: any): void {
+        const start = dayjs(data.startDate).format('YYYY-MM-DD');
+        const end = dayjs(data.endDate).format('YYYY-MM-DD');
+
+        this.actionService
+            .deleteAll({
+                startDate: start,
+                endDate: end,
+            })
+            .subscribe({
+                next: (res: ActionResponseType) => {
+                    const code = res.body?.code;
+                    const message = res.body?.message!;
+                    this.showSnackBar(message);
+                    this.loadAll();
+                },
+                error: (res: any) => {
+                    console.log(res.body);
+                },
+            });
+        this.closeDeleteAllModal();
     }
 
     private showSnackBar(message: string): void {

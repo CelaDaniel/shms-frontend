@@ -80,4 +80,14 @@ export class UserService {
             observe: 'response',
         });
     }
+
+    resendActivationMail(id: number): Observable<UserResponseType> {
+        return this.http.post<IResponse<IUser>>(
+            `${this.resourceUrl}/${id}/resend-activate-email`,
+            {},
+            {
+                observe: 'response',
+            }
+        );
+    }
 }

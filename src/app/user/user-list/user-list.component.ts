@@ -186,6 +186,19 @@ export class UserListComponent implements OnInit {
         });
     }
 
+    resendActivationMail(user: IUser): void {
+        this.userService.resendActivationMail(user.id!).subscribe({
+            next: (res: UserResponseType) => {
+                const code = res.body?.code;
+                const message = res.body?.message!;
+                this.showSnackBar(message);
+            },
+            error: (res: any) => {
+                console.log(res.body);
+            },
+        });
+    }
+
     private showSnackBar(message: string): void {
         this.snackBar.open(message, 'Close', {
             duration: 5000, // Duration in milliseconds

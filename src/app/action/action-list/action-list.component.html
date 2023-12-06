@@ -7,6 +7,15 @@
         <div class="table-container">
             <div class="header">
                 <h2>Actions</h2>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    class="newbtn"
+                    (click)="openDeleteAllModal()"
+                >
+                    <mat-icon>delete</mat-icon>
+                    Delete All
+                </button>
             </div>
 
             <table
@@ -150,5 +159,11 @@
     *ngIf="opened"
     [item]="'action'"
     (canceled)="closeModal()"
-    (confirmed)="deleteApartment()"
+    (confirmed)="deleteAction()"
 ></app-delete-modal>
+
+<app-delete-all-modal
+    *ngIf="deleteAllOpened"
+    (canceled)="closeDeleteAllModal()"
+    (confirmed)="deleteAll($event)"
+></app-delete-all-modal>

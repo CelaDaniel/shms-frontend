@@ -78,7 +78,11 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Status
                     </th>
-                    <td mat-cell *matCellDef="let user">
+                    <td
+                        mat-cell
+                        *matCellDef="let user"
+                        class="button-container"
+                    >
                         <button
                             mat-flat-button
                             [color]="
@@ -118,6 +122,17 @@
                             [routerLink]="['/users', user.id, 'edit']"
                         >
                             <mat-icon>edit</mat-icon>
+                        </button>
+                        <button
+                            mat-icon-button
+                            matTooltip="Resend Activation Mail"
+                            *ngIf="
+                                user.userStatus === userStatus.INACTIVE &&
+                                !user.deleted
+                            "
+                            (click)="resendActivationMail(user)"
+                        >
+                            <mat-icon>forward_to_inbox</mat-icon>
                         </button>
                     </td>
                 </ng-container>

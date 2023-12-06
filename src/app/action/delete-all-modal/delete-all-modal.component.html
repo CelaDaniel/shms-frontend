@@ -1,0 +1,59 @@
+<div class="modal-overlay" (click)="cancel()">
+    <div class="modal-content" (click)="stopPropagation($event)">
+        <h2>Confirm Deletion</h2>
+        <p>Select start date and end date to delete action</p>
+        <form role="form" [formGroup]="dateForm" (ngSubmit)="confirm()">
+            <div class="form-group">
+                <mat-form-field class="full-width">
+                    <mat-label>Start date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="startDatepicker"
+                        formControlName="startDate"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="startDatepicker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #startDatepicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>End date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="endDatepicker"
+                        formControlName="endDate"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="endDatepicker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #endDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="button-container">
+                <button
+                    mat-raised-button
+                    color="secondary"
+                    type="button"
+                    (click)="cancel()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Cancel
+                </button>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="dateForm.invalid"
+                >
+                    <mat-icon>done</mat-icon>
+                    Confirm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
