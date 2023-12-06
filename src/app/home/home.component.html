@@ -14,9 +14,10 @@
     </div>
     <div class="chart-wrapper">
         <div class="filter-container">
+            <h2>Revenue</h2>
             <form role="form" [formGroup]="dateRangeForm">
                 <mat-form-field class="period-type">
-                    <mat-label>Type</mat-label>
+                    <mat-label>Period</mat-label>
                     <mat-select
                         formControlName="periodType"
                         (valueChange)="onTypeChange($event)"
@@ -31,7 +32,7 @@
                 <mat-form-field
                     *ngIf="dateRangeForm.get('periodType')!.value === 'Custom'"
                 >
-                    <mat-label>Enter a date range</mat-label>
+                    <mat-label>Date range</mat-label>
                     <mat-date-range-input [rangePicker]="rangePicker">
                         <input
                             matStartDate
